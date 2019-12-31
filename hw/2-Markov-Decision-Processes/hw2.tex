@@ -1,0 +1,58 @@
+\documentclass{article}
+\usepackage{fullpage,amsmath,amsthm,graphicx,enumitem}
+\theoremstyle{definition}
+\newtheorem{thm}{Theorem}
+\newtheorem{question}[thm]{Question}
+\newenvironment{solution}{\noindent\textit{Solution:}}{}
+
+\title{ASEN 6519-007 Decision Making under Uncertainty\\
+       Homework 2: Markov Decision Processes}
+
+\begin{document}
+
+\maketitle
+
+\section{Conceptual Questions}
+
+\begin{question}
+    Give an example of an MDP with a unique nonzero optimal value function, but multiple optimal policies. (Hint: you can do this with $|\mathcal{S}| = 1$.)
+\end{question}
+
+\begin{question}
+    Something about augmenting the state
+\end{question}
+
+\begin{question}
+    Linear control problem: What is the state space? action space? transition probability distribution? 
+    % XXX need to 
+\end{question}
+
+\section{Exercises}
+
+\begin{question}
+
+\end{question}
+
+\begin{question}
+
+\end{question}
+
+\section{Challenge Problem}
+
+\begin{question}
+Aircraft Collision Avoidance System.
+
+Your task is to create a solver that will find an optimal policy and value function for an Aircraft Collision Avoidance System (ACAS). The encounter model will be specified as a Markov decision process, and your task will be to find the value function using value iteration or another suitable algorithm. The continuous physical state space will be discretized at various levels of granularity and the goal is to find the value function for the finest discretization possible.
+
+For this exercise, you may not use any solvers from POMDPs.jl, though you may look to them for 
+
+The continuous model is defined as follows:
+\begin{itemize}
+    \item $\mathcal{S}$
+\end{itemize}
+
+The discretized models are given in 
+
+\end{question}
+
+\end{document}
