@@ -1,0 +1,145 @@
+\documentclass[10pt]{article}
+
+\usepackage{fullpage}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{multicol}
+\setlength{\parindent}{0pt}
+\setlength{\multicolsep}{2pt}
+
+\title{ASEN 6519-007: Decision Making under Uncertainty}
+\author{Zachary Sunberg}
+\date{Spring 2020}
+
+\begin{document}
+
+\maketitle
+
+\section*{Prerequisites}
+
+\begin{enumerate}[noitemsep]
+    \item Fluency in a high level programming language and willingness to learn a new one (any language will be allowed on assignments, but some Julia, up to the level of writing functions, will be required)
+    \item Basic knowledge of applied probability
+\end{enumerate}
+
+\section*{Rough Schedule and List of Topics}
+
+(See Canvas for detailed schedule.)
+
+\begin{enumerate}[noitemsep]
+    \item \textbf{Probabilistic Models [1/16 - 1/23]}:
+        \begin{multicols}{2}
+            \begin{itemize}[noitemsep]
+                \item Probability
+                \item Conditional probability
+                \item Bayesian networks
+                \item Markov processes
+            \end{itemize}
+        \end{multicols}
+    \item \textbf{Problems with Outcome Uncertainty [1/28 - 2/13]}:
+        \begin{multicols}{2}
+        \begin{itemize}[noitemsep]
+            \item Markov decision processes (MDPs)
+            \item Value iteration (contraction proof of convergence)
+            \item Policy iteration
+            \item Approximate dynamic programming
+            \item Online tree search
+        \end{itemize}
+        \end{multicols}
+    \item \textbf{Problems with Model Uncertainty [2/18 - 3/5]}:
+        \begin{multicols}{2}
+        \begin{itemize}[noitemsep]
+            \item Reinforcement learning (RL)
+            \item Exploration and exploitation
+            \item Bandits
+            \item Model-free RL
+            \item Model-based RL
+            \item Deep Q learning
+            \item Policy gradient
+            \item Actor-critic
+        \end{itemize}
+        \end{multicols}
+    \item \textbf{Problems with State Uncertainty [3/10 - 4/2]}:
+        \begin{multicols}{2}
+        \begin{itemize}[noitemsep]
+            \item Hidden Markov models
+            \item Bayesian filters
+            \item Particle filters
+            \item Partially observable Markov decision processes (POMDPs)
+            \item Exact POMDP methods
+            \item Convexity of POMDP value functions
+            \item Offline POMDP methods
+            \item Online POMDP methods
+            \item QMDP
+        \end{itemize}
+        \end{multicols}
+    \item \textbf{Other Topics [4/7-4/30]}: Alpha Go, Alpha Star, D-separation of Bayesian networks, Bayesian network parameter and structure learning, games, alternative optimization objectives (risk averse, robust, constrained), $\rho$-POMDPs, meta-learning, how to review academic publications
+\end{enumerate}
+
+\begin{minipage}{\textwidth}
+\section*{Learning Technology}
+
+\textbf{Canvas} will be the main hub for the course. A detailed schedule and assignments will be posted here.
+
+\textbf{Piazza} will host course discussions. Students are encouraged to ask questions here.
+
+\textbf{RedPen.jl} will be used to submit solutions to the open-ended homework assignments.
+\end{minipage}
+
+
+\begin{samepage}
+\section*{Assignments and Grading}
+
+\textbf{60\% Homework Assignments.}
+There will be 6 large homework assignments, due approximately every two weeks. Each assignment will consist of
+\begin{itemize}[nosep]
+    \item Several conceptual questions
+    \item Two or three exercises that will require some programming or math
+    \item One open-ended problem. You solution will be evaluated locally with obfuscated code and the score submitted to a leaderboard. The best performers will share their solution in class.
+\end{itemize}
+
+\textbf{35\% Final Project.}
+A final project chosen by the student that ideally connects to their research. Deliverable will be a 6 page report. Project may be completed in teams of up to 3.
+
+\textbf{5\% Peer Review.}
+You will be assigned 2 project reports from other teams in the class to write peer reviews for.
+\end{samepage}
+
+\subsection*{Late Policy}
+
+For \textbf{homework}, there will be a \textbf{20\% penalty for every late day}. For the \textbf{final project} and \textbf{peer review}, there will be a \textbf{20\% penalty for every late \emph{hour}} (due to the need for quick turnaround). Please use your knowledge of decision making under uncertainty to include appropriate contingency in your plans to avoid these penalties.
+
+\section*{Textbook}
+
+Mykel J. Kochenderfer, Decision Making Under Uncertainty: Theory and Application, MIT Press, 2015. \$70.00, Available online: \url{https://ieeexplore.ieee.org/book/7288640}
+
+\subsection*{Additional References}
+
+\begin{itemize}[noitemsep]
+    \item Richard S. Sutton and Andrew G. Barto, Reinforcement Learning: An Introduction, 2nd Ed. MIT Press, 2018. \$80.00, Available online: \url{http://incompleteideas.net/book/the-book-2nd.html}
+    \item Dimitri P. Bertsekas, Dynamic Programming and Optimal Control, Athena Scientific, 2012 (4th Ed.). \$134.50
+\end{itemize}
+
+\vspace{12pt}
+\begin{multicols}{2}
+    \begin{minipage}{\columnwidth}
+\section*{Instructor Contact}
+
+Professor Zachary Sunberg\\
+\href{mailto://zachary.sunberg@colorado.edu}{zachary.sunberg@colorado.edu}\\
+AERO 263\\
+Office Hours: T/TH 11:20 am - 12:20 pm, W 4-5 pm
+
+\subsection*{Teaching Assistant}
+
+Tucker Farrell
+% TODO: Email
+% TODO: Office Hours
+    \end{minipage}
+
+\section*{Meetings}
+
+T/TH 10-11:15 am AERO 114
+\end{multicols}
+
+\end{document}
