@@ -27,11 +27,11 @@ water, and a 4\% chance there is no life and no water. What is the probability t
 \end{question}
 
 \begin{question}
-Suppose I have a dataset with the following variables:
+Suppose your company has a dataset with the following variables:
 \begin{itemize}[noitemsep]
     \item $S$: a binary variable indicating whether it has snowed in the last two days.
     \item $T$: a binary variable indicating whether the temperature is above or below freezing.
-    \item $D$: a binary variable indicating whether the average commute delay is more than 10 minutes.
+    \item $D$: a binary variable indicating whether the delay for a commute is more than 10 minutes.
 \end{itemize}
 
 Consider the following two Bayes Nets:
@@ -57,8 +57,8 @@ Consider the following two Bayes Nets:
 \end{multicols}
 
 \begin{enumerate}[label=(\alph*)]
-    \item Which distribution has fewer independent parameters?
-    \item Suppose you are an app developer who wants to warn users how likely it is that they will be delayed based on the temperature and snow history. Your data scientist gives you a model in the form on the right. How do you respond?
+    \item How many independent parameter values are required to fully define the equations?
+    \item Suppose you are an app developer who wants to warn users how likely it is that they will be delayed based on the temperature and snow history. Your data scientist fits a model in the form on the right because ``it has fewer parameters so it is better'' and gives it to you. How do you respond?
 \end{enumerate}
 
 \end{question}
@@ -107,7 +107,7 @@ Consider the following two Bayes Nets:
 \section{Challenge Problem}
 
 \begin{question}
-    Write a function in Julia that takes in two arguments and uses the Pythagorean Theorem to compute the hypotenuse of a right triangle with side lengths specified. Submit this function with \texttt{DMUStudent.submit}. \footnote{This particular "Challenge Problem" is not meant to be challenging; it is meant to test that everyone can download the code and submit. Future problems in this section will be quite challenging.}
+    Write a function in Julia that takes in two arguments and uses the Pythagorean Theorem to compute the hypotenuse of a right triangle with side lengths specified by the arguments. Submit this function with \texttt{DMUStudent.submit}. \footnote{This particular "Challenge Problem" is not meant to be challenging; it is meant to test that everyone can download the code and submit. Future problems in this section will be quite challenging.}
 \end{question}
 
 \end{document}
