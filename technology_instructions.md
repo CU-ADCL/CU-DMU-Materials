@@ -22,7 +22,9 @@ Only very simple usage of Julia (up to the level of defining functions) will be 
 
 ### DMUStudent.jl and Leaderboard
 
-DMUStudent.jl is the main package that will provide code for assignments and interaction with the Leaderboard. 
+DMUStudent.jl is the main package that will provide code for assignments and interaction with the Leaderboard. Documentation can be found at https://github.com/zsunberg/DMUStudent.jl
+
+The leaderboards for the "Challenge Problems" from each homework assignment can be found at dmuleaderboard.com
 
 ### Editing Julia Source Files
 
@@ -33,6 +35,8 @@ Unlike MATLAB, but like most other programming languages, Julia does not come bu
 JuliaPro provides a more integrated download of Julia with the Juno IDE included. However since we will be using packages from the [SISL registry](https://github.com/sisl/Registry), some additional configuration may be required (see e.g. https://github.com/JuliaPOMDP/POMDPs.jl/issues/249).
 
 ### Jupyter Notebooks
+
+[Jupyter](https://en.wikipedia.org/wiki/Project_Jupyter) notebooks can be useful for showing results alongside code - e.g. for homework submissions. Starter code for assignments will be provided in this format. To use Jupyter with Julia, install the [IJulia package](https://github.com/JuliaLang/IJulia.jl).
 
 ### Python
 
