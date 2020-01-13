@@ -1,0 +1,94 @@
+\documentclass{exam}
+
+% \usepackage{amssymb}
+\usepackage{pifont}
+\usepackage{booktabs}
+\usepackage{wrapfig}
+
+\newcommand{\cmark}{\ding{51}}
+\newcommand{\xmark}{\ding{55}}
+\newcommand{\answer}[0]{\vspace{30pt}}
+
+\addtolength{\topmargin}{-0.5in}
+\addtolength{\textheight}{0.5in}
+
+\title{ASEN 6519-007 Quiz 0: Background Assessment}
+
+\begin{document}
+
+\maketitle
+
+    This is a short survey quiz to gauge your background and interests for the course. The quiz is not graded; the purpose is to gauge initial understanding, and we will review the concepts in class if they seem rusty. Don't spend more than a half hour on this. 
+
+\begin{questions}
+    \question What other courses related to probability and estimation have you taken? Which other controls or robotics, machine learning, or other related courses? 
+
+    \answer
+
+    \question What programming languages are you familiar with? Rate your familiarity on a scale of 1 (have read about) to 5 (have used daily for years)
+
+    \answer
+
+    \question In general terms, what do you hope to learn from taking this course? Is there any specific topic you would like to see covered in this course?
+
+    \answer
+
+    \question What is a random variable?
+
+    \answer
+
+    \question In your own words, explain what a probability density function is (pdf)? Is it possible for the cumulative density function (cdf) to exist, but not have a finite pdf? Explain.
+
+    \answer
+
+    \question Consider the following joint distribution of three binary-valued random variables, $A$, $B$, and $C$:
+
+    \begin{minipage}{0.23\linewidth}
+    {\tiny
+    \begin{tabular}{cccc}
+        \toprule
+            $A$ & $B$ & $C$ & $P(A,B,C)$ \\
+        \midrule
+            $0$ & $0$ & $0$ & $0.08$ \\
+            $0$ & $0$ & $1$ & $0.15$ \\
+            $0$ & $1$ & $0$ & $0.05$ \\
+            $0$ & $1$ & $1$ & $0.10$ \\
+            $1$ & $0$ & $0$ & $0.14$ \\
+            $1$ & $0$ & $1$ & $0.18$ \\
+            $1$ & $1$ & $0$ & $0.19$ \\
+            $1$ & $1$ & $1$ & $0.11$ \\
+        \bottomrule
+    \end{tabular}
+    }
+    \end{minipage}
+    \begin{minipage}{0.75\linewidth}
+        \begin{questions}
+            \question What is the marginal distribution of $A$?
+            \answer
+            \question What is the conditional distribution of $A$ given $B=1$ and $C=1$?
+            \answer
+        \end{questions}
+    \end{minipage}
+    
+
+    \question 1\% of women at age forty who participate in routine screening have breast cancer. 80\% of women with breast cancer will get positive mammographies. 9.6\% of women without breast cancer will also get positive mammographies. A woman in this age group had a positive mammography in a routine screening. What is the probability that she actually has breast cancer?
+
+    \answer
+
+    % \question Label the following statements with a \cmark{} if they are proper elements or consequences of standard probability theory or with an \xmark{} if they are incorrect.
+    %     \begin{questions}
+    %         \question The probability of an event A must be greater than or equal to 0
+    %         \question If $S$ is a sample space, then $P(S)=1$
+    %         \question The Law of Averages: if you end up with 5 tails in a row on a series of coin flips, then the probability of getting heads on the next flip is greater than $\frac{1}{2}$.
+    %         \question The Law of Large Numbers: the relative frequency of an event approaches the probability of that event occurring in the limit of an infinite number of sample experiments.
+    %         \question The Law of Uniformity: all events on a sample space have the same probability of occurring
+    %         \question If $A$ and $B$ are events, then $P(A \cup B) = P(A) + P(B) - P(A \cap B)$
+    %     \end{questions}  
+
+    % \question Briefly explain the Central Limit Theorem in your own words.
+
+    % \answer
+
+\end{questions}
+
+\end{document}
