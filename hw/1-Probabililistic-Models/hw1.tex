@@ -23,7 +23,11 @@ water, and a 4\% chance there is no life and no water. What is the probability t
 \end{question}
 
 \begin{question}
-    Suppose that a stochastic process $\{x_t\}$ is defined by the following equation: $x_{t+1} = x_t + x_{t-1} + v_{t}$ where $v_t$ are i.i.d. noise random variables. Is this process Markov if the state is defined as $x_t$? What would need to be included in the state at time $t$ to make this a Markov process?
+    Suppose that a stochastic process $\{x_t\}$ is defined by the following equation: $x_{t+1} = x_t + x_{t-1} + v_{t}$ where $v_t$ are i.i.d. noise random variables.
+    \begin{enumerate}[label=(\alph*)]
+        \item Is this process Markov if the state is defined as $x_t$?
+        \item What would need to be included in the state at time $t$ to make this a Markov process?
+    \end{enumerate}
 \end{question}
 
 \begin{question}
@@ -85,8 +89,8 @@ Consider the following two Bayes Nets:
 \end{center}
 
 \begin{enumerate}[label=(\alph*)]
-    \item Suppose that you want to know the value of $D$ with the highest precision possible. Allie knows the value of $A$, Brian knows the value of $B$. You can only talk to one of these people. Who should you ask?\footnote{Hint: Consider potential conditional independence relationships such as $(A \perp D \mid B)$.}
-    \item Suppose that you already know the values of $F$ and $A$ and want to guess the value of $D$. Eric knows the value of $E$ and Brian knows the value of $B$. You can only talk to one of these people. Who should you ask?
+    \item Suppose that you want to know the value of $D$ with the highest precision possible. Allie knows the value of $A$, Brian knows the value of $B$. You can only talk to one of these people. Who should you ask?
+    \item Suppose that you already know the values of $C$ and $A$ and want to guess the value of $D$. Eric knows the value of $E$ and Brian knows the value of $B$. You can only talk to one of these people. Who should you ask?\footnote{Hint: Consider potential conditional independence relationships using the d-separation rules.}
 \end{enumerate}
 \end{question}
 \end{samepage}
