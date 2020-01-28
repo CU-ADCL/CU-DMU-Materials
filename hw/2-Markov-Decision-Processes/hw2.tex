@@ -1,9 +1,12 @@
 \documentclass{article}
-\usepackage{fullpage,amsmath,amsthm,graphicx,enumitem}
+\usepackage{fullpage,amsmath,amsthm,graphicx,enumitem,amssymb}
+\usepackage[hidelinks]{hyperref}
 \theoremstyle{definition}
 \newtheorem{thm}{Theorem}
 \newtheorem{question}[thm]{Question}
 \newenvironment{solution}{\noindent\textit{Solution:}}{}
+
+\newcommand{\reals}{\mathbb{R}}
 
 \title{ASEN 6519-007 Decision Making under Uncertainty\\
        Homework 2: Markov Decision Processes}
@@ -15,26 +18,25 @@
 \section{Conceptual Questions}
 
 \begin{question}
-    Give an example of an MDP with a unique nonzero optimal value function, but multiple optimal policies. (Hint: you can do this with $|\mathcal{S}| = 1$.)
+    Give an example of an MDP with a unique nonzero optimal value function, but multiple optimal policies.\footnote{Hint: you can do this with $|\mathcal{S}| = 1$.}
 \end{question}
 
 \begin{question}
-    Something about augmenting the state
-\end{question}
-
-\begin{question}
-    Linear control problem: What is the state space? action space? transition probability distribution? 
-    % XXX need to 
+    Consider a stationary infinite-horizon MDP with $\mathcal{S} = \{1,2\}$, $\mathcal{R}(s, a) = s^2$, and $\gamma = 0.9$ ($\mathcal{A}$ and $\mathcal{T}$ are unknown). Suppose that policy $\pi$ achieves a value at state $1$ of $U^\pi(1) = 37$. What is $U^*(2)$, the optimal value at state $2$? Justify your answer.
 \end{question}
 
 \section{Exercises}
 
 \begin{question}
+    Consider a 1 by 9 grid world with a key in cell 2 and a locked door in cell 8. An agent automatically enters the door and receives a reward of 10 upon returning to cell 8 after having collected the key, and the problem terminates immediately. At each time step, the agent can take one of two actions, \texttt{left}, or \texttt{right}. 90\% of the time, the action succeeds and the agent moves in the desired direction; 10\% of the time the agent moves in the opposite direction. If an end wall is hit, the agent bounces back to the previous cell.
 
+    Formulate this problem as an MDP, and write down the state space $\mathcal{S}$ and reward function $\mathcal{R}$. What is the value of being in cell 9 without the key (report with a precision of 0.001)?
+
+    % TODO: add picture
 \end{question}
 
 \begin{question}
-
+    Consider a continuous state and action MDP with $\mathcal{S} = \reals$, $\mathcal{A} = \reals$, $R(s, a) = - 2s^2 - a^2$ and transitions described with the generative model $s' = G(s, a, w) = 2s + a + w$ where $w$ is a normally-distributed random variable with zero mean and variance $1$. Optimal control theory\footnote{\url{https://en.wikipedia.org/wiki/Linear\%E2\%80\%93quadratic_regulator}} tells us that an optimal policy for this problem has the form $\pi^*(s) = -k\,s$ where $k$ is a real number. Find $k$ for the optimal policy to a precision of 0.01.\footnote{Hint: The most straightforward way to do this is with Monte Carlo policy evaluation and brute force search.}
 \end{question}
 
 \section{Challenge Problem}
@@ -42,13 +44,17 @@
 \begin{question}
 Aircraft Collision Avoidance System.
 
-Your task is to create a solver that will find an optimal policy and value function for an Aircraft Collision Avoidance System (ACAS). The encounter model will be specified as a Markov decision process, and your task will be to find the value function using value iteration or another suitable algorithm. The continuous physical state space will be discretized at various levels of granularity and the goal is to find the value function for the finest discretization possible.
+Your task is to find the optimal value function for an Aircraft Collision Avoidance System (ACAS). The encounter model will be specified as a Markov decision process, and your task will be to compute the value function using value iteration or another suitable algorithm. The continuous physical state space will be discretized at various levels of granularity and the goal is to find the value function for the finest discretization possible.
 
-For this exercise, you may not use any solvers from POMDPs.jl, though you may look to them for 
+For this exercise, you may NOT use any outside libraries for solving MDPs such as POMDPs.jl, though you may look to them for inspiration.
+
+The transition matrix may be
 
 The continuous model is defined as follows:
+
+The state constists 
 \begin{itemize}
-    \item $\mathcal{S}$
+    \item $\mathcal{S} = $
 \end{itemize}
 
 The discretized models are given in 
