@@ -28,7 +28,7 @@
 \section{Exercises}
 
 \begin{question}
-    Consider a 1 by 9 grid world with a key in cell 2 and a locked door in cell 8. An agent automatically enters the door and receives a reward of 10 upon returning to cell 8 after having collected the key, and the problem terminates immediately. At each time step, the agent can take one of two actions, \texttt{left}, or \texttt{right}. 90\% of the time, the action succeeds and the agent moves in the desired direction; 10\% of the time the agent moves in the opposite direction. If an end wall is hit, the agent bounces back to the previous cell.
+    Consider a 1 by 9 grid world with a key in cell 2 and a locked door in cell 8. An agent automatically enters the door and receives a reward of 10 upon returning to cell 8 after having collected the key, and the problem terminates immediately. At each time step, the agent can take one of two actions, \texttt{left}, or \texttt{right}. 90\% of the time, the action succeeds and the agent moves in the desired direction; 10\% of the time the agent moves in the opposite direction. If an end wall is hit, the agent bounces back to the previous cell. The discount factor is $\gamma=0.95$.
 
     Formulate this problem as an MDP, and write down the state space $\mathcal{S}$ and reward function $\mathcal{R}$. What is the value of being in cell 9 without the key (report with a precision of 0.001)?
 
