@@ -22,7 +22,7 @@
 \end{question}
 
 \begin{question}
-    Consider a stationary infinite-horizon MDP with $\mathcal{S} = \{1,2\}$, $\mathcal{R}(s, a) = s^2$, and $\gamma = 0.9$ ($\mathcal{A}$ and $\mathcal{T}$ are unknown). Suppose that policy $\pi$ achieves a value at state $1$ of $U^\pi(1) = 37$. What is $U^*(2)$, the optimal value at state $2$? Justify your answer.
+    Consider a stationary infinite-horizon MDP with $\mathcal{S} = \{1,2\}$, $\mathcal{R}(s, a) = s^2$, and $\gamma = 0.9$ ($\mathcal{A}$ and $\mathcal{T}$ are unknown). Suppose that policy $\pi$ achieves a value at state $1$ of $V^\pi(1) = 37$. What is $V^*(2)$, the optimal value at state $2$? Justify your answer.
 \end{question}
 
 \section{Exercises}
@@ -46,18 +46,31 @@ Aircraft Collision Avoidance System.
 
 Your task is to find the optimal value function for an Aircraft Collision Avoidance System (ACAS). The encounter model will be specified as a Markov decision process, and your task will be to compute the value function using value iteration or another suitable algorithm. The continuous physical state space will be discretized at various levels of granularity and the goal is to find the value function for the finest discretization possible.
 
-For this exercise, you may NOT use any outside libraries for solving MDPs such as POMDPs.jl, though you may look to them for inspiration.
+For this exercise, you may NOT use any outside libraries designed specifically for solving MDPs such as POMDPs.jl, though you may look to them for inspiration.
 
-The transition matrix may be
+A model with discretization level \texttt{n} can be constructed with
+\begin{verbatim}
+m = DMUStudent.HW2.UnresponsiveACASMDP(n)
+\end{verbatim}
+The higher \texttt{n} is, the finer the discretization and the larger the state space. Transition matrices for each of the 3 actions can be constructed with \texttt{T = transition\_matrices(m)}. This returns a dictionary that contains a transition matrix for each action. For example \texttt{T[1][2,3]} is the probability of transitioning from state 2 to state 3 when action 1 is taken. Reward vectors for each action can be constructed with \texttt{R = reward\_vectors(m)} where \texttt{R[1][2]} is the immediate reward of taking action 1 in state 2.
+The discount factor for the problem is $\gamma = 0.99$.
 
-The continuous model is defined as follows:
+The score received for solving the problem is \texttt{n}. A score of \texttt{n} = 7 will receive full credit.
 
-The state constists 
+\vspace{1em}
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+\vspace{1em}
+
+\textbf{The only information strictly necessary to solve the problem is the transition matrices and reward vectors mentioned above.} However, the description of the model below may help in solving larger versions. The continuous model is defined as follows:
+
 \begin{itemize}
-    \item $\mathcal{S} = $
+    \item The state space is 4-dimensional $\mathcal{S} = \reals^4$, with each state consisting of $s=(h_o, \dot{h}_o, h_i, d)$ where $h_o$ is the ownship altitude in feet, $\dot{h}_o$ is the rate of climb in ft/min, $h_i$ is the intruder altitude in feet, and $d$ is the distance between the aircraft in feet. An integer state \texttt{s} can be converted to a vector that shows the values of these variables using \texttt{POMDPs.convert\_s(ACASState, s, m)}.
+    \item The action space is $\mathcal{A}=\{1,2,3\}$. $a=1$ represents decreasing the rate of climb $\dot{h}_o$ by 1500 ft/min, $a=3$ means increasing the rate of climb by 1500 ft/min, and $a=2$ means maintaining the same rate of climb. The possible rates of climb are $\dot{h}_o \in \{-3000, -1500, 0, 1500, 3000\}$
+    \item A reward of -100 is received for a near-mid-air collision, defined as the aircraft passing within 500 vertical feet and 100 horizontal feet of each other. Any change in rate of climb yields a reward of -1.
+    \item The rate of climb, $\dot{h}_o$ changes instantly when an action is applied. Then the following dynamics are used: $d' = d - 2\,v\,\Delta t$ where $v$ is the fixed horizontal velocity, $h_o' = h_o + \dot{h}_o\,\Delta t$, and $h_i' = h_i + W_{\Delta t \sigma^2}$ where $W$ is the Wiener process\footnote{\url{https://en.wikipedia.org/wiki/Wiener_process}}. $\Delta t$ changes based on the discretization \texttt{n}.
 \end{itemize}
 
-The discretized models are given in 
+The model \texttt{m} implements the POMDPs.jl explicit MDP interface\footnote{\url{https://juliapomdp.github.io/POMDPs.jl/stable/explicit/\#Explicit-(PO)MDP-interface-1}}, and students are welcome to explore the problem further using that interface as well as look at the source code for details.
 
 \end{question}
 
