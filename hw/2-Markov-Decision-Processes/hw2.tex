@@ -36,13 +36,14 @@
 \end{question}
 
 \begin{question}
+
     Consider a continuous state and action MDP with $\mathcal{S} = \reals$, $\mathcal{A} = \reals$, $R(s, a) = - 2s^2 - a^2$ and transitions described with the generative model $s' = G(s, a, w) = 2s + a + w$ where $w$ is a normally-distributed random variable with zero mean and variance $1$. Optimal control theory\footnote{\url{https://en.wikipedia.org/wiki/Linear\%E2\%80\%93quadratic_regulator}} tells us that an optimal policy for this problem has the form $\pi^*(s) = -k\,s$ where $k$ is a real number. Find $k$ for the optimal policy to a precision of 0.01.\footnote{Hint: The most straightforward way to do this is with Monte Carlo policy evaluation and brute force search.}
 \end{question}
 
 \section{Challenge Problem}
 
 \begin{question}
-Aircraft Collision Avoidance System.
+    Value iteration for ACAS given $\mathcal{T}$ and $\mathcal{R}$.
 
 Your task is to find the optimal value function for an Aircraft Collision Avoidance System (ACAS). The encounter model will be specified as a Markov decision process, and your task will be to compute the value function using value iteration or another suitable algorithm. The continuous physical state space will be discretized at various levels of granularity and the goal is to find the value function for the finest discretization possible.
 
