@@ -29,6 +29,9 @@
 
 \begin{question}
     Consider a 1 by 9 grid world with a key in cell 2 and a locked door in cell 8. An agent automatically enters the door and receives a reward of 10 upon returning to cell 8 after having collected the key, and the problem terminates immediately. At each time step, the agent can take one of two actions, \texttt{left}, or \texttt{right}. 90\% of the time, the action succeeds and the agent moves in the desired direction; 10\% of the time the agent moves in the opposite direction. If an end wall is hit, the agent bounces back to the previous cell. The discount factor is $\gamma=0.95$.
+\begin{center}
+    \includegraphics[width=0.5\textwidth]{small_mdp.pdf}
+\end{center}
 
     Formulate this problem as an MDP, and write down the state space $\mathcal{S}$ and reward function $\mathcal{R}$. What is the value of being in cell 9 without the key (report with a precision of 0.001)?
 
@@ -47,11 +50,11 @@
 
 Your task is to find the optimal value function for an Aircraft Collision Avoidance System (ACAS). The encounter model will be specified as a Markov decision process, and your task will be to compute the value function using value iteration or another suitable algorithm. The continuous physical state space will be discretized at various levels of granularity and the goal is to find the value function for the finest discretization possible.
 
-For this exercise, you may NOT use any outside libraries designed specifically for solving MDPs such as POMDPs.jl, though you may look to them for inspiration.
+For this exercise, you may NOT use any outside libraries designed specifically for solving MDPs such as POMDPs.jl solvers, though you may look to them for inspiration.
 
 A model with discretization level \texttt{n} can be constructed with
 \begin{verbatim}
-m = DMUStudent.HW2.UnresponsiveACASMDP(n)
+                        m = DMUStudent.HW2.UnresponsiveACASMDP(n)
 \end{verbatim}
 The higher \texttt{n} is, the finer the discretization and the larger the state space. Transition matrices for each of the 3 actions can be constructed with \texttt{T = transition\_matrices(m)}. This returns a dictionary that contains a transition matrix for each action. For example \texttt{T[1][2,3]} is the probability of transitioning from state 2 to state 3 when action 1 is taken. Reward vectors for each action can be constructed with \texttt{R = reward\_vectors(m)} where \texttt{R[1][2]} is the immediate reward of taking action 1 in state 2.
 The discount factor for the problem is $\gamma = 0.99$.
@@ -63,6 +66,10 @@ The score received for solving the problem is \texttt{n}. You must submit your s
 \vspace{1em}
 
 \textbf{The only information strictly necessary to solve the problem is the transition matrices and reward vectors mentioned above.} However, the description of the model below may help in solving larger versions. The continuous model is defined as follows:
+
+\begin{center}
+    \includegraphics[width=0.7\textwidth]{unresponsive_acas.pdf}
+\end{center}
 
 \begin{itemize}
     \item The state space is 4-dimensional $\mathcal{S} = \reals^4$, with each state consisting of $s=(h_o, \dot{h}_o, h_i, d)$ where $h_o$ is the ownship altitude in feet, $\dot{h}_o$ is the rate of climb in ft/min, $h_i$ is the intruder altitude in feet, and $d$ is the distance between the aircraft in feet. An integer state \texttt{s} can be converted to a vector that shows the values of these variables using \texttt{POMDPs.convert\_s(ACASState, s, m)}.
