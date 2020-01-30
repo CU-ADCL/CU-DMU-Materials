@@ -37,7 +37,7 @@
 
 \begin{question}
 
-    Consider a continuous state and action MDP with $\mathcal{S} = \reals$, $\mathcal{A} = \reals$, $R(s, a) = - 2s^2 - a^2$ and transitions described with the generative model $s' = G(s, a, w) = 2s + a + w$ where $w$ is a normally-distributed random variable with zero mean and variance $1$. Optimal control theory\footnote{\url{https://en.wikipedia.org/wiki/Linear\%E2\%80\%93quadratic_regulator}} tells us that an optimal policy for this problem has the form $\pi^*(s) = -k\,s$ where $k$ is a real number. Find $k$ for the optimal policy to a precision of 0.01.\footnote{Hint: The most straightforward way to do this is with Monte Carlo policy evaluation and brute force search.}
+    Consider a continuous state and action MDP with $\mathcal{S} = \reals$, $\mathcal{A} = \reals$, $R(s, a) = - 2s^2 - a^2$ and transitions described with the generative model $s' = G(s, a, w) = 2s + a + w$ where $w$ is a normally-distributed random variable with zero mean and variance $1$. Optimal control theory\footnote{\url{https://en.wikipedia.org/wiki/Linear\%E2\%80\%93quadratic_regulator}} tells us that an optimal policy for this problem with the undiscounted time-average objective has the form $\pi^*(s) = -k\,s$ where $k$ is a real number. Find $k$ for the optimal policy to a precision of 0.02.\footnote{Hint: The most straightforward way to do this is with Monte Carlo policy evaluation and brute force search. If you know how to formulate and solve this as an optimal control problem, you may also use that method.}
 \end{question}
 
 \section{Challenge Problem}
@@ -56,7 +56,7 @@ m = DMUStudent.HW2.UnresponsiveACASMDP(n)
 The higher \texttt{n} is, the finer the discretization and the larger the state space. Transition matrices for each of the 3 actions can be constructed with \texttt{T = transition\_matrices(m)}. This returns a dictionary that contains a transition matrix for each action. For example \texttt{T[1][2,3]} is the probability of transitioning from state 2 to state 3 when action 1 is taken. Reward vectors for each action can be constructed with \texttt{R = reward\_vectors(m)} where \texttt{R[1][2]} is the immediate reward of taking action 1 in state 2.
 The discount factor for the problem is $\gamma = 0.99$.
 
-The score received for solving the problem is \texttt{n}. A score of \texttt{n} = 7 will receive full credit.
+The score received for solving the problem is \texttt{n}. You must submit your score to the leaderboard at \url{http://dmuleaderboard.com/hw2}. A score of \texttt{n} = 7 will receive full credit.
 
 \vspace{1em}
 \noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
