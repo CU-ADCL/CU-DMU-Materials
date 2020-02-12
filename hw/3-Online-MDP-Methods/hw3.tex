@@ -1,0 +1,65 @@
+\documentclass{article}
+\usepackage{fullpage,amsmath,amsthm,graphicx,enumitem,amssymb}
+\usepackage[hidelinks]{hyperref}
+\theoremstyle{definition}
+\newtheorem{thm}{Theorem}
+\newtheorem{question}[thm]{Question}
+\newenvironment{solution}{\noindent\textit{Solution:}}{}
+
+\newcommand{\reals}{\mathbb{R}}
+
+\title{ASEN 6519-007 Decision Making under Uncertainty\\
+       Homework 3: Online MDP Methods}
+
+\begin{document}
+
+\maketitle
+
+\section{Conceptual Questions}
+
+% Draw trees
+% Read Sparse Sampling Paper
+% Continuous Q value
+% gamma down to epsilon
+% \begin{question}
+%     Consider an MDP with a discount factor of 0.9 and rewards between 0 and 1. Suppose that we wish to construct a complete MDP planning tree that estimates the value of the 
+% \end{question}
+
+\begin{question}
+    % Consider an MDP with three states, $\mathcal{S} = \{s^1, s^2, s^3\}$ and two actions, $\mathcal{A} = \{a^1, a^2\}$. Draw the following three trees to a depth of $d=2$, with circles representing state nodes and squares representing action nodes:
+    Consider an MDP with three states, $|\mathcal{S}| = 3$ and two actions, $|\mathcal{A}| = 2$. Draw the following three trees to a depth of $d=2$, with circles representing state nodes and squares representing action nodes:
+    \begin{enumerate}[label=(\alph*)]
+        \item The complete state-action tree produced with forward search.
+        \item A sparse sampling tree with $n=2$.
+        \item A partial tree after 4 iterations of Monte Carlo tree search (according to Algorithm 4.9).
+    \end{enumerate}
+
+\end{question}
+
+\begin{question}
+    In the proof for Lemma 5 of the Sparse Sampling paper by Kearns, Mansour, and Ng, (\url{https://www.cis.upenn.edu/~mkearns/papers/sparsesampling-journal.pdf}), the authors claim that if a policy $\pi$ satisfies $|Q^*(s, \pi^*(s)) - Q^*(s, \pi(s))| \leq \beta$ for all $s \in \mathcal{S}$, then it immediately follows that $|R(s, \pi^*(s)) - R(s, \pi(s))| \leq \beta|$. This is a mistaken conclusion. Provide an MDP and a policy that presents a counterexample to this claim and demonstrate that the statement does not hold.
+\end{question}
+
+% \section{Exercises}
+% 
+% \begin{question}
+%     Create a generative model of a hybrid MDP that represents a reservoir and hydroelectric power generation plant. The state of the system includes the water level (ranging from 0 to 1) and the sky, which has three discrete states: sunny, cloudy, and rainy. The action is how much water to let run through the generators or over the spillway. Each step represents a week.
+%     
+%     If the sky is sunny, there is a 25\% chance of it becoming cloudy the next week. If it is cloudy, there is a 25\% chance of it becoming rainy and a 25\% chance of it becoming sunny. If it is rainy, then on the next step the water level increases by an amount uniformly distributed between 0 and 0.3, and there is a 25\% chance of it becoming cloudy.
+% 
+%     The amount of flow through the generators is the maximum of the action and the water level (because no water can flow if the reservoir is empty). At each step the level decreases by the amount of the flow.
+%     
+%     If the flow is 0.05 or greater, a reward of 1 is 
+% \end{question}
+
+\section{Challenge Problem}
+
+\begin{question}
+    Your task is to create an online planner for randomly generated 100x100 grid world problems. In these grid world problems there is a reward of +100 every 20 cells, i.e. at [20,20], [20,40], [40,20], etc. Once the agent reaches one of these reward cells, the problem terminates. All cells also have a randomly generated cost.
+
+    For each of the 100 randomly generated grid worlds that the planner is evaluated on, you will have 50ms of offline solve time, and for each online step, you will have 50 ms to make a decision of what action to take. If the time limits are exceeded, random actions will be taken. You can create one sampled grid world with \texttt{DMUStudent.HW3.DenseGridWorld()} and examine it using the POMDPs.jl interface. The submission should be a \texttt{POMDPs.Solver} such as an \texttt{MCTSSolver} or \texttt{POMDPs.Policy}.
+
+    There are no restrictions for this exercise, except that you may not attempt to deliberately exceed the timing or hack any other part of the evaluation script. You may use any packages, multi-threading, etc. In particular, the MCTS.jl package is suitable for solving this problem. A score of 50 or more will receive full credit.
+\end{question}
+
+\end{document}
