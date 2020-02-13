@@ -1,3 +1,6 @@
+*.ipynb_checkpoints*
+Manifest.toml
+
 ## Core latex/pdflatex auxiliary files:
 *.aux
 *.lof
