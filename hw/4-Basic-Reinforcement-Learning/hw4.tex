@@ -1,0 +1,34 @@
+\documentclass{article}
+\usepackage{fullpage,amsmath,amsthm,graphicx,enumitem,amssymb}
+\usepackage[hidelinks]{hyperref}
+\theoremstyle{definition}
+\newtheorem{thm}{Theorem}
+\newtheorem{question}[thm]{Question}
+\newenvironment{solution}{\noindent\textit{Solution:}}{}
+
+\newcommand{\reals}{\mathbb{R}}
+
+\title{ASEN 6519-007 Decision Making under Uncertainty\\
+       Homework 4: Basic Reinforcement Learning}
+
+\begin{document}
+
+\maketitle
+
+\section{Exercises}
+
+\begin{question}
+    (20 pts) Using the deep learning library of your choice (e.g. Flux.jl, Knet.jl, Tensorflow, Keras), fit a neural network to approximate the function $f(x) = cos(20\,x^2)$ for the range $x \in [0,1]$. Plot a set of 100 data points fed through the trained model and plot the learning curve.
+\end{question}
+
+\begin{question}
+    (30 pts) Implement \textbf{two} different traditional or deep learning algorithms to learn a policy for the \texttt{HW4.gw} grid world environment. Plot a learning curve for each and comment on why one performs better than the other.\footnote{\label{fn:rlinterface}Both \texttt{HW4.gw} and \texttt{HW4.mc} implement the RLInterface.jl interface. Details can be found at \url{https://github.com/JuliaPOMDP/RLInterface.jl}. This interface will allow you to collect data from the environment and evaluate policies with it.}
+\end{question}
+
+\section{Challenge Problem}
+
+\begin{question}
+    (50 pts) Learn a policy for the mountain car environment \texttt{HW4.mc}. You may use \emph{any} libraries. A score of 35 or greater will receive full credit.\footnotemark[1]\footnote{Your submission should be either a \texttt{Function} that takes the state as the single argument and returns an action, or a \texttt{POMDPs.Policy}.}
+\end{question}
+
+\end{document}
