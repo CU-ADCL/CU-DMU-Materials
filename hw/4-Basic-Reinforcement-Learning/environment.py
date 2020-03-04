@@ -55,4 +55,4 @@ def policy_function(s):
     jl_act = [-1.0, 0.0, 1.0][act] # careful that this matches action decoding above!!
     return convert(Float64, jl_act)
     
-evaluate(convert(Function, policy_function), "hw4")
+evaluate(convert(Function, policy_function), "hw4", n_episodes=100)
