@@ -22,7 +22,9 @@ class MCEnv(gym.Env):
 
         # decode discrete actions
         jl_act = [-1.0, 0.0, 1.0][a]
-        return step_b(self.jlenv, jl_act)
+        s, r, done, info = step_b(self.jlenv, a[0])
+        pyinfo = {"episode": True}
+        return s, r, done, pyinfo
 
     def reset(self):
         return reset_b(self.jlenv)
@@ -49,6 +51,7 @@ from julia.DMUStudent import evaluate
 from julia.Base import convert, Function
 
 def policy_function(s):
-    return 0.0 # replace this with actions that have been learned
+    act, st = dqn.predict(s)
+    return convert(Float64, act[0])
     
 evaluate(convert(Function, policy_function), "hw4")
