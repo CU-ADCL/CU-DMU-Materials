@@ -22,7 +22,7 @@ class MCEnv(gym.Env):
 
         # decode discrete actions
         jl_act = [-1.0, 0.0, 1.0][a]
-        s, r, done, info = step_b(self.jlenv, a[0])
+        s, r, done, info = step_b(self.jlenv, jl_act)
         pyinfo = {"episode": True}
         return s, r, done, pyinfo
 
@@ -48,10 +48,11 @@ print("getting ready to learn...")
 dqn.learn(total_timesteps=10)
 
 from julia.DMUStudent import evaluate
-from julia.Base import convert, Function
+from julia.Base import convert, Function, Float64
 
 def policy_function(s):
     act, st = dqn.predict(s)
-    return convert(Float64, act[0])
+    jl_act = [-1.0, 0.0, 1.0][act] # careful that this matches action decoding above!!
+    return convert(Float64, jl_act)
     
 evaluate(convert(Function, policy_function), "hw4")
