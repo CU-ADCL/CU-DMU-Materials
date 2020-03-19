@@ -18,7 +18,7 @@
 \section{Conceptual Questions}
 
 \begin{question}
-    Consider a modified version of the Crying Baby POMDP discussed in class and in Section 6.1.1 of \emph{Decision Making under Uncertainty} by Kochenderfer. This version is exactly as described in the book, except that the baby has a 20\% chance of becoming hungry at the next time step if it is not currently hungry and only a 60\% chance of crying when hungry. The alpha vectors for the optimal policy are shown below (green=\texttt{feed}, red=\texttt{don't feed}). The point at which the alpha vectors for feeding and not feeding intersect is at $P(\texttt{hungry}) = 0.19$. Draw an optimal policy graph with appropriate action and observation labels if the initial belief is certainty that the baby is not hungry ($b_0(\texttt{hungry}) = 0$).
+    Consider a modified version of the Crying Baby POMDP discussed in class and in Section 6.1.1 of \emph{Decision Making under Uncertainty} by Kochenderfer. This version is exactly as described in the book, except that the baby has a 20\% chance of becoming hungry at the next time step if it is not currently hungry and only a 60\% chance of crying when hungry. The alpha vectors for the optimal policy are shown below (green=\texttt{feed}, red=\texttt{don't feed}). The point at which the alpha vectors for feeding and not feeding intersect is at $P(\texttt{hungry}) = 0.19$. Draw an optimal policy graph with appropriate action and observation labels if the initial belief is certainty that the baby is not hungry ($b_0(\texttt{hungry}) = 0$)\footnote{On both of these problems, you are encouraged to use POMDPs.jl or other software packages}.
 
 \begin{center}
     \includegraphics[width=0.7\textwidth]{alphas.png}
@@ -31,7 +31,7 @@
 \section{Exercises}
 
 \begin{question}
-Consider the following POMDP that represents a personalized cancer monitoring plan\footnote{Note that the probabilities are not meant to be realistic. See \url{https://pubsonline.informs.org/doi/10.1287/opre.1110.1019} for an actual publication on this topic}:
+    Consider the following POMDP that represents a personalized cancer monitoring plan\footnotemark[1]\footnote{Note that the probabilities are not meant to be realistic. See \url{https://pubsonline.informs.org/doi/10.1287/opre.1110.1019} for an actual publication on this topic}:
 
 \begin{eqnarray*}
     \mathcal{S} &=& \left\{\texttt{healthy}, \texttt{in-situ-cancer}, \texttt{invasive-cancer}, \texttt{death}\right\}\\
