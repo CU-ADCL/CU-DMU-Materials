@@ -10,9 +10,9 @@
 \setlength{\parindent}{0pt}
 \setlength{\multicolsep}{2pt}
 
-\title{ASEN 6519-007: Decision Making under Uncertainty}
+\title{ASEN 5519-003: Decision Making under Uncertainty}
 \author{Zachary Sunberg}
-\date{Spring 2020}
+\date{Spring 2021}
 
 \begin{document}
 
@@ -21,8 +21,7 @@
 \section*{Prerequisites}
 
 \begin{enumerate}[noitemsep]
-    \item Fluency in a high level programming language and willingness to learn a new one (any language will be allowed on assignments, but some Julia, up to the level of writing functions, will be required)
-    \item Basic knowledge of applied probability
+    \item Fluency in a high level programming language and willingness to learn Julia.
 \end{enumerate}
 
 \section*{Rough Schedule and List of Topics}
@@ -30,16 +29,15 @@
 (See Canvas for detailed schedule.)
 
 \begin{enumerate}[noitemsep]
-    \item \textbf{Probabilistic Models [1/16 - 1/23]}:
+    \item \textbf{Probabilistic Models [1/14 - 1/19]}:
         \begin{multicols}{2}
             \begin{itemize}[noitemsep]
                 \item Probability
                 \item Conditional probability
-                \item Bayesian networks
                 \item Markov processes
             \end{itemize}
         \end{multicols}
-    \item \textbf{Problems with Outcome Uncertainty [1/28 - 2/13]}:
+    \item \textbf{Markov Decision Processes [1/21 - 2/9]}:
         \begin{multicols}{2}
         \begin{itemize}[noitemsep]
             \item Markov decision processes (MDPs)
@@ -49,10 +47,9 @@
             \item Online tree search
         \end{itemize}
         \end{multicols}
-    \item \textbf{Problems with Model Uncertainty [2/18 - 3/5]}:
+    \item \textbf{Reinforcement Learning [2/11 - 3/4]}:
         \begin{multicols}{2}
         \begin{itemize}[noitemsep]
-            \item Reinforcement learning (RL)
             \item Exploration and exploitation
             \item Bandits
             \item Model-free RL
@@ -62,7 +59,7 @@
             \item Actor-critic
         \end{itemize}
         \end{multicols}
-    \item \textbf{Problems with State Uncertainty [3/10 - 4/2]}:
+    \item \textbf{POMDPs [3/9 - 3/20]}:
         \begin{multicols}{2}
         \begin{itemize}[noitemsep]
             \item Hidden Markov models
@@ -70,13 +67,12 @@
             \item Particle filters
             \item Partially observable Markov decision processes (POMDPs)
             \item Exact POMDP methods
-            \item Convexity of POMDP value functions
             \item Offline POMDP methods
             \item Online POMDP methods
             \item QMDP
         \end{itemize}
         \end{multicols}
-    \item \textbf{Other Topics [4/7-4/30]}: Alpha Go, Alpha Star, D-separation of Bayesian networks, Bayesian network parameter and structure learning, games, alternative optimization objectives (risk averse, robust, constrained), $\rho$-POMDPs, meta-learning, how to review academic publications
+    \item \textbf{Other Topics [4/1-4/29]}: Bayesian Networks, games, alternative optimization objectives (risk averse, robust, constrained), $\rho$-POMDPs, meta-learning, AlphaStar, review of academic publications
 \end{enumerate}
 
 \begin{samepage}
@@ -85,24 +81,24 @@
 \textbf{Canvas} will be the main hub for the course. A detailed schedule and assignments will be posted here.
 
 \textbf{Piazza} will host course discussions. Students are encouraged to ask questions here.
-
-\textbf{RedPen.jl} will be used to submit solutions to the open-ended homework assignments.
 \end{samepage}
 \\
 
 \begin{samepage}
 \section*{Assignments and Grading}
 
-\textbf{60\% Homework Assignments.}
-There will be 6 large homework assignments, due approximately every two weeks. Each assignment will consist of
+\textbf{40\% Homework Assignments.}
+There will be 6 large homework assignments, due approximately every two weeks. A typical assignment will consist of
 \begin{itemize}[nosep]
-    \item Several conceptual questions
-    \item Two or three exercises that will require some programming or math
-    \item One open-ended problem. You solution will be evaluated locally with obfuscated code and the score submitted to a leaderboard. The best performers will share their solution in class. \textbf{Note that attempts to de-obfuscate obfuscated code will be considered a violation of the honor code.}
+    \item Several conceptual questions or exercises.
+    \item One open-ended problem. You solution will be evaluated locally with obfuscated code and the score submitted to a leaderboard. The best performers will share their solution in class.
 \end{itemize}
 
-\textbf{35\% Final Project.}
-A final project chosen by the student that ideally connects to their research. Deliverable will be a 6 page report. Project may be completed in teams of up to 3.
+\textbf{30\% Quizzes.}
+There will be three Quizzes consisting of several conceptual questions or exercises. The exact format has not been set, but it will most likely be a timed quiz that can be taken any time during a 24 or 48 hour period.
+
+\textbf{25\% Final Project.}
+A final project chosen by the student that ideally connects to their research. Deliverable will be a 4-8 page report. Project may be completed in teams of up to 3.
 
 \textbf{5\% Peer Review.}
 You will be assigned 2 project reports from other teams in the class to write peer reviews for.
@@ -110,15 +106,16 @@ You will be assigned 2 project reports from other teams in the class to write pe
 
 \subsection*{Late Policy}
 
-For \textbf{homework}, there will be a \textbf{20\% penalty for every late day}. For the \textbf{final project} and \textbf{peer review}, there will be a \textbf{20\% penalty for every late \emph{hour}} (due to the need for quick turnaround). Please use your knowledge of decision making under uncertainty to include appropriate contingency in your plans to avoid these penalties.
+For \textbf{homework}, there will be a \textbf{10\% penalty} for submitting the assignment late on the day it is due and a \textbf{20\% penalty} for every late day after that. For the \textbf{final project} and \textbf{peer review}, there will be a \textbf{20\% penalty for every late \emph{hour}} (due to the need for quick turnaround). Please use your knowledge of decision making under uncertainty to include appropriate contingency in your plans to avoid these penalties.
 
 \section*{Textbook}
 
-Mykel J. Kochenderfer, Decision Making Under Uncertainty: Theory and Application, MIT Press, 2015. \$70.00, Available online: \url{https://ieeexplore.ieee.org/book/7288640}
+Mykel J. Kochend
 
 \subsection*{Additional References}
 
 \begin{itemize}[noitemsep]
+    \item Mykel J. Kochenderfer, Decision Making Under Uncertainty: Theory and Application, MIT Press, 2015. \$70.00, Available online: \url{https://ieeexplore.ieee.org/book/7288640}
     \item Richard S. Sutton and Andrew G. Barto, Reinforcement Learning: An Introduction, 2nd Ed. MIT Press, 2018. \$80.00, Available online: \url{http://incompleteideas.net/book/the-book-2nd.html}
     \item Dimitri P. Bertsekas, Dynamic Programming and Optimal Control, Athena Scientific, 2012 (4th Ed.). \$134.50
 \end{itemize}
