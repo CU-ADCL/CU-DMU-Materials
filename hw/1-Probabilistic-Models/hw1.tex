@@ -17,7 +17,7 @@
 
 \section{Conceptual Questions}
 
-\begin{question}
+\begin{question} (20 pts)
     Consider the following joint distribution of three binary-valued random variables, \mbox{$A$, $B$, and $C$}:
 
     \begin{minipage}{0.23\linewidth}
@@ -47,11 +47,11 @@
     \end{minipage}
 \end{question}
 
-\begin{question}
-    1\% of women at age forty who participate in routine screening have breast cancer. 80\% of women with breast cancer will get positive mammographies. 9.6\% of women without breast cancer will also get positive mammographies. A woman in this age group had a positive mammography in a routine screening. What is the probability that she actually has breast cancer?
+\begin{question} (20 pts)
+    1\% of women at age forty who participate in routine screening have breast cancer. 80\% of those with breast cancer will get positive mammographies. 9.6\% of those without breast cancer will also get positive mammographies. A woman in this age group had a positive mammography in a routine screening. What is the probability that she actually has breast cancer?
 \end{question}
 
-\begin{question}
+\begin{question} (10 pts)
     Suppose that a stochastic process $\{x_t\}$ is defined by the following equation: $x_{t+1} = x_t + x_{t-1} + v_{t}$ where $v_t$ are i.i.d. noise random variables.
     \begin{enumerate}[label=(\alph*)]
         \item Is this process Markov if the state is defined as $x_t$?
@@ -61,16 +61,19 @@
 
 \section{Exercises}
 
-\begin{question}
+\begin{question} (30 pts)
     Consider two stochastic processes, $\{x_t\}$ and $\{y_t\}$, defined by $x_t = f_x(x_{0}, x_{1}... , x_{t-1}, v_t)$ and $y_t = f_y(y_{0}, y_{1}... , y_{t-1}, v_t)$ where $v_t$ are independent, identically distributed random variables that introduce noise. The \texttt{HW1} module in \texttt{DMUStudent} contains two Julia functions, \texttt{fx} and \texttt{fy}, which can sample from the stochastic processes, i.e. \texttt{fx([x1, x2])} will return a sample of $x_3$ given that $x_1 = \texttt{x1}$ and $x_2 = \texttt{x2}$.
 
-    Suppose you know that one of these processes is Markov and the other is not. By drawing samples with the Julia functions, determine which one is Markov.
+    \begin{enumerate}[label=\alph*)]
+        \item Plot a trajectory of $\{x\}$ and $\{y\}$.
+        \item Suppose you know that one of these processes is Markov and the other is not. By drawing samples with the Julia functions, determine which one is Markov.
+    \end{enumerate}
 \end{question}
 
 \section{Challenge Problem}
 
-\begin{question}
-    Write a function in Julia that takes in two arguments and uses the Pythagorean Theorem to compute the hypotenuse of a right triangle with side lengths specified by the arguments. Evaluate this function with \texttt{DMUStudent.HW1.evaluate} and submit the resulting json file. A score of 1 will receive full credit.\footnote{This particular ``Challenge Problem'' is not meant to be challenging; it is meant to test that everyone can download the code and submit. It should require only 2 lines. Future problems in this section will be quite challenging.}
+\begin{question} (20 pts)
+    Write a function in Julia that takes in two arguments and uses the Pythagorean Theorem to compute the hypotenuse of a right triangle with side lengths specified by the arguments. Evaluate this function with \texttt{DMUStudent.HW1.evaluate} and submit the resulting json file \textit{along with a listing of the code in your pdf}. A score of 1 will receive full credit.\footnote{This particular ``Challenge Problem'' is not meant to be challenging; it is meant to test that everyone can download the code and submit. It should require only 2 lines. Future problems in this section will be quite challenging.}
 \end{question}
 
 \end{document}
