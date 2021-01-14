@@ -22,7 +22,7 @@ DMUStudent.jl is the main package that will provide code for assignments. Docume
 
 ### Editing Julia Source Files
 
-Unlike MATLAB, but like most other programming languages, Julia does not come bundled with an editor. People looking for a MATLAB-like experience may wish to use the [Julia for VS Code](https://www.julia-vscode.org/) or [Juno](https://junolab.org/) IDES. A list of other editors that have Julia integration can be found by scrolling down on the [Julia webpage](julialang.org).
+Unlike MATLAB, but like most other programming languages, Julia does not come bundled with an editor. People looking for a MATLAB-like experience may wish to use the [Julia for VS Code](https://www.julia-vscode.org/) or [Juno](https://junolab.org/) IDEs. A list of other editors that have Julia integration can be found by scrolling down on the [Julia webpage](julialang.org).
 
 ### JuliaPro
 
