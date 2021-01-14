@@ -65,7 +65,7 @@
     Consider two stochastic processes, $\{x_t\}$ and $\{y_t\}$, defined by $x_t = f_x(x_{0}, x_{1}... , x_{t-1}, v_t)$ and $y_t = f_y(y_{0}, y_{1}... , y_{t-1}, v_t)$ where $v_t$ are independent, identically distributed random variables that introduce noise. The \texttt{HW1} module in \texttt{DMUStudent} contains two Julia functions, \texttt{fx} and \texttt{fy}, which can sample from the stochastic processes, i.e. \texttt{fx([x1, x2])} will return a sample of $x_3$ given that $x_1 = \texttt{x1}$ and $x_2 = \texttt{x2}$.
 
     \begin{enumerate}[label=\alph*)]
-        \item Plot a trajectory of $\{x\}$ and $\{y\}$.
+        \item Plot a sample trajectory of $\{x_t\}$ and a sample trajectory of $\{y_t\}$.
         \item Suppose you know that one of these processes is Markov and the other is not. By drawing samples with the Julia functions, determine which one is Markov.
     \end{enumerate}
 \end{question}
