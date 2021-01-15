@@ -37,6 +37,8 @@ display(p) # display is not always needed, for example in Jupyter or Pluto
 
 Return a probability vector indicating the likelihood of outcomes between 1 and
 20 of f(history), estimated through sampling.
+
+Example: empirical_distribution(fx, [x1, x2])
 """
 function empirical_distribution(f, history; n=100_000)
 	counts = zeros(20)
