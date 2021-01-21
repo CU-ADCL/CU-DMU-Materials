@@ -16,8 +16,6 @@
 
 \maketitle
 
-{\Large PRELIMINARY: Changes may occur before release}
-
 \section{Conceptual Questions}
 
 \begin{question}
@@ -43,44 +41,44 @@
 
 \section{Exercise}
 
-\begin{question}
-    (Policy/Value iteration for Grid World)
+\begin{question} \label{q:gw}
+    (Value iteration for Grid World)
+
+    Solve the MDP \texttt{HW2.grid\_world} with your own implementation of value iteration with a discount of $\gamma=0.95$ and plot the resulting value function. All of the necessary information to solve this problem can be extracted with the \texttt{HW2.transition\_matrices} and \texttt{HW2.reward\_vectors} functions, and plotting can be accomplished with \texttt{HW2.render(HW2.grid\_world, v)} where \texttt{v} is the value function. See the starter code and function docstrings for more information.
 \end{question}
 
 \section{Challenge Problem}
 
 \begin{question}
-    (Value iteration for ACAS given $\mathcal{T}$ and $\mathcal{R}$.)
+    (Value iteration for ACAS)
 
-Your task is to find the optimal value function for an Aircraft Collision Avoidance System (ACAS). The encounter model will be specified as a Markov decision process, and your task will be to compute the value function using value iteration or another suitable algorithm. The continuous physical state space will be discretized at various levels of granularity and the goal is to find the value function for the finest discretization possible.
+Your task is to find the optimal value function for an Aircraft Collision Avoidance System (ACAS). The encounter model will be specified as a Markov decision process, and your task will be to compute the value function for discount $\gamma=0.99$ using value iteration or another suitable algorithm that you implement. The continuous physical state space will be discretized at various levels of granularity and the goal is to find the value function for the finest discretization possible.
 
 A model with discretization level \texttt{n} can be constructed with
 \begin{verbatim}
-                        m = DMUStudent.HW2.UnresponsiveACASMDP(n)
+                        m = HW2.UnresponsiveACASMDP(n)
 \end{verbatim}
-The higher \texttt{n} is, the finer the discretization and the larger the state space. Transition matrices for each of the 3 actions can be constructed with \texttt{T = transition\_matrices(m)}. This returns a dictionary that contains a transition matrix for each action. For example \texttt{T[1][2,3]} is the probability of transitioning from state 2 to state 3 when action 1 is taken. Reward vectors for each action can be constructed with \texttt{R = reward\_vectors(m)} where \texttt{R[1][2]} is the immediate reward of taking action 1 in state 2.
-The discount factor for the problem is $\gamma = 0.99$.
+The higher \texttt{n} is, the finer the discretization and the larger the state space. Again, all of the information needed to solve this problem can be extracted with the \texttt{HW2.transition\_matrices} and \texttt{HW2.reward\_vectors} functions, so you can start with your code from Question \ref{q:gw}.
 
-The score received for solving the problem is \texttt{n}. You must submit your score to the leaderboard at \url{http://dmuleaderboard.com/hw2}. A score of \texttt{n} = 7 will receive full credit.
+The score received for solving the problem is \texttt{n}. You must submit your code for this problem along with the \texttt{results.json} file from executing \texttt{HW2.evaluate(v, "email@colorado.edu")} where \texttt{v} is the value function vector. A score of \texttt{n} = 7 or higher will receive full credit\footnote{By taking advantage of the structure of the problem, it is possible to attain a score of \texttt{n} = 20 with less than 10 minutes of computation time on a single core of a i7 laptop processor.}.
 
 \vspace{1em}
 \noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
 \vspace{1em}
 
-\textbf{The only information strictly necessary to solve the problem is the transition matrices and reward vectors mentioned above.} However, the description of the model below may help to get the highest score on the leaderboard. The continuous model is defined as follows:
+\textbf{The information above this line is sufficient to complete this homework.} However, the description of the model below may help to get the highest score on the leaderboard. The \texttt{UnresponsiveACASMDP} model implements the POMDPs.jl explicit MDP interface\footnote{\url{https://juliapomdp.github.io/POMDPs.jl/stable/dynamics/\#Separate-explicit-or-generative-definition}}, and students are welcome to explore the problem further using that interface as well as ask on Piazza and look at the source code for details. The underlying continuous model is defined as follows:
 
 \begin{center}
     \includegraphics[width=0.7\textwidth]{unresponsive_acas.pdf}
 \end{center}
 
 \begin{itemize}
-    \item The state space is 4-dimensional $\mathcal{S} = \reals^4$, with each state consisting of $s=(h_o, \dot{h}_o, h_i, d)$ where $h_o$ is the ownship altitude in feet, $\dot{h}_o$ is the rate of climb in ft/min, $h_i$ is the intruder altitude in feet, and $d$ is the distance between the aircraft in feet. An integer state \texttt{s} can be converted to a vector that shows the values of these variables using \texttt{POMDPs.convert\_s(ACASState, s, m)}.
-    \item The action space is $\mathcal{A}=\{1,2,3\}$. $a=1$ represents decreasing the rate of climb $\dot{h}_o$ by 1500 ft/min, $a=3$ means increasing the rate of climb by 1500 ft/min, and $a=2$ means maintaining the same rate of climb. The possible rates of climb are $\dot{h}_o \in \{-3000, -1500, 0, 1500, 3000\}$
+    \item The state space is 4-dimensional $\mathcal{S} = \reals^4$, with each state consisting of $s=(h_o, \dot{h}_o, h_i, d)$ where $h_o$ is the ownship altitude in feet, $\dot{h}_o$ is the rate of climb in ft/min, $h_i$ is the intruder altitude in feet, and $d$ is the distance between the aircraft in feet.
+    \item The action space is $\mathcal{A}=\{-1500, 0, 1500\}$ and represents the change in rate of climb. The possible rates of climb are $\dot{h}_o \in \{-3000, -1500, 0, 1500, 3000\}$
     \item A reward of -100 is received for a near-mid-air collision, defined as the aircraft passing within 500 vertical feet and 100 horizontal feet of each other. Any change in rate of climb yields a reward of -1.
     \item The rate of climb, $\dot{h}_o$ changes instantly when an action is applied. Then the following dynamics are used: $d' = d - 2\,v\,\Delta t$ where $v$ is the fixed horizontal velocity, $h_o' = h_o + \dot{h}_o\,\Delta t$, and $h_i' = h_i + W_{\Delta t \sigma^2}$ where $W$ is the Wiener process\footnote{\url{https://en.wikipedia.org/wiki/Wiener_process}}. $\Delta t$ changes based on the discretization \texttt{n}.
 \end{itemize}
 
-The model \texttt{m} implements the POMDPs.jl explicit MDP interface\footnote{\url{https://juliapomdp.github.io/POMDPs.jl/stable/explicit/\#Explicit-(PO)MDP-interface-1}}, and students are welcome to explore the problem further using that interface as well as ask on Piazza and look at the source code for details.
 
 \end{question}
 
