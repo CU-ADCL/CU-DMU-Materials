@@ -18,15 +18,15 @@
 
 \section{Conceptual Questions}
 
-\begin{question}
+\begin{question} (10 pts)
     Give an example of an MDP with a unique nonzero optimal value function, but multiple optimal policies.\footnote{Hint: you can do this with $|\mathcal{S}| = 1$.}
 \end{question}
 
-\begin{question}
+\begin{question} (20 pts)
     Consider a stationary infinite-horizon MDP with $\mathcal{S} = \{1,2\}$, $\mathcal{R}(s, a) = s^2$, and $\gamma = 0.9$ ($\mathcal{A}$ and $\mathcal{T}$ are unknown). Suppose that policy $\pi$ achieves a value at state $1$ of $V^\pi(1) = 37$. What is $V^*(2)$, the optimal value at state $2$? Justify your answer.
 \end{question}
 
-\begin{question}
+\begin{question} (20 pts)
     Consider a 1 by 9 grid world with a key in cell 2 and a locked door in cell 8. An agent automatically receives a reward of 10 upon returning to cell 8 after having collected the key, and the problem terminates immediately. At each time step, the agent can take one of two actions, \texttt{left}, or \texttt{right} which always succeeds in moving the desired direction. If an end wall is hit, the agent bounces back to the previous cell. The discount factor is $\gamma=0.95$.
 \begin{center}
     \includegraphics[width=0.5\textwidth]{small_mdp.pdf}
@@ -42,7 +42,7 @@
 \section{Exercise}
 
 \begin{question} \label{q:gw}
-    (Value iteration for Grid World)
+    (Value iteration for Grid World, 25 pts)
 
     Solve the MDP \texttt{HW2.grid\_world} with your own implementation of value iteration with a discount of $\gamma=0.95$ and plot the resulting value function. All of the necessary information to solve this problem can be extracted with the \texttt{HW2.transition\_matrices} and \texttt{HW2.reward\_vectors} functions, and plotting can be accomplished with \texttt{HW2.render(HW2.grid\_world, v)} where \texttt{v} is the value function. See the starter code and function docstrings for more information.
 \end{question}
@@ -50,7 +50,7 @@
 \section{Challenge Problem}
 
 \begin{question}
-    (Value iteration for ACAS)
+    (Value iteration for ACAS, 25 pts)
 
 Your task is to find the optimal value function for an Aircraft Collision Avoidance System (ACAS). The encounter model will be specified as a Markov decision process, and your task will be to compute the value function for discount $\gamma=0.99$ using value iteration or another suitable algorithm that you implement. The continuous physical state space will be discretized at various levels of granularity and the goal is to find the value function for the finest discretization possible.
 
