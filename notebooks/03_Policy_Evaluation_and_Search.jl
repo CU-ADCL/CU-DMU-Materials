@@ -33,9 +33,43 @@ lqr = QuickMDP(
 	initialstate = Normal(0.0, 1.0)
 )
 
+# ╔═╡ f970d680-600a-11eb-0e43-ad6ccb7c5514
+let
+	policy = FunctionPolicy(s->-s/4)
+	trajs = [collect(stepthrough(lqr, policy, "s", max_steps=100)) for _ in 1:10]
+	plot(trajs, ylim=(-2, 2), legend=nothing, title="10 Trajectories with a=-s/4")
+end
+
+# ╔═╡ 21fde26a-5fef-11eb-3973-633468304e4a
+md"""
+# Monte Carlo Evaluation
+"""
+
+# ╔═╡ 880bbde6-6000-11eb-1ad8-ebc2cee1b66d
+@bind m_exp Slider(2:0.2:4)
+
+# ╔═╡ c224dfd8-6009-11eb-03a7-dd32da47b8c9
+m = round(Int, 10^m_exp)
+
+# ╔═╡ fae2a3aa-5fff-11eb-104e-cdeec84fe571
+u_is = [simulate(RolloutSimulator(max_steps=100), lqr, FunctionPolicy(s->-s)) for _ in 1:m];
+
+# ╔═╡ 2d4f5568-6000-11eb-2bb8-6d238d49264b
+histogram(u_is, xlim=(-50, 0), title="\$\\hat{u}_i\$", label=nothing)
+
+# ╔═╡ 4486be4c-6000-11eb-066f-47d533f8ba5f
+u_ms = [mean([simulate(RolloutSimulator(max_steps=100), lqr, FunctionPolicy(s->-s)) for _ in 1:m]) for _ in 1:100];
+
+# ╔═╡ 5878b43c-6000-11eb-2dfd-ab3d6a48b577
+histogram(u_ms, xlim = (-6, -5), ylim=(0,50), title="\$\\bar{u}_m\$", label=nothing)
+
+# ╔═╡ 626b4a54-6000-11eb-0ddf-5d25933c8a6e
+sem = std(u_is)/sqrt(m)
+
 # ╔═╡ 299e4f52-5fef-11eb-1ff8-4363ed206efe
 md"""
 # Policy Parameterized by k
+$\pi(s) = -k s$
 """
 
 # ╔═╡ 8f8a67de-5fa3-11eb-151e-f1381d768656
@@ -48,43 +82,20 @@ begin
 	plot(trajs, ylim=(-10, 10), legend=nothing, title="k=$k")
 end
 
-# ╔═╡ 21fde26a-5fef-11eb-3973-633468304e4a
-md"""
-# Monte Carlo Evaluation
-"""
-
-# ╔═╡ f19c17d2-5fa4-11eb-11ca-c3d4ed014dc0
-function mc_evaluate(k, n=10)
-	p = FunctionPolicy(s->-k*s)
-	rsum = 0.0
-	for _ in 1:n
-		rsum += simulate(RolloutSimulator(max_steps=100), lqr, p)
-	end
-	return rsum/n
-end
-
-# ╔═╡ 880bbde6-6000-11eb-1ad8-ebc2cee1b66d
-m = 10_000
-
-# ╔═╡ fae2a3aa-5fff-11eb-104e-cdeec84fe571
-u_is = [simulate(RolloutSimulator(max_steps=100), lqr, FunctionPolicy(s->-s)) for _ in 1:m];
-
-# ╔═╡ 2d4f5568-6000-11eb-2bb8-6d238d49264b
-histogram(u_is)
-
-# ╔═╡ 4486be4c-6000-11eb-066f-47d533f8ba5f
-u_ms = [mean([simulate(RolloutSimulator(max_steps=100), lqr, FunctionPolicy(s->-s)) for _ in 1:m]) for _ in 1:1000];
-
-# ╔═╡ 5878b43c-6000-11eb-2dfd-ab3d6a48b577
-histogram(u_ms)
-
-# ╔═╡ 626b4a54-6000-11eb-0ddf-5d25933c8a6e
-sem = std(u_is)/sqrt(m)
-
 # ╔═╡ d6e3d606-5fee-11eb-2047-d3e43f022e50
 md"""
 # Cross-Entropy Method
 """
+
+# ╔═╡ f19c17d2-5fa4-11eb-11ca-c3d4ed014dc0
+function mc_evaluate(k, m=10)
+	p = FunctionPolicy(s->-k*s)
+	rsum = 0.0
+	for _ in 1:m
+		rsum += simulate(RolloutSimulator(max_steps=100), lqr, p)
+	end
+	return rsum/m
+end
 
 # ╔═╡ 95ea5eb8-5fa8-11eb-081e-939fc0837036
 begin
@@ -120,18 +131,20 @@ plots[i]
 # ╔═╡ Cell order:
 # ╠═15a32d98-5fa3-11eb-13d1-195cbd3007af
 # ╠═3756e224-5fa3-11eb-10f2-f9adf15c5fb9
-# ╟─299e4f52-5fef-11eb-1ff8-4363ed206efe
-# ╠═8f8a67de-5fa3-11eb-151e-f1381d768656
-# ╠═d9443850-5fa3-11eb-1a8f-3b2a51d915c5
+# ╠═f970d680-600a-11eb-0e43-ad6ccb7c5514
 # ╟─21fde26a-5fef-11eb-3973-633468304e4a
-# ╠═f19c17d2-5fa4-11eb-11ca-c3d4ed014dc0
 # ╠═880bbde6-6000-11eb-1ad8-ebc2cee1b66d
+# ╠═c224dfd8-6009-11eb-03a7-dd32da47b8c9
 # ╠═fae2a3aa-5fff-11eb-104e-cdeec84fe571
 # ╠═2d4f5568-6000-11eb-2bb8-6d238d49264b
 # ╠═4486be4c-6000-11eb-066f-47d533f8ba5f
 # ╠═5878b43c-6000-11eb-2dfd-ab3d6a48b577
 # ╠═626b4a54-6000-11eb-0ddf-5d25933c8a6e
+# ╟─299e4f52-5fef-11eb-1ff8-4363ed206efe
+# ╠═8f8a67de-5fa3-11eb-151e-f1381d768656
+# ╠═d9443850-5fa3-11eb-1a8f-3b2a51d915c5
 # ╟─d6e3d606-5fee-11eb-2047-d3e43f022e50
+# ╠═f19c17d2-5fa4-11eb-11ca-c3d4ed014dc0
 # ╠═95ea5eb8-5fa8-11eb-081e-939fc0837036
 # ╠═29626702-5faa-11eb-0d73-c1378d298515
 # ╠═87b975ac-5faa-11eb-3fae-5d9b5c6d744c
