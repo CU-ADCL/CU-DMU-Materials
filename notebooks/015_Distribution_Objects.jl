@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.18
+# v0.12.19
 
 using Markdown
 using InteractiveUtils
@@ -8,7 +8,7 @@ using InteractiveUtils
 # you can find distributions in two packages
 begin
 using Distributions
-using POMDPModelTools: SparseCat, Deterministic
+using POMDPModelTools: SparseCat, Deterministic, ImplicitDistribution
 end
 
 # ╔═╡ 16e5263e-5f9c-11eb-0873-49caa9d73c15
@@ -96,6 +96,38 @@ rand(sc)
 # ╔═╡ ef65327e-5f9b-11eb-2fa1-b3d497a70d5d
 support(sc)
 
+# ╔═╡ 9f1cd5b6-6119-11eb-373f-3101958c4080
+md"""
+## Implicit distributions require and provide only a function to sample from the distribution
+"""
+
+# ╔═╡ c0adcdb6-6119-11eb-0752-31ba1d3488af
+sample(rng) = 1 + 0.001*randn(rng) # samples numbers near 1 - the function always takes an rng argument
+
+# ╔═╡ d727605e-6119-11eb-0303-f96295b69e1e
+id = ImplicitDistribution(sample)
+
+# ╔═╡ 0b57d1ca-611a-11eb-1f3a-61b026bc980a
+rand(id, 10)
+
+# ╔═╡ 0f0ddd16-611a-11eb-3c7c-379fbb2a7d19
+support(id) # this will error - ImplicitDistributions only support sampling with rand
+
+# ╔═╡ b3005de2-611b-11eb-2a48-c94003352f16
+# You can also use the do syntax to create a more complicated sampling function, and the object can store arbitrary data that will be fed as an argument to the sample function
+begin
+	data = [1,2,3]
+	otherdata = "other"
+	id2 = ImplicitDistribution(data, otherdata) do data, otherdata, rng
+		r = rand(rng)
+		stuff = r + data[1] * data[2] / data[3]
+		return otherdata^ceil(Int, stuff)
+	end
+end
+
+# ╔═╡ 47625882-611e-11eb-1df6-6da0affc467f
+rand(id2)
+
 # ╔═╡ ffa86816-5f9b-11eb-3b3d-f9c031f1035c
 md"""
 ## Random number generators can provide independent streams
@@ -112,6 +144,12 @@ rand(rng1, d, 10)
 
 # ╔═╡ 65df2406-5f9c-11eb-0fd0-5dba0726a5eb
 rand(rng2, d, 10)
+
+# ╔═╡ 049a656c-6119-11eb-0ea7-d753a62703f2
+rng3 = MersenneTwister(3)
+
+# ╔═╡ 0d491186-6119-11eb-0d37-2dcbfcca66c9
+rand(rng3, d, 10)
 
 # ╔═╡ Cell order:
 # ╠═03266708-5f9a-11eb-198f-63fb998eaf1c
@@ -138,9 +176,18 @@ rand(rng2, d, 10)
 # ╠═d0e231cc-5f9b-11eb-0d02-c9b6ec787c9b
 # ╠═e8ec0d9e-5f9b-11eb-0c53-cb137d84bd34
 # ╠═ef65327e-5f9b-11eb-2fa1-b3d497a70d5d
+# ╟─9f1cd5b6-6119-11eb-373f-3101958c4080
+# ╠═c0adcdb6-6119-11eb-0752-31ba1d3488af
+# ╠═d727605e-6119-11eb-0303-f96295b69e1e
+# ╠═0b57d1ca-611a-11eb-1f3a-61b026bc980a
+# ╠═0f0ddd16-611a-11eb-3c7c-379fbb2a7d19
+# ╠═b3005de2-611b-11eb-2a48-c94003352f16
+# ╠═47625882-611e-11eb-1df6-6da0affc467f
 # ╟─ffa86816-5f9b-11eb-3b3d-f9c031f1035c
 # ╠═16e5263e-5f9c-11eb-0873-49caa9d73c15
 # ╠═31d80f4e-5f9c-11eb-3968-f71778a7b3d2
 # ╠═3fe8a44a-5f9c-11eb-2c50-617ca10eb981
 # ╠═4a903480-5f9c-11eb-248e-0790cdc15a3e
 # ╠═65df2406-5f9c-11eb-0fd0-5dba0726a5eb
+# ╠═049a656c-6119-11eb-0ea7-d753a62703f2
+# ╠═0d491186-6119-11eb-0d37-2dcbfcca66c9
