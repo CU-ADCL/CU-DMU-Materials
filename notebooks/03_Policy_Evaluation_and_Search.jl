@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.18
+# v0.12.19
 
 using Markdown
 using InteractiveUtils
@@ -24,6 +24,14 @@ begin
 	using Plots
 	using PlutoUI
 end
+
+# ╔═╡ 95658270-6135-11eb-3cb3-d39b4c973b8a
+md"""
+## 1-Dimensional Linear Quadratic MDP
+
+$s' = G(s, a) = s + 0.2 a + v, \quad v \sim \mathcal{N}(0, 0.01)$
+$R(s, a) = -s^2$
+"""
 
 # ╔═╡ 3756e224-5fa3-11eb-10f2-f9adf15c5fb9
 lqr = QuickMDP(
@@ -55,7 +63,7 @@ m = round(Int, 10^m_exp)
 u_is = [simulate(RolloutSimulator(max_steps=100), lqr, FunctionPolicy(s->-s)) for _ in 1:m];
 
 # ╔═╡ 2d4f5568-6000-11eb-2bb8-6d238d49264b
-histogram(u_is, xlim=(-50, 0), title="\$\\hat{u}_i\$", label=nothing)
+histogram(u_is, xlim=(-50, 0), title="\$\\hat{u}\$", label=nothing)
 
 # ╔═╡ 4486be4c-6000-11eb-066f-47d533f8ba5f
 u_ms = [mean([simulate(RolloutSimulator(max_steps=100), lqr, FunctionPolicy(s->-s)) for _ in 1:m]) for _ in 1:100];
@@ -100,23 +108,23 @@ end
 # ╔═╡ 95ea5eb8-5fa8-11eb-081e-939fc0837036
 begin
 	plots = []
-	# initial distribution
+	# initial distribution for k
 	d = Uniform(-1.0, 10.0)
 	
 	for _ in 1:100		
-		# initially sample a population
+		# sample a population
 		pop = rand(d, 100)
 		evals = map(mc_evaluate, pop)
 		
 		# find the best
-		best = sortperm(evals, rev=true)[1:10]
+		elite = sortperm(evals, rev=true)[1:10]
 		
 		# fit the new distribution
-		global d = fit(Normal, pop[best])
+		global d = fit(Normal, pop[elite])
 			
 		# (plot)
 		p = plot(pop, evals, line=:stem, marker=:circle, ylim=(-10,2), label=nothing, color=:blue)
-		plot!(p, pop[best], evals[best], line=:stem, marker=:circle, ylim=(-10,2), xlim=(-1,10), label="Elite", color="red")
+		plot!(p, pop[elite], evals[elite], line=:stem, marker=:circle, ylim=(-10,2), xlim=(-1,10), label="Elite", color="red")
 		plot!(p, -1:0.01:10, x->2*pdf(d, x), label="Fit")
 		push!(plots, p)
 	end
@@ -130,6 +138,7 @@ plots[i]
 
 # ╔═╡ Cell order:
 # ╠═15a32d98-5fa3-11eb-13d1-195cbd3007af
+# ╟─95658270-6135-11eb-3cb3-d39b4c973b8a
 # ╠═3756e224-5fa3-11eb-10f2-f9adf15c5fb9
 # ╠═f970d680-600a-11eb-0e43-ad6ccb7c5514
 # ╟─21fde26a-5fef-11eb-3973-633468304e4a

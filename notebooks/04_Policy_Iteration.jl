@@ -31,6 +31,9 @@ md"""
 # Policy Iteration
 """
 
+# ╔═╡ 57284a38-613c-11eb-3f08-8131182af077
+render(SimpleGridWorld())
+
 # ╔═╡ f7bb0fbc-611e-11eb-2f26-75676b6b3ea4
 function policy_iteration(m)
 	# setup
@@ -105,6 +108,7 @@ render(m, policy=pvs[k+1].p, color=pvs[k].v)
 # ╔═╡ Cell order:
 # ╟─a8fe8a5c-611e-11eb-262e-6b0639f4493a
 # ╠═c09db3ea-611e-11eb-132c-4ff939fb41e7
+# ╠═57284a38-613c-11eb-3f08-8131182af077
 # ╠═f7bb0fbc-611e-11eb-2f26-75676b6b3ea4
 # ╠═fb20cab4-6125-11eb-3dad-3977534b7bf9
 # ╠═d13b6ef6-611e-11eb-0ea3-0550a24b365f

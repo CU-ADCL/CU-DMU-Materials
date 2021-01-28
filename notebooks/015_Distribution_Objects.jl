@@ -38,9 +38,6 @@ md"""
 ## Distributions can describe continuous random variables
 """
 
-# ╔═╡ 07c4dad0-5f9b-11eb-31ce-fff7c7ae10c9
-
-
 # ╔═╡ cb34f064-5f9a-11eb-3047-7387fa29541d
 n = Normal(1, 0.5)
 
@@ -117,11 +114,11 @@ support(id) # this will error - ImplicitDistributions only support sampling with
 # You can also use the do syntax to create a more complicated sampling function, and the object can store arbitrary data that will be fed as an argument to the sample function
 begin
 	data = [1,2,3]
-	otherdata = "other"
+	otherdata = sqrt
 	id2 = ImplicitDistribution(data, otherdata) do data, otherdata, rng
 		r = rand(rng)
-		stuff = r + data[1] * data[2] / data[3]
-		return otherdata^ceil(Int, stuff)
+		x = r + data[1] * data[2] / data[3]
+		return otherdata(x)
 	end
 end
 
@@ -159,7 +156,6 @@ rand(rng3, d, 10)
 # ╠═6067b582-5f9a-11eb-235f-1bc9a04df28b
 # ╠═989a2d18-5f9a-11eb-3e4c-e56d34263a79
 # ╟─98fece5a-5f9a-11eb-1555-4ff60ea4af53
-# ╠═07c4dad0-5f9b-11eb-31ce-fff7c7ae10c9
 # ╠═cb34f064-5f9a-11eb-3047-7387fa29541d
 # ╠═d5a037ca-5f9a-11eb-1715-05968733bf2d
 # ╠═db625828-5f9a-11eb-3ce7-b7c4db665edb

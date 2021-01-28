@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.18
+# v0.12.19
 
 using Markdown
 using InteractiveUtils
@@ -15,8 +15,8 @@ end
 
 # ╔═╡ db9709e2-5ba3-11eb-3133-d7b761e73531
 begin
-	using POMDPModels: SimpleGridWorld
 	using POMDPs
+	using POMDPModels: SimpleGridWorld
 	using POMDPModelTools: render
 	using PlutoUI
 end
@@ -97,7 +97,9 @@ md"""
 """
 
 # ╔═╡ 22626ad4-5f9f-11eb-1760-9dfe33dd4d8a
-@gen(:sp, :r)(m, [9,2], :up)
+let
+	sp, r = @gen(:sp, :r)(m, [9,2], :up)
+end
 
 # ╔═╡ b542d726-5f9f-11eb-3a88-215126f33f52
 md"""
@@ -114,7 +116,7 @@ tm = QuickMDP(
 	reward = (s, a)->s^2,
 	discount = 0.99,
 	initialstate = Deterministic(1)
-	)
+)
 
 # ╔═╡ 44b472b6-5fa0-11eb-3ff9-f56e5fb148cf
 states(tm)
@@ -165,7 +167,7 @@ simulate(RolloutSimulator(max_steps=10), cm, FunctionPolicy(s->-s))
 # ╠═db9709e2-5ba3-11eb-3133-d7b761e73531
 # ╠═f39aa60c-5ba3-11eb-308e-c393d2e41ef4
 # ╠═1a1c8d0e-5ba4-11eb-2dcf-0b49be87c4e1
-# ╟─1e628436-5ba4-11eb-089d-752f74636f87
+# ╠═1e628436-5ba4-11eb-089d-752f74636f87
 # ╠═e2b18330-5ba6-11eb-050a-5d47dbaa2c5a
 # ╠═3cb447a2-5ba5-11eb-35b2-abad16d4cbbd
 # ╟─3e2f9c8e-5bab-11eb-1f27-03af0738b2f6
