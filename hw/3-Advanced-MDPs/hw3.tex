@@ -63,7 +63,7 @@
         \item \texttt{N} maps $(s, a)$ tuples to N, the number of times the node has been tried.
         \item \texttt{t} maps $(s, a, s')$ tuples to the number of times that transition was generated during construction of the tree.
     \end{itemize}
-    Then visualize the resulting tree with \texttt{HW3.visualize\_tree(Q, N, t, SA[19, 19])}\footnote{\texttt{SA} is from the \texttt{StaticArrays.jl} package.}. \textbf{Submit an image of the tree and the code used to generate it}.
+    Then visualize the resulting tree with \texttt{HW3.visualize\_tree(Q, N, t, SA[19, 19])}\footnote{\texttt{SA} is from the \texttt{StaticArrays.jl} package.}. \textbf{Submit an image of the tree, the code used to generate it, and a few sentences describing the tree after 7 iterations} (e.g. which actions have the highest Q values? Does this make sense?).
     
     You will need to use the following functions from POMDPs.jl for the problem:
     \begin{itemize}[noitemsep]
@@ -83,9 +83,9 @@
 \section{Challenge Problem}
 
 \begin{question}
-    (20 pts code, 20 pts score) Fast Online Planning
+    (20 pts code and description, 20 pts score) Fast Online Planning
     
-    Create a function \texttt{select\_action(m,s)} that takes in a \texttt{DenseGridWorld}, \texttt{m}, and a state \texttt{s}, and returns a near-optimal action within 50ms. You may wish to base this code on the MCTS code that you wrote for Question~\ref{q:mcts}. Evaluate this function with \texttt{HW3.evaluate} and \textbf{submit the resulting \texttt{json} file along with the code and a short description of your approach}. A score of 50 will receive full credit. There are no restrictions on this problem - you may wish to use a different algorithm, multithreading, etc.
+Create a function \texttt{select\_action(m,s)} that takes in a \texttt{DenseGridWorld}, \texttt{m}, and a state \texttt{s}, and returns a near-optimal action within 50ms. You may wish to base this code on the MCTS code that you wrote for Question~\ref{q:mcts}. Evaluate this function with \texttt{HW3.evaluate} and \textbf{submit the resulting \texttt{json} file along with the code and a one paragraph to one page description of your approach}, including tuning parameters that worked well, the rollout policy, etc. A score of 50 will receive full credit. There are no restrictions on this problem - you may wish to use a different algorithm, multithreading, etc.
 \end{question}
 
 \end{document}
