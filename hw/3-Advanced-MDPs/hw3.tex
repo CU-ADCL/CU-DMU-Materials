@@ -1,0 +1,91 @@
+\documentclass{article}
+\usepackage{fullpage,amsmath,amsthm,graphicx,enumitem,amssymb}
+\usepackage[hidelinks]{hyperref}
+\theoremstyle{definition}
+\newtheorem{thm}{Theorem}
+\newtheorem{question}[thm]{Question}
+\newenvironment{solution}{\noindent\textit{Solution:}}{}
+
+\newcommand{\reals}{\mathbb{R}}
+
+\title{ASEN 5519-003 Decision Making under Uncertainty\\
+       Homework 3: Online MDP Methods}
+
+\begin{document}
+
+\maketitle
+
+\section{Conceptual Questions}
+
+% Draw trees
+% Read Sparse Sampling Paper
+% Continuous Q value
+% gamma down to epsilon
+% \begin{question}
+%     Consider an MDP with a discount factor of 0.9 and rewards between 0 and 1. Suppose that we wish to construct a complete MDP planning tree that estimates the value of the 
+% \end{question}
+
+% \begin{question}
+%     % Consider an MDP with three states, $\mathcal{S} = \{s^1, s^2, s^3\}$ and two actions, $\mathcal{A} = \{a^1, a^2\}$. Draw the following three trees to a depth of $d=2$, with circles representing state nodes and squares representing action nodes:
+%     (20 pts) Consider an MDP with three states, $|\mathcal{S}| = 3$ and two actions, $|\mathcal{A}| = 2$. Draw the following three trees to a depth of $d=2$, with circles representing state nodes and squares representing action nodes:
+%     \begin{enumerate}[label=(\alph*)]
+%         \item The complete state-action tree produced with forward search.
+%         \item A sparse sampling tree with $n=2$.
+%         \item A partial tree after 4 iterations of Monte Carlo tree search (according to Algorithm 4.9).
+%     \end{enumerate}
+% 
+% \end{question}
+
+% \begin{question}
+%     (10 pts) Consider an MDP with $\mathcal{S} = \{1, 2\}$, $\mathcal{A} = \{1, 2\}$, $\gamma = 0.9$. If $Q*(1, 1) = $, $V*(2) = $
+% \end{question}
+
+% \begin{question}
+%     (10 pts) Consider an MDP with $-10 \leq R(s, a) \leq 10$ and $\gamma = 0.9$. You are trying to evaluate two policies, $\pi_a$ and $\pi_b$, using Monte Carlo simulations.
+%     \begin{enumerate}[label=(\alph*)]
+%         \item If you want to use finite-horizon simulations of $T$ steps to generate a sample of the infinite-horizon return with an error of no more than $\epsilon = 0.01$, how many steps do you need to simulate?
+%         \item Suppose that you run 100 $T$-step simulations each for $\pi_a$ and $\pi_b$. The 100 return samples for $\pi_a$ have a sample mean of 1.3 and sample standard deviation of 1.4. The 100 returns for $\pi_b$ have a sample mean of 1.1 and a sample standard deviation of 0.7. Approximately how many additional simulations should you run to be reasonably confident that $\pi_a$ is better than $\pi_b$ -- $100$, $10000$, $1\times10^6$, or $1\times10^9$?
+%     \end{enumerate}
+% \end{question}
+
+\begin{question}
+    (30 pts) In the proof for Lemma 5 of the Sparse Sampling paper by Kearns, Mansour, and Ng,\footnote{\url{https://www.cis.upenn.edu/~mkearns/papers/sparsesampling-journal.pdf}; Note: you do not need to read the paper to complete the problem.}, the authors claim that if a policy $\pi$ satisfies $|Q^*(s, \pi^*(s)) - Q^*(s, \pi(s))| \leq \beta$ for all $s \in \mathcal{S}$, then it immediately follows that $|R(s, \pi^*(s)) - R(s, \pi(s))| \leq \beta$. This statement is mistaken. Provide an MDP and a policy that present a counterexample to this claim and demonstrate that the statement does not hold.
+\end{question}
+
+\section{Exercises}
+
+\begin{question}\label{q:mcts}
+    (30 pts) Monte Carlo Tree Search
+    
+    Write code that performs 7 iterations of Monte Carlo Tree Search for an MDP created with \texttt{HW3.DenseGridWorld()} starting at state $(19, 19)$. You will need to produce three dictionaries:
+    \begin{itemize}[noitemsep]
+        \item \texttt{Q} maps $(s, a)$ tuples to Q value estimates.
+        \item \texttt{N} maps $(s, a)$ tuples to N, the number of times the node has been tried.
+        \item \texttt{t} maps $(s, a, s')$ tuples to the number of times that transition was generated during construction of the tree.
+    \end{itemize}
+    Then visualize the resulting tree with \texttt{HW3.visualize\_tree(Q, N, t, SA[19, 19])}\footnote{\texttt{SA} is from the \texttt{StaticArrays.jl} package.}. \textbf{Submit an image of the tree and the code used to generate it}.
+    
+    You will need to use the following functions from POMDPs.jl for the problem:
+    \begin{itemize}[noitemsep]
+        \item \texttt{actions(m)}
+        \item \texttt{@gen(:sp, :r)(m, s, a)}
+        \item \texttt{isterminal(m, s)}
+        \item \texttt{discount(m)}
+        \item \texttt{statetype(m)}
+        \item \texttt{actiontype(m)}
+    \end{itemize}
+
+    You may also wish to use \texttt{POMDPs.simulate} and \texttt{POMDPSimulators.RolloutSimulator} for the rollouts.
+
+    \texttt{HW3.DenseGridWorld()} randomly generates a 100x100 grid world problem. There is a reward of +100 every 20 cells, i.e. at [20,20], [20,40], [40,20], etc. Once the agent reaches one of these reward cells, the problem terminates. All cells also have a randomly generated cost.
+\end{question}
+
+\section{Challenge Problem}
+
+\begin{question}
+    (20 pts code, 20 pts score) Fast Online Planning
+    
+    Create a function \texttt{select\_action(m,s)} that takes in a \texttt{DenseGridWorld}, \texttt{m}, and a state \texttt{s}, and returns a near-optimal action within 50ms. You may wish to base this code on the MCTS code that you wrote for Question~\ref{q:mcts}. Evaluate this function with \texttt{HW3.evaluate} and \textbf{submit the resulting \texttt{json} file along with the code and a short description of your approach}. A score of 50 will receive full credit. There are no restrictions on this problem - you may wish to use a different algorithm, multithreading, etc.
+\end{question}
+
+\end{document}
