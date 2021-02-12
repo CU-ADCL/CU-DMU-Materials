@@ -31,10 +31,13 @@ n = Dict{Tuple{S, A}, Int}()
 q = Dict{Tuple{S, A}, Float64}()
 t = Dict{Tuple{S, A, S}, Int}()
 
-# this is an example state
+# this is an example state - it is a StaticArrays.SVector{2, Int}
 s = SA[19,19]
 @show typeof(s)
 @assert s isa statetype(m)
+
+# this runs a rollout simulation from state s with a policy that always goes right. This is an estimate of the value of an always-go-right policy at state s
+@show simulate(RolloutSimulator(max_steps=100), m, FunctionPolicy(s->:right), s)
 
 # here is an example of how to visualize a dummy tree (q, n, and t should actually be filled in your mcts code, but for this we fill it manually)
 q[(SA[1,1], :right)] = 0.0
@@ -58,13 +61,12 @@ function select_action(m, s)
     q = Dict{Tuple{statetype(m), actiontype(m)}, Float64}()
 
     while time_ns() < start + 45_000_000 # run for a maximum of 45 ms to leave 5 ms to select an action
-        # run mcts iterations to fill n and q
+        break # replace this with mcts iterations to fill n and q
     end
 
     # select a good action based on q and/or n
 
-    # this dummy function returns a random action, but you should return your selected action
-    return rand(actions(m))
+    return rand(actions(m)) # this dummy function returns a random action, but you should return your selected action
 end
 
 HW3.evaluate(select_action, "your.gradescope.email@colorado.edu")
