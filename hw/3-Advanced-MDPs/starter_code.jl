@@ -1,16 +1,17 @@
 using DMUStudent.HW3: HW3, DenseGridWorld, visualize_tree
-using POMDPs: actions, @gen, isterminal, discount, statetype, actiontype, simulate
+using POMDPs: actions, @gen, isterminal, discount, statetype, actiontype, simulate, states
 using POMDPSimulators: RolloutSimulator
 using POMDPPolicies: FunctionPolicy
 using D3Trees: inchrome
 using StaticArrays: SA
+using Statistics: mean
 
 ##############
 # Instructions
 ##############
 #=
 
-This starter code is here to show examples of how to use the HW2 code that you
+This starter code is here to show examples of how to use the HW3 code that you
 can copy and paste into your homework code if you wish. It is not meant to be a
 fill-in-the blank skeleton code, so the structure of your final submission may
 differ from this considerably.
@@ -18,7 +19,7 @@ differ from this considerably.
 =#
 
 ############
-# Question 4
+# Question 2
 ############
 
 m = DenseGridWorld()
@@ -31,13 +32,15 @@ n = Dict{Tuple{S, A}, Int}()
 q = Dict{Tuple{S, A}, Float64}()
 t = Dict{Tuple{S, A, S}, Int}()
 
-# this is an example state - it is a StaticArrays.SVector{2, Int}
+# This is an example state - it is a StaticArrays.SVector{2, Int}
 s = SA[19,19]
 @show typeof(s)
 @assert s isa statetype(m)
 
-# this runs a rollout simulation from state s with a policy that always goes right. This is an estimate of the value of an always-go-right policy at state s
-@show simulate(RolloutSimulator(max_steps=100), m, FunctionPolicy(s->:right), s)
+# Here is an example rollout policy that always goes right. (You will need something more clever to do well in Question 5).
+p = FunctionPolicy(s->:right)
+# This runs a rollout simulation from state s with policy p. This is an estimate of the value of an always-go-right policy at state s.
+@show simulate(RolloutSimulator(max_steps=100), m, p, s)
 
 # here is an example of how to visualize a dummy tree (q, n, and t should actually be filled in your mcts code, but for this we fill it manually)
 q[(SA[1,1], :right)] = 0.0
@@ -49,7 +52,7 @@ t[(SA[1,1], :right, SA[2,1])] = 1
 inchrome(visualize_tree(q, n, t, SA[1,1]))
 
 ############
-# Question 5
+# Question 3
 ############
 
 # A starting point for the select_action function is this:
@@ -70,6 +73,9 @@ function select_action(m, s)
 end
 
 HW3.evaluate(select_action, "your.gradescope.email@colorado.edu")
+
+# To test out different rollout policies, you may want to try Monte Carlo policy evaluation:
+@show mean(simulate(RolloutSimulator(max_steps=100), m, p, rand(states(m))) for _ in 1:10_000)
 
 ########
 # Extras
