@@ -26,7 +26,7 @@ end
 
 # ╔═╡ a8fe8a5c-611e-11eb-262e-6b0639f4493a
 md"""
-# Policy Iteration
+# Maximum Likelihood Model-Based Tabular RL
 """
 
 # ╔═╡ f7bb0fbc-611e-11eb-2f26-75676b6b3ea4
@@ -118,7 +118,7 @@ begin
 end
 
 # ╔═╡ Cell order:
-# ╟─a8fe8a5c-611e-11eb-262e-6b0639f4493a
+# ╠═a8fe8a5c-611e-11eb-262e-6b0639f4493a
 # ╠═c09db3ea-611e-11eb-132c-4ff939fb41e7
 # ╠═f7bb0fbc-611e-11eb-2f26-75676b6b3ea4
 # ╠═fb20cab4-6125-11eb-3dad-3977534b7bf9
