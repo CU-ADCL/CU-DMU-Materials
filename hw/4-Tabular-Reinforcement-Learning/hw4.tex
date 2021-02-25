@@ -1,0 +1,48 @@
+\documentclass{article}
+\usepackage{fullpage,amsmath,amsthm,graphicx,enumitem,amssymb}
+\usepackage[hidelinks]{hyperref}
+\theoremstyle{definition}
+\newtheorem{thm}{Theorem}
+\newtheorem{question}[thm]{Question}
+\newenvironment{solution}{\noindent\textit{Solution:}}{}
+
+
+\newcommand{\reals}{\mathbb{R}}
+
+\title{ASEN 5519-003 Decision Making under Uncertainty\\
+       Homework 4: Tabular Reinforcement Learning}
+
+\begin{document}
+
+\maketitle
+
+\section{Conceptual Questions}
+
+\begin{question}
+    (30 pts) Consider a 3-armed Bernoulli Bandit with payoff probabilities $\theta = [0.2, 0.3, 0.7]$.
+    \begin{enumerate}[label=\alph*),noitemsep]
+        \item After a very large number of pulls, what is the expected payoff per pull of an $\epsilon$-greedy policy with $\epsilon=0.1$ (and no decay)?
+        \item After a very large number of pulls, what is the probability of selecting arm 3 when using a softmax policy with $\lambda=10$ (and a ``precision factor'' of 1.0)?
+        \item Suppose that you are maintaining a Bayesian belief over the parameters $\theta$ starting with initial prior of Beta(1,1). Plot or sketch\footnote{You may wish to use \url{https://homepage.divms.uiowa.edu/~mbognar/applets/beta.html} for this.} the pdfs of the posterior probability distributions for each $\theta$ assuming the following numbers of wins and losses for each arm: $w = [0, 1, 3]$, $l = [1, 0, 2]$.\label{it:pdf}
+        \item Given the situation in (\ref{it:pdf}, describe one iteration of Thompson sampling. What quantities are sampled from what distributions? Choose some plausible values for the random samples and indicate which arm will be pulled.
+    \end{enumerate}
+\end{question}
+
+\section{Exercises}
+
+\begin{question}
+    (70 pts) Implement \textbf{two} different tabular or deep learning algorithms to learn a policy for the \texttt{DMUStudent.HW4.gw} grid world environment. \emph{At most one} of these algorithms may be copied from the course notebooks or from any other reinforcement learning library you can find online, and at least one must be implemented by you from scratch or substantially modified from the notebooks. Some traditional algorithms to consider implementing are:
+    \begin{itemize}[noitemsep]
+        \item Policy Gradient
+        \item Dyna
+        \item Max-Likelihood Model Based RL [with Prioritized Sweeping]
+        \item{} [Double] Q-Learning
+        \item Sarsa [$\lambda$]
+    \end{itemize}
+    Use only functions from \href{https://github.com/JuliaReinforcementLearning/CommonRLInterface.jl}{\texttt{CommonRLInterface}} to interact with the environment, and use the \texttt{HW4.render} function if you want to render the environment.
+
+    For each of the algorithms you implement, \textbf{plot} two learning curves. The first should have the number of samples or steps (calls to \texttt{act!}) that have been taken in the environment on the $x$ axis. The second should have the wall clock elapsed time since training began on the $x$ axis. Make sure to evaluate based on the best learned policy (and not the exploration policy), and give the plots for both algorithms the same $x$ limits so that they are visually comparable. \textbf{Write} a short paragraph describing the relative strengths of the algorithms. Which one has higher sample complexity? Which one learns faster in terms of wall clock time?
+
+\end{question}
+
+\end{document}
