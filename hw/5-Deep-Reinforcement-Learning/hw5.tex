@@ -1,0 +1,84 @@
+\documentclass{article}
+\usepackage{fullpage,amsmath,amsthm,graphicx,enumitem,amssymb,booktabs}
+\usepackage[hidelinks]{hyperref}
+\theoremstyle{definition}
+\newtheorem{thm}{Theorem}
+\newtheorem{question}[thm]{Question}
+\newenvironment{solution}{\noindent\textit{Solution:}}{}
+
+\newcommand{\reals}{\mathbb{R}}
+\newcommand{\ttt}[1]{\texttt{#1}}
+
+\title{ASEN 5519-003 Decision Making under Uncertainty\\
+       Homework 5: Introduction to POMDPs and Advanced RL}
+
+\begin{document}
+
+\maketitle
+
+\section{Exercises}
+
+\begin{question}
+    (25 pts) Consider the following POMDP that represents cancer monitoring and treatment plan\footnote{Note that the probabilities are not meant to be realistic. See \url{https://pubsonline.informs.org/doi/10.1287/opre.1110.1019} for an actual publication on this topic}:
+\begin{eqnarray*}
+    \mathcal{S} &=& \left\{\texttt{healthy}, \texttt{in-situ-cancer}, \texttt{invasive-cancer}, \texttt{death}\right\}\\
+    \mathcal{A} &=& \left\{\texttt{wait}, \texttt{test}, \texttt{treat}\right\} \quad \mathcal{O} = \left\{\texttt{positive}, \texttt{negative}\right\}\\
+    \gamma &=& 0.99 \quad
+    s_0 = \texttt{healthy}
+\end{eqnarray*}
+
+The \textbf{transition dynamics} are designated with the following table. The state stays the same except with the probabilities encoded in the table.
+\begin{center}
+\begin{tabular}{ccc}
+    \toprule
+    $s$ & $a$ & $s'$: $\mathcal{T}(s' \mid s, a)$ \\
+    \midrule
+    \ttt{healthy} & all & \ttt{in-situ-cancer}: 2\% \\
+    \ttt{in-situ-cancer} & \ttt{treat} & \ttt{healthy}: 60\% \\
+    \ttt{in-situ-cancer} & $\neq\ttt{treat}$ & \ttt{invasive-cancer}: 10\% \\
+    \ttt{invasive-cancer} & \ttt{treat} & \ttt{healthy}: 20\%; \ttt{death}: 20\% \\
+    \ttt{invasive-cancer} & $\neq\ttt{treat}$ & \ttt{death}: 60\% \\
+    \bottomrule
+\end{tabular}
+\end{center}
+
+The \textbf{observation} is generated according to the following table. The observation is \ttt{negative} except with the probabilities encoded in the table.
+\begin{center}
+    \begin{tabular}{ccc}
+    \toprule
+    $a$ & $s'$ & $o$: $\mathcal{Z}(o \mid a, s')$ \\
+    \midrule
+    \texttt{test} & \texttt{healthy} & \texttt{positive}: 5\% \\
+    \texttt{test} & \texttt{in-situ-cancer} & \texttt{positive}: 80\% \\
+    \texttt{test} & \texttt{invasive-cancer} & \texttt{positive}: 100\% \\
+    \texttt{treat} & \ttt{in-situ-cancer} or \texttt{invasive-cancer} & \texttt{positive}: 100\% \\
+    \bottomrule
+    \end{tabular}
+\end{center}
+
+The \textbf{rewards} are defined as follows (one could interpret the reward as roughly quality years of life):
+\begin{itemize}[noitemsep]
+    \item $R(\texttt{death}, \text{any action}) = 0.0$ (i.e. \texttt{death} is a terminal state)
+    \item $R(\text{any living state}, \texttt{wait}) = 1.0$
+    \item $R(\text{any living state}, \texttt{test}) = 0.8$ (because of costs and anxiety about a positive result)
+    \item $R(\text{any living state}, \texttt{treat}) = 0.1$
+\end{itemize}
+
+Create a model of this problem using \texttt{QuickPOMDPs} and use Monte Carlo simulations to evaluate a policy that always \textbf{wait}s (we will solve this problem in the next homework).
+
+\end{question}
+
+\begin{question}
+    (25 pts) Using the deep learning library of your choice (e.g. Flux.jl, Knet.jl, Tensorflow, Keras), fit a neural network to approximate the function $f(x) = cos(20\,x^2)$ for the range $x \in [0,1]$. Plot a set of 100 data points fed through the trained model and plot the learning curve (loss vs number of training epochs).
+\end{question}
+
+\section{Challenge Problem}
+
+\begin{question}
+    (50 pts) In this exercise, you will learn a policy for the mountain car environment, \texttt{DMUStudent.HW5.mc}.
+    \begin{enumerate}[label=\alph*)]
+        \item Implement a reinforcement learning algorithm to learn a policy for the environment and plot a learning curve. Write a paragraph describing the algorithm you implemented.\footnote{I recommend discretizing the action space and implementing the DQN algorithm; this is the only algorithm that I can provide full debugging support for. DQN should be able to learn a policy that can achieve a return of 40 with a discount factor of $\gamma=0.99$ in less than 10 minutes of training time.}\label{q:impl}
+        \item Evaluate a policy with \texttt{DMUStudent.HW5.evaluate}, and submit the resulting json file. You may use your code from part (\ref{q:impl} or \emph{any} other libraries for this part. A discount factor of $\gamma=0.99$ is used for evaluation. A score of 40 or greater will receive full credit. Your submission should be a function that takes in a state and returns an action.
+    \end{enumerate}
+\end{question}
+\end{document}
