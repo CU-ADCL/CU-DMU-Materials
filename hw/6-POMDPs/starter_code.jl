@@ -34,8 +34,6 @@ function POMDPs.initialize_belief(up::HW6Updater, b::Any)
     return DiscreteBelief(up.m, b_vec)
 end
 
-
-
 struct HW6AlphaVectorPolicy{A} <: Policy
     alphas::Vector{Vector{Float64}}
     alpha_actions::Vector{A}
@@ -83,7 +81,7 @@ up = HW6Updater(m)
 
 cancer = QuickPOMDP(
 
-    # Fill in your actual code here
+    # Fill in your actual code from last homework here
 
     states = [:healthy, :in_situ, :invasive, :death],
     actions = [:wait, :test, :treat],
@@ -130,8 +128,7 @@ using POMDPSimulators: stepthrough
 using POMDPModelTools: render
 
 up = DiscreteUpdater(m) # you may want to replace this with your updater to test it
-for step in stepthrough(m, qmdp_p, up, "s,a,r,sp,bp"; max_steps=10)
-    @show typeof(step[:bp])
+for step in stepthrough(m, qmdp_p, up, "a,r,sp,o,bp"; max_steps=10)
     electrondisplay(render(m, step))
 end
 
