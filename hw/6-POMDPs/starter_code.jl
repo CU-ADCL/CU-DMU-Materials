@@ -13,6 +13,10 @@ using POMDPPolicies: FunctionPolicy
 # Problem 1: Tiger
 ##################
 
+#--------
+# Updater
+#--------
+
 struct HW6Updater{M<:POMDP} <: Updater
     m::M
 end
@@ -35,6 +39,10 @@ function POMDPs.initialize_belief(up::HW6Updater, distribution::Any)
     return DiscreteBelief(up.m, b_vec)
 end
 
+#-------
+# Policy
+#-------
+
 struct HW6AlphaVectorPolicy{A} <: Policy
     alphas::Vector{Vector{Float64}}
     alpha_actions::Vector{A}
@@ -47,7 +55,11 @@ function POMDPs.action(p::HW6AlphaVectorPolicy, b::DiscreteBelief)
     return first(actions(b.pomdp))
 end
 
-beliefvec(b::DiscreteBelief) = b.b
+beliefvec(b::DiscreteBelief) = b.b # this function may be helpful to get the belief as a vector in stateindex order
+
+#------
+# QMDP
+#------
 
 function qmdp_solve(m, discount=discount(m))
 
