@@ -9,9 +9,9 @@ using SARSOP: SARSOPSolver
 using POMDPTesting: has_consistent_distributions
 using POMDPPolicies: FunctionPolicy
 
-#############
-# Common
-#############
+##################
+# Problem 1: Tiger
+##################
 
 struct HW6Updater{M<:POMDP} <: Updater
     m::M
@@ -26,10 +26,11 @@ function POMDPs.update(up::HW6Updater, b::DiscreteBelief, a, o)
     return DiscreteBelief(up.m, bp_vec)
 end
 
-function POMDPs.initialize_belief(up::HW6Updater, b::Any)
+# This is needed to automatically turn any distribution into a discrete belief.
+function POMDPs.initialize_belief(up::HW6Updater, distribution::Any)
     b_vec = zeros(length(states(up.m)))
     for s in states(up.m)
-        b_vec[stateindex(up.m, s)] = pdf(b, s)
+        b_vec[stateindex(up.m, s)] = pdf(distribution, s)
     end
     return DiscreteBelief(up.m, b_vec)
 end
@@ -61,10 +62,6 @@ function qmdp_solve(m, discount=discount(m))
     end
     return HW6AlphaVectorPolicy(alphas, acts)
 end
-
-##################
-# Problem 1: Tiger
-##################
 
 m = TigerPOMDP()
 
@@ -108,9 +105,9 @@ heuristic = FunctionPolicy(function (b)
                            end
                           )
 
-@show mean(simulate(RolloutSimulator(), cancer, qmdp_p, up) for _ in 1:1000)
+@show mean(simulate(RolloutSimulator(), cancer, qmdp_p, up) for _ in 1:1000)     # Should be approximately 66
 @show mean(simulate(RolloutSimulator(), cancer, heuristic, up) for _ in 1:1000)
-@show mean(simulate(RolloutSimulator(), cancer, sarsop_p, up) for _ in 1:1000)
+@show mean(simulate(RolloutSimulator(), cancer, sarsop_p, up) for _ in 1:1000)   # Should be approximately 79
 
 #####################
 # Problem 3: LaserTag
