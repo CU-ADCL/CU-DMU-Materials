@@ -30,6 +30,13 @@ function POMDPs.update(up::HW6Updater, b::DiscreteBelief, a, o)
     return DiscreteBelief(up.m, bp_vec)
 end
 
+# Note: you can access the transition and observation probabilities through the POMDPs.transtion and POMDPs.observation, and query individual probabilities with the pdf function. For example
+# Z(o | a, s') can be programmed with
+Z(m::POMDP, a, sp, o) = pdf(observation(m, a, sp), o)
+# T(s' | s, a) can be programmed with
+T(m::POMDP, s, a, sp) = pdf(transition(m, s, a), sp)
+# POMDPs.transtion and POMDPs.observation return distribution objects. See the POMDPs.jl documentation for more details.
+
 # This is needed to automatically turn any distribution into a discrete belief.
 function POMDPs.initialize_belief(up::HW6Updater, distribution::Any)
     b_vec = zeros(length(states(up.m)))
@@ -38,6 +45,8 @@ function POMDPs.initialize_belief(up::HW6Updater, distribution::Any)
     end
     return DiscreteBelief(up.m, b_vec)
 end
+
+# Note: to check your belief updater code, you can use BeliefUpdaters: DiscreteUpdater. It should function exactly like your updater.
 
 #-------
 # Policy
