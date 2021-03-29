@@ -26,6 +26,7 @@ function POMDPs.update(up::HW6Updater, b::DiscreteBelief, a, o)
     bp_vec[1] = 1.0
 
     # Fill in code for belief update
+    # Note that the ordering of the entries in bp_vec must be consistent with stateindex(m, s) (the container returned by states(m) does not necessarily obey this order)
 
     return DiscreteBelief(up.m, bp_vec)
 end
@@ -79,7 +80,8 @@ function qmdp_solve(m, discount=discount(m))
     for a in actions(m)
 
         # Fill in alpha vector calculation
-
+        # Note that the ordering of the entries in the alpha vectors must be consistent with stateindex(m, s) (the container returned by states(m) does not necessarily obey this order)
+        
     end
     return HW6AlphaVectorPolicy(alphas, acts)
 end
