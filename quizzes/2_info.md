@@ -34,7 +34,7 @@ The following examples and exercises should help you prepare (some of these woul
 #### Examples
 15.1, 15.3, 19.2, 19.3, 19.9, 20.2, 2.6, 24.1
 
-### Questions
+#### Questions
 (from https://drive.google.com/drive/folders/1-i87dRDpFahVcJeNocvj8xVhTyjuaOrx)
 54, 55, 56, 57, 58, 59, 60, 62, 64, 65, 66, 67, 69, 70, 71, 72, 74, 75, 76, 80, 5, 32, 34
 
