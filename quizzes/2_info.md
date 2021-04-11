@@ -8,7 +8,7 @@ The quiz will be administered on Gradescope and timed to 120 minutes, to be comp
 
 ## Content
 
-The quiz will consist of 4 conceptual questions similar to the questions on the homework. No coding will be required, though you may wish to use a computer for some calculations. There are a couple problems that require hand-drawn figures. Please have the technology ready for that.
+The quiz will consist of 4 conceptual questions similar to the questions on the homework. No coding will be required, though **you will need a calculator or computer for a few calculations**. There are a couple problems that require hand-drawn figures. Please have the technology ready for that.
 
 ### Topics
 
