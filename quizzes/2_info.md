@@ -8,7 +8,7 @@ The quiz will be administered on Gradescope and timed to 120 minutes, to be comp
 
 ## Content
 
-The quiz will consist of 4 conceptual questions similar to the questions on the homework. No coding will be required, though **you will need a calculator or computer for a few calculations**. There are a couple problems that require hand-drawn figures. Please have the technology ready for that.
+The quiz will consist of 5 conceptual questions similar to the questions on the homework. No coding will be required, though **you will need a calculator or computer for a few calculations**. There are a couple problems that require hand-drawn figures. Please have the technology ready for that.
 
 ### Topics
 
@@ -49,7 +49,7 @@ I will be in my zoom room at the following times to answer clarification questio
 
 1. 3-3:30 pm on 4/13
 2. 6-6:30 pm on 4/13
-3. 10-10:30 pm on 4/14
+3. 10-10:30 am on 4/14
 4. 4-5 pm on 4/14
 
 You may also post private questions on Piazza and I may answer them, but there are no guarantees.
