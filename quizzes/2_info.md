@@ -4,7 +4,7 @@ This information could receive minor updates as late as Monday, 4/12, so make su
 
 ## Timing and Administration
 
-The quiz will be administered on Gradescope and timed to 120 minutes, to be completed any time between noon on Tuesday 4/13 and 8pm on Wednesday 4/14.
+The quiz will be administered on Gradescope and timed to 120 minutes, to be completed any time between noon on Tuesday 4/13 and 10pm on Wednesday 4/14.
 
 ## Content
 
