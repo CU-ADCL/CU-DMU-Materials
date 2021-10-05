@@ -1,6 +1,7 @@
 \documentclass{article}
 
-\usepackage{fullpage,amsmath,amsthm,amsfonts,graphicx,enumitem}
+\usepackage{fullpage,amsmath,amsthm,amsfonts,amssymb,graphicx,enumitem}
+\usepackage{algpseudocode}
 
 \theoremstyle{definition}
 \newtheorem{thm}{Theorem}
@@ -13,6 +14,8 @@
 \begin{document}
 
 \maketitle
+
+\section{Questions from Papers}
 
 \begin{question}
 Why does ACAS Xu use an offline defined lookup table as part of the solution to providing guidance advisories? If a lookup table was not used and the entire problem was calculated online, what would be an adequate method of solving the application?
@@ -39,7 +42,7 @@ Convolutional Neural Networks (CNNs) are useful for object identification and fe
         1 & 1 & 0 & 0 \\
         1 & 1 & 0 & 0 \\
         1 & 1 & 0 & 0
-    \end{bmatrix} \times 
+    \end{bmatrix} * 
     \begin{bmatrix}
         x_1 & x_2 \\
         x_3 & x_4
@@ -53,11 +56,14 @@ Convolutional Neural Networks (CNNs) are useful for object identification and fe
 \end{question}
 
 \begin{answer}
-Any solution that satisfies the following system:
-\begin{align}
-    x_1 &= 1-x_3 \\
-    x_4 &=-(x_3+1)
-\end{align}
+    An example is
+    \begin{equation}
+        \begin{bmatrix}
+            -1 & 0 \\
+            0 & -1
+        \end{bmatrix}
+    \end{equation}
+    Note from instructor: on the quiz, you will not be asked to come up with your own kernels like this, but you should have basic knowledge about how a convolution works.
 \end{answer}
 
 \begin{question}
@@ -77,7 +83,7 @@ b_{t+1}(x') = \frac{O(x', c_t, z_{t+1}) \sum_{x\in X}T(x,c_t,x')b_t(x)}{\sum_{x'
 \end{question}
 
 \begin{answer}
-O is the probability that defines the accuracy of measurements and relates the noisy measurements to the state of the system. T is the transition probability function, or the dynamics of the system. O means that the agent took action $c_t$ at time t and ended up in state $x'$ at time $t+1$ and received observation $z_{t+1}$ instead of fully observing the state. T means that the state at time $t$ was $x$, the agent took action $c_t$, and ended up in state $x'$ at time $t+1$. 
+    O is the probability that defines the accuracy of measurements and relates the noisy measurements to the state of the system. T is the transition probability function, or the dynamics of the system. $O(x', c_t, z_{t+1})$ is the probability that, given the agent took action $c_t$ at time t and ended up in state $x'$ at time $t+1$, it received observation $z_{t+1}$ instead of fully observing the state. $T(x,c_t,x')$ is the probability that, given the state at time $t$ was $x$ and the agent took action $c_t$, the state is $x'$ at time $t+1$. 
 \end{answer}
 
 \begin{question}
@@ -208,7 +214,7 @@ Below is the belief space of the problem with solved alpha vectors representing 
 \end{answer}
 
 \begin{question}
-    Define the complexity classes P, NP, PSPCAE, and NC. What does it mean for a problem A to be <insert complexity class>-complete?
+    Define the complexity classes P, NP, PSPCAE, and NC. What does it mean for a problem A to be INSERT COMPLEXITY CLASS-complete?
 \end{question}
 
 \begin{answer}
@@ -217,11 +223,11 @@ Below is the belief space of the problem with solved alpha vectors representing 
         \item NP = decidable in nondeterministic polynomial time
         \item PSPACE = decidable in polynomial space
         \item NC = decidable in polylogarithmic time on a parallel machine
-        \item If A is in class X and can be reduced to some other X-complete problem we say A is X-complete. This means A is of complexity class X and at least as hard as every other problem in class X
     \end{enumerate}
 \end{answer}
 
 \begin{question}
+If A is in class X and can be reduced to some other X-complete problem we say A is X-complete. This means A is of complexity class X and at least as hard as every other problem in class X
 Sketch the reduction showing deterministic MDPs are in complexity class NC (parallelizable)
 \end{question}
 
@@ -237,6 +243,120 @@ Sketch the reduction showing deterministic MDPs are in complexity class NC (para
         \item Finding the shortest path from $v_0$ to some final node $v_T$ is equivalent to minimizing the MDP with initial state $s_0$ and final state $s_T$
         \item We know that finding the shortest path in a graph $G$ is computable in NC, thus the reduction is complete
     \end{enumerate}
+\end{answer}
+
+\begin{question}
+    The resampling step in a standard bootstrap filter algorithm is given as:
+
+\begin{align}
+    \text{ For } i = 1, \cdots, N, \text{ sample } x_t^{(i)} \sim \tilde{\pi}_{t|t}^N(dx_t).
+\end{align}
+
+What is the purpose of this resampling step?
+\end{question}
+
+\begin{answer}
+    In the sampling step, one obtains a set of particles $\{\tilde{x}_t^{(i)}\}^N_{i=1}$ whose "unweighted" empricial distribution $\tilde{\pi}_{t|t}^N(dx_t)$ is an Monte Carlo approximation of $\pi_{t|t-1}(dx_t)$. The weighted empriical distribution $\tilde{\pi}_{t|t}^{N}(dx_t)$ approximates $\pi_{t|t}(dx_t)$. The aim of the resampling step is to obtain an unweighted empirical distribution approximation $\pi_{t|t}^N(dx_t)$ of $\tilde{x}_{t|t}^N(dx_t)$ by duplicating particles having high weights and discarding others to focus on the zones of high posterior probabilities.
+\end{answer}
+
+\begin{question}
+    Under what cases/assumptions is simple convergence and/or uniform convergence of the mean squared error towards zero guaranteed for a particle filter?  What is the rate of convergence? Does the particle filter beat the curse of dimensionality?
+\end{question}
+
+\begin{answer}
+    We first assume that the transition kernel $K$ is Feller and that the likelihood function $g$ is bounded, continuous, and strictly positive.
+
+If the importance weights are upper bounded, and one uses a standard resampling scheme, simple convergence of the mean squared error towards zero is ensured, with rate of convergence of $1/N$. If the transition kernel is weakly dependent on the past value, i.e. if the "true" optimal filter is quickly mixing, then uniform convergence of the particle filter is ensured, with rate of convergence of $1/N$.
+
+Although the rate of convergence does not depend on the state dimension, for simple convergence, to ensure a given precision on the mean squared error, the number of particles N depends on $c_{t|t}$ which is dependent on $n_x$. Therefore, particle filters under simple convergence does not beat the curse of dimensionality. Under uniform convergence, particle filters do indeed beat the curse of dimensionality, as ensuring a given precision on the mean squared error also does not depend on $n_x$.
+\end{answer}
+
+\begin{question}
+    Given the algorithm presented by the researchers for sparse sampling, what
+is the minimum sufficient depth and width necessary to guarantee a value
+function approximate accuracy within 0.01 for an MDP defined by:
+
+$$Rmax = 100$$
+$$\gamma = 0.95$$
+$$|A| = 2$$
+\end{question}
+
+\begin{answer}
+$$H = 382$$
+$$C \approx 3.5852849668449816e21$$
+\end{answer}
+
+\begin{question}
+    What is the running time lower bound for any planning algorithm with access only to a generative model?  Why is it this value?
+\end{question}
+
+\begin{answer}
+    The running time lower bound is proven by the trivial example of a binary tree with depth H.
+An MDP defined by 2 actions and deterministic transition probabilities is described completely
+by this tree. In order to find the near optimal policy, an algorithm A must search this tree
+and find the rewarding node v given initial state s0. At least $\Omega(2^H)$ calls to the generative
+model must be made in this case (same as with other tree search methods).
+\end{answer}
+
+\section{Questions from Lectures}
+
+\begin{question}
+    Give an asymptotic upper bound (using Big-O notation) of the running time of value iteration applied to a discrete MDP with fixed horizon $H$ with respect to the horizon and the sizes of the state and action spaces.
+\end{question}
+
+\begin{answer}
+    The value iteration algorithm can be expressed as
+    \begin{algorithmic}[1]
+        \For{$t \in \{H, H-1, \ldots, \}$}
+            \For{$s \in \mathcal{S}$}
+            \State $V_t(s) = \max_{a \in \mathcal{A}}\left(R(s, a) + \gamma \sum_{s'\in\mathcal{S}} T(s'\mid s, a) V_{t+1}(s')\right)$ \label{ln:bellman}
+            \EndFor
+        \EndFor
+    \end{algorithmic}
+    Line~\ref{ln:bellman} is executed $|\mathcal{S}| H$ times.
+    The maximization in line 3 can be accomplished by looping over all of the actions, which requires $|\mathcal{A}|$ executions of $R(s, a) + \gamma \sum_{s'\in\mathcal{S}} T(s'\mid s, a) V_{t+1}(s')$. 
+    The sum requires $O(|\mathcal{S}|)$ operations. Thus the running time is $O(H|\mathcal{A}||S|^2)$.
+\end{answer}
+
+\begin{question}
+    Indicate whether the following statements are true, false, or unknown:
+    \begin{enumerate}[label=\alph*)]
+        \item P $\subsetneq$ NP
+        \item NP $\subseteq$ PSPACE
+        \item A PSPACE-hard problem must by definition be in PSPACE
+        \item A PSPACE-complete problem must by definition be in PSPACE
+        \item There are algorithms that run in exponential time that can solve problems in P
+        \item Every abstract problem in PSPACE requires an exponential-time algorithm to solve it
+    \end{enumerate}
+\end{question}
+
+\begin{answer} 
+     \begin{enumerate}[label=\alph*)]
+        \item unknown
+        \item true
+        \item false
+        \item true
+        \item true
+        \item false
+    \end{enumerate}
+\end{answer}
+
+\begin{question}
+    Use an example to explain why almost sure, rather than sure convergence is used more often in mathematical literature involving random variables.
+\end{question}
+
+\begin{answer}
+    In the case of Monte Carlo integration, there is an $\omega \in \Omega$ for which the same point is sampled over and over again, so it is impossible to prove sure convergence.
+\end{answer}
+
+\begin{question}
+    Let $Y$ be a random variable that takes values in [-1, 1] with mean -0.5. Give an upper bound on the probability that $Y \geq 0.5$.
+\end{question}
+
+\begin{answer}
+    Let $Z=Y+1$, then $P(Z \geq 1.5) = P(Y \geq 0.5)$ and $Z$ is positive, so we can use Markov's inequality:
+    $$P(Z \geq 1.5) \geq \frac{E[Z]}{1.5} = \frac{0.5}{1.5} = \frac{1}{3}$$
+    so the probability is less than $\frac{1}{3}$.
 \end{answer}
 
 \end{document}
