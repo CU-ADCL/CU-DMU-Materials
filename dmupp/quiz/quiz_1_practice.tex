@@ -214,7 +214,7 @@ Below is the belief space of the problem with solved alpha vectors representing 
 \end{answer}
 
 \begin{question}
-    Define the complexity classes P, NP, PSPCAE, and NC. What does it mean for a problem A to be INSERT COMPLEXITY CLASS-complete?
+    Define the complexity classes P, NP, PSPCAE, and NC. What does it mean for a problem A to be INSERT COMPLEXITY CLASS-complete, how can we show A is INSERT COMPLEXITY CLASS-complete?
 \end{question}
 
 \begin{answer}
@@ -223,11 +223,15 @@ Below is the belief space of the problem with solved alpha vectors representing 
         \item NP = decidable in nondeterministic polynomial time
         \item PSPACE = decidable in polynomial space
         \item NC = decidable in polylogarithmic time on a parallel machine
+        \item If A is INSERT COMPLEXITY CLASS-complete, then A is a member of INSERT COMPLEXITY CLASS and at least as hard as all other problems in INSERT COMPLEXITY CLASS. There are two ways we can show a problem A is INSERT COMPLEXITY CLASS-complete:
+        \begin{enumerate}
+            \item A is INSERT COMPLEXITY CLASS-complete if (1) $A \in$ INSERT COMPLEXITY CLASS and (2) $\forall B \in$ INSERT COMPLEXITY CLASS, B can be reduced to A.
+            \item Alternatively, if B is known to be INSERT COMPLEXITY CLASS-complete, and B can be reduced to A, then A is also INSERT COMPLEXITY CLASS-complete.
+        \end{enumerate}
     \end{enumerate}
 \end{answer}
 
 \begin{question}
-If A is in class X and can be reduced to some other X-complete problem we say A is X-complete. This means A is of complexity class X and at least as hard as every other problem in class X
 Sketch the reduction showing deterministic MDPs are in complexity class NC (parallelizable)
 \end{question}
 
