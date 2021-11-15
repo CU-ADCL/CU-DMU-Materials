@@ -196,11 +196,14 @@ MuZero's loss function includes policy, value, and reward with an added regulari
 \end{answer}
 
 \begin{question}
-    Draw the game tree for a two-by-two version of tic-tac-toe. Which player will win?
+    Consider an "odd-even" game where Player 1 first selects a number and then Player 2 selects a number after seeing Player 1's choice. If the sum is odd, then Player 1 wins; if the sum is even, Player 2 wins. Draw the game tree for this game. Who will win?
 \end{question}
 
 \begin{answer}
-    (answer coming on Monday)
+
+    \includegraphics[width=0.3\textwidth]{odd-even-tree.jpg}
+    
+    Since we have assigned +1 to a win for Player 1 and -1 to a win for Player 2, and the value at the root node is -1, Player 2 will always win in optimal play.
 \end{answer}
 
 \begin{question}
