@@ -104,6 +104,22 @@ Continuous space problems that require active information gathering are better s
 \end{answer}
 
 \begin{question}
+What aspect of DESPOT-$\alpha$ rectifies the particle depletion found in DESPOT for problems with large observation spaces, and what further change allows this extension to large observation spaces to remain computationally efficient?
+\end{question}
+
+\begin{answer}
+DESPOT implements a rejection sampling particle filter to determine which child node a scenario is propagated to, so in continuous observation spaces this would naturally result in every child node being populated with only one scenario/particle. DESPOT-$\alpha$ on the other hand propagates all particles to all child nodes and reweights these particles proportionally to the probability of receiving the observation corresponding to the child belief node. This would be computationally inefficient if it meant rolling out all $s\in\Phi_{\tau(baz)} \forall z\in C_{b,a}$, however particles are only rolled out for some intermediary $\tau(ba)$ to receive an $\alpha$ vector that is shared among all $\Phi_{\tau(baz)} \forall z\in C_{b,a}$.
+\end{answer}
+
+\begin{question}
+What are some similarities and differences between DESPOT-$\alpha$'s and PFT-DPW's incremental tree construction procedures?
+\end{question}
+
+\begin{answer}
+Both DESPOT-$\alpha$ and PFTDPW propagate full \emph{weighted} particle sets from belief node to belief node to incrementally construct the tree. However, DESPOT-$\alpha$ uses determinized scenarios whereas PFTDPW retains the stochastic transition function for propagating particles. Furthermore, a large difference lies in the search heuristic. PFT-DPW relies on the UCB criteria to choose an action to explore and randomly samples from previously generated observations to get the next explored belief node. DESPOT-$\alpha$, on the other hand, uses an upper bound on $Q(b,a)$ to choose an action, and chooses the observation that is likely to decrease root belief value uncertainty the most. Both PFT-DPW and DESPOT-$\alpha$ terminate a search iteration once the maximum specified depth has been reached. However, PFT-DPW terminates a search iteration once a leaf node is reached, whereas DESPOT-$\alpha$'s second termination condition occurs when a node is reached for which the weighted excess uncertainty is negative.
+\end{answer}
+
+\begin{question}
 Please describe the main contribution of AlphaZero and why this differs from traditional chess/shogi/go programs.
 \end{question}
 
