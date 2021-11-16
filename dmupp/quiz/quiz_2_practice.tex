@@ -28,7 +28,7 @@ The assumption of small $\mathcal{R}(b_0)$ may not hold. Furthermore, even thoug
 In SARSOP, how do we effectively prune $\alpha$-vectors by checking if they are dominated over $\mathcal{R}^*$ if we do not know $\mathcal{R}^*$?
 \end{question}
 \begin{answer}
-We use $B$, which is the set of all sampled belief points contained in the tree as an approximation. To improve this approximation, we prune from $B$ those points that are provably suboptimal.
+We use $B$, which is the set of all sampled belief points contained in the tree as an approximation and remove any $\alpha$-vectors that are dominated at all points in $B$. To improve this approximation, we prune from $B$ those points that are provably suboptimal.
 \end{answer}
 
 \begin{question}
