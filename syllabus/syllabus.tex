@@ -1,0 +1,206 @@
+\documentclass[9pt]{article}
+
+\usepackage{fullpage}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{multicol}
+% \usepackage[normalem]{ulem}
+
+\addtolength{\topmargin}{-.25in}
+\addtolength{\textheight}{0.5in}
+% \setlength{\parindent}{0pt}
+\setlength{\multicolsep}{2pt}
+
+\title{ASEN 5519-002: Decision Making under Uncertainty}
+\author{Zachary Sunberg}
+\date{Spring 2022}
+
+\begin{document}
+
+\maketitle
+
+\section*{Prerequisites}
+
+\begin{itemize}[nosep]
+    \item Basic familiarity with probability
+    \item Fluency in a high level programming language and willingness to learn Julia.
+\end{itemize}
+
+\section*{Rough Schedule and List of Topics}
+
+(See Canvas for detailed schedule.)
+
+\begin{enumerate}[noitemsep]
+    \item \textbf{Probabilistic Models [1/11 - 1/18]}:
+        \begin{multicols}{2}
+            \begin{itemize}[noitemsep]
+                \item Probability
+                \item Conditional probability
+                \item Markov processes
+            \end{itemize}
+        \end{multicols}
+    \item \textbf{Markov Decision Processes [1/18 - 2/3]}:
+        \begin{multicols}{2}
+        \begin{itemize}[noitemsep]
+            \item Markov decision processes (MDPs)
+            \item Value iteration (contraction proof of convergence)
+            \item Policy iteration
+            \item Approximate dynamic programming
+            \item Online tree search
+        \end{itemize}
+        \end{multicols}
+    \item \textbf{Reinforcement Learning [2/8 - 3/1]}:
+        \begin{multicols}{2}
+        \begin{itemize}[noitemsep]
+            \item Exploration and exploitation
+            \item Bandits
+            \item Model-free RL
+            \item Model-based RL
+            \item Deep Q learning
+            \item Policy gradient
+            \item Actor-critic
+            \item Entropy Regularization
+        \end{itemize}
+        \end{multicols}
+    \item \textbf{POMDPs [3/3 - 3/29]}:
+        \begin{multicols}{2}
+        \begin{itemize}[noitemsep]
+            \item Hidden Markov models
+            \item Bayesian filters
+            \item Particle filters
+            \item Partially observable Markov decision processes (POMDPs)
+            \item Exact POMDP methods
+            \item Offline POMDP methods
+            \item Online POMDP methods
+            \item QMDP
+        \end{itemize}
+        \end{multicols}
+    \item \textbf{Other Topics [3/31-4/28]}:
+        \begin{multicols}{2}
+        \begin{itemize}[noitemsep]
+            \item Bayesian Networks
+            \item Games
+            \item Meta and transfer learning
+            \item State of the art overview (AlphaGo, AlphaStar, Recent Deep RL Algorithms)
+        \end{itemize}
+        \end{multicols}
+\end{enumerate}
+
+\begin{samepage}
+\section*{Learning Technology}
+
+\begin{itemize}[nosep]
+    \item \textbf{Canvas} will be the main hub for the course. A detailed schedule and assignments will be posted here.
+    \item \href{https://edstem.org/}{\textbf{Ed}} will host course discussions. Students are encouraged to ask questions here.
+\end{itemize}
+
+\end{samepage}
+
+\section*{Textbook}
+
+\textbf{Mykel J. Kochenderfer, Tim A. Wheeler, and Kyle H. Wray, \textit{Algorithms for Decision Making}}. 2020. Available Online: \url{http://algorithmsbook.com}. Can be ordered from Lulu for approximately \$40.00, link will be posted on canvas.
+
+\subsection*{Additional References}
+
+\begin{itemize}[noitemsep]
+    \item Mykel J. Kochenderfer, \textit{Decision Making Under Uncertainty: Theory and Application}, MIT Press, 2015. \$70.00, Available online: \url{https://ieeexplore.ieee.org/book/7288640}
+    \item Richard S. Sutton and Andrew G. Barto, \textit{Reinforcement Learning: An Introduction}, 2nd Ed. MIT Press, 2018. \$80.00, Available online: \url{http://incompleteideas.net/book/the-book-2nd.html}
+    \item Dimitri P. Bertsekas, \textit{Dynamic Programming and Optimal Control}, Athena Scientific, 2012 (4th Ed.). \$134.50
+    \item Laura Graesser, Wah Loon Keng, \textit{Foundations of Deep Reinforcement Learning: Theory and Practice in Python}. Pearson Education, 2020. \$50.00.
+\end{itemize}
+
+
+\begin{samepage}
+\section*{Assignments and Grading}
+
+\begin{itemize}[nosep]
+    \item \textbf{40\% Homework Assignments.}
+There will be 6 large homework assignments, due approximately every two weeks. A typical assignment will consist of
+\begin{itemize}[nosep]
+    \item Several conceptual questions or exercises.
+    \item One open-ended problem. You solution will be evaluated locally with obfuscated code and the score submitted to a leaderboard. The best performers will share their solution in class.
+\end{itemize}
+
+\item \textbf{30\% Quizzes.}
+There will be three Quizzes consisting of several conceptual questions or exercises. The exact format has not been set, but it will most likely be a timed quiz that can be taken any time during a 24 or 48 hour period.
+
+\item \textbf{25\% Final Project.}
+A final project chosen by the student that ideally connects to their research. Deliverable will be a 4-8 page report. Project may be completed in teams of up to 3.
+
+\item \textbf{5\% Peer Review.}
+You will be assigned 2 project reports from other teams in the class to write peer reviews for.
+\end{itemize}
+\end{samepage}
+
+\subsection*{Late Policy}
+
+For \textbf{homework}, there will be a \textbf{10\% penalty} for submitting the assignment late on the day it is due and a \textbf{20\% penalty} for every late day after that. For the \textbf{final project} and \textbf{peer review}, there will be a \textbf{5\% penalty for every late \emph{hour}} (due to the need for quick turnaround). Please use your knowledge of decision making under uncertainty to include appropriate contingency in your plans to avoid these penalties.
+
+\section*{Course Staff}
+
+\begin{multicols}{2}
+    \begin{minipage}{\columnwidth}
+        \textbf{Instructor}: Professor Zachary Sunberg\\
+        AERO 263 \href{mailto://zachary.sunberg@colorado.edu}{zachary.sunberg@colorado.edu}\\
+        \textbf{Office Hours}:
+        \begin{itemize}[nosep]
+            \item T/TH 12:45-1:30 pm (after class), AERO 263
+            \item W 5-6pm, Zoom (link on Canvas)
+            \item Day before HW due: 4-5:30 pm, Zoom
+        \end{itemize}
+    \end{minipage}
+
+    \begin{minipage}{\columnwidth}
+        \textbf{Teaching Assistant}: Qi Heng (Mike) Ho\\
+        \href{mailto://qi.ho@colorado.edu}{qi.ho@colorado.edu}\\
+        \textbf{Office Hours}:
+        \begin{itemize}[nosep]
+            \item M 5-6 pm, Zoom (link on Canvas)
+            \item F 2:30-3:30 pm, TBA
+        \end{itemize}
+    \end{minipage}
+\end{multicols}
+
+\section*{Meetings}
+
+T/TH 11:30-12:45, AERO 114 / Zoom Link on Canvas
+
+
+\section*{University Policies}
+
+\textbf{Please find an accessible online copy of the policies here: \url{https://www.colorado.edu/academicaffairs/node/821/attachment}. The linked document contains urls to other department websites that are not included in the text below.}
+
+{\small
+
+    \subsection*{Classroom Behavior}
+Both students and faculty are responsible for maintaining an appropriate learning environment in all instructional settings, whether in person, remote or online. Those who fail to adhere to such behavioral standards may be subject to discipline. Professional courtesy and sensitivity are especially important with respect to individuals and topics dealing with race, color, national origin, sex, pregnancy, age, disability, creed, religion, sexual orientation, gender identity, gender expression, veteran status, political affiliation or political philosophy.  For more information, see the policies on classroom behavior and the Student Conduct \& Conflict Resolution policies.
+
+\subsection*{Requirements for COVID-19}
+As a matter of public health and safety, all members of the CU Boulder community and all visitors to campus must follow university, department and building requirements and all public health orders in place to reduce the risk of spreading infectious disease. Students who fail to adhere to these requirements will be asked to leave class, and students who do not leave class when asked or who refuse to comply with these requirements will be referred to Student Conduct and Conflict Resolution. For more information, see the policy on classroom behavior and the Student Code of Conduct. If you require accommodation because a disability prevents you from fulfilling these safety measures, please follow the steps in the “Accommodation for Disabilities” statement on this syllabus.
+
+CU Boulder currently requires masks in classrooms and laboratories regardless of vaccination status. This requirement is a precaution to supplement CU Boulder’s COVID-19 vaccine requirement. Exemptions include individuals who cannot medically tolerate a face covering, as well as those who are hearing-impaired or otherwise disabled or who are communicating with someone who is hearing-impaired or otherwise disabled and where the ability to see the mouth is essential to communication. If you qualify for a mask-related accommodation, please follow the steps in the “Accommodation for Disabilities” statement on this syllabus. In addition, vaccinated instructional faculty who are engaged in an indoor instructional activity and are separated by at least 6 feet from the nearest person are exempt from wearing masks if they so choose.
+
+ If you feel ill and think you might have COVID-19, if you have tested positive for COVID-19, or if you are unvaccinated or partially vaccinated and have been in close contact with someone who has COVID-19, you should stay home and follow the further guidance of the Public Health Office (contacttracing@colorado.edu). If you are fully vaccinated and have been in close contact with someone who has COVID-19, you do not need to stay home; rather, you should self-monitor for symptoms and follow the further guidance of the Public Health Office (contacttracing@colorado.edu).
+
+ \subsection*{Accommodation for Disabilities}
+If you qualify for accommodations because of a disability, please submit your accommodation letter from Disability Services to your faculty member in a timely manner so that your needs can be addressed.  Disability Services determines accommodations based on documented disabilities in the academic environment.  Information on requesting accommodations is located on the Disability Services website. Contact Disability Services at 303-492-8671 or dsinfo@colorado.edu for further assistance.  If you have a temporary medical condition, see Temporary Medical Conditions on the Disability Services website.
+
+\subsection*{Preferred Student Names and Pronouns}
+CU Boulder recognizes that students' legal information doesn't always align with how they identify. Students may update their preferred names and pronouns via the student portal; those preferred names and pronouns are listed on instructors' class rosters. In the absence of such updates, the name that appears on the class roster is the student's legal name.
+
+\subsection*{Honor Code}
+All students enrolled in a University of Colorado Boulder course are responsible for knowing and adhering to the Honor Code academic integrity policy. Violations of the Honor Code may include, but are not limited to: plagiarism, cheating, fabrication, lying, bribery, threat, unauthorized access to academic materials, clicker fraud, submitting the same or similar work in more than one course without permission from all course instructors involved, and aiding academic dishonesty. All incidents of academic misconduct will be reported to the Honor Code (honor@colorado.edu); 303-492-5550). Students found responsible for violating the academic integrity policy will be subject to nonacademic sanctions from the Honor Code as well as academic sanctions from the faculty member. Additional information regarding the Honor Code academic integrity policy can be found on the Honor Code website.
+
+\subsection*{Sexual Misconduct, Discrimination, Harassment and/or Related Retaliation}
+CU Boulder is committed to fostering an inclusive and welcoming learning, working, and living environment. The university will not tolerate acts of sexual misconduct (harassment, exploitation, and assault), intimate partner violence (dating or domestic violence), stalking, or protected-class discrimination or harassment by or against members of our community. Individuals who believe they have been subject to misconduct or retaliatory actions for reporting a concern should contact the Office of Institutional Equity and Compliance (OIEC) at 303-492-2127 or email cureport@colorado.edu. Information about university policies, reporting options, and the support resources can be found on the OIEC website.
+
+Please know that faculty and graduate instructors have a responsibility to inform OIEC when they are made aware of incidents of sexual misconduct, dating and domestic violence, stalking, discrimination, harassment and/or related retaliation, to ensure that individuals impacted receive information about their rights, support resources, and reporting options. To learn more about reporting and support options for a variety of concerns, visit Don’t Ignore It.
+
+ 
+\subsection*{Religious Holidays}
+Campus policy regarding religious observances requires that faculty make every effort to deal reasonably and fairly with all students who, because of religious obligations, have conflicts with scheduled exams, assignments or required attendance.
+
+See the campus policy regarding religious observances for full details.
+}
+
+\end{document}
