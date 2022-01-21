@@ -19,7 +19,10 @@
 \section{Conceptual Questions}
 
 \begin{question} (10 pts)
-    Describe the difference between the reward function and the state-action ($Q$) value function. Write down an equation for the state-action value in terms of $R$ and $T$.
+    \begin{enumerate}[label=\alph*)]
+        \item Describe the difference between the reward function and the state-action ($Q$) value function.
+        \item Write down an equation for the state-action value in terms of $R$ and $T$.
+    \end{enumerate}
 \end{question}
 
 \begin{question} (20 pts)
@@ -75,7 +78,7 @@ The score received for solving the problem is \texttt{n}. You must submit your c
 \noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
 \vspace{1em}
 
-\textbf{The information above this line is sufficient to complete this homework.} However, the description of the model below may help to get the highest score on the leaderboard. The \texttt{UnresponsiveACASMDP} model implements the POMDPs.jl explicit MDP interface\footnote{\url{https://juliapomdp.github.io/POMDPs.jl/stable/dynamics/\#Separate-explicit-or-generative-definition}}, and students are welcome to explore the problem further using that interface as well as ask on Piazza and look at the source code for details. The underlying continuous model is defined as follows:
+\textbf{The information above this line is sufficient to complete this homework.} However, the description of the model below may help to get the highest score on the leaderboard. The \texttt{UnresponsiveACASMDP} model implements the POMDPs.jl explicit MDP interface\footnote{The \texttt{states}, \texttt{actions}, \texttt{reward}, and \texttt{transition} functions from POMDPs.jl.}, and students are welcome to explore the problem further using that interface as well as ask on Ed and look at the source code for details. The underlying continuous model is defined as follows:
 
 \begin{center}
     \includegraphics[width=0.7\textwidth]{unresponsive_acas.pdf}
@@ -87,7 +90,6 @@ The score received for solving the problem is \texttt{n}. You must submit your c
     \item A reward of -100 is received for a near-mid-air collision, defined as the aircraft passing within 500 vertical feet and 100 horizontal feet of each other. Any change in rate of climb yields a reward of -1.
     \item The rate of climb, $\dot{h}_o$ changes instantly when an action is applied. Then the following dynamics are used: $d' = d - 2\,v\,\Delta t$ where $v$ is the fixed horizontal velocity, $h_o' = h_o + \dot{h}_o\,\Delta t$, and $h_i' = h_i + W_{\Delta t \sigma^2}$ where $W$ is the Wiener process\footnote{\url{https://en.wikipedia.org/wiki/Wiener_process}}. $\Delta t$ changes based on the discretization \texttt{n}.
 \end{itemize}
-
 
 \end{question}
 

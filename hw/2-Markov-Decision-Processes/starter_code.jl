@@ -15,7 +15,7 @@ differ from this considerably.
 =#
 
 ############
-# Question 4
+# Question 3
 ############
 
 @show actions(grid_world) # prints the actions. In this case each action is a Symbol. Use ?Symbol to find out more.
@@ -44,7 +44,7 @@ end
 # display(render(grid_world, color=V))
 
 ############
-# Question 5
+# Question 4
 ############
 
 # You can create an mdp object representing the problem with the following:
