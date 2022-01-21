@@ -31,7 +31,12 @@ display(R) # this is a Dict that contains a reward vector for each action
 
 @show R[:right][1] # the reward for taking action :right in the state with index 1
 
-V = rand(length(R[:right])) # this would be a good container to use for your value function
+function value_iteration(m)
+    # For performance reasons, it is good to put 
+
+    V = rand(length(R[:right])) # this would be a good container to use for your value function
+
+end
 
 # You can use the following commented code to display the value. If you are in an environment with multimedia capability (e.g. Jupyter, Pluto, VSCode, Juno), you can display the environment with the following commented code. From the REPL, you can use the ElectronDisplay package.
 # display(render(grid_world, color=V))
