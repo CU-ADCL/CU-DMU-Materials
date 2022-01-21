@@ -1,5 +1,5 @@
 using DMUStudent.HW2
-using POMDPs: actions
+using POMDPs: states, actions
 using POMDPModelTools: ordered_states
 
 ##############
@@ -13,7 +13,6 @@ fill-in-the blank skeleton code, so the structure of your final submission may
 differ from this considerably.
 
 =#
-
 
 ############
 # Question 4
@@ -32,10 +31,13 @@ display(R) # this is a Dict that contains a reward vector for each action
 @show R[:right][1] # the reward for taking action :right in the state with index 1
 
 function value_iteration(m)
-    # For performance reasons, it is good to put 
+    # It is good to put performance-critical code in a function: https://docs.julialang.org/en/v1/manual/performance-tips/
 
-    V = rand(length(R[:right])) # this would be a good container to use for your value function
+    V = rand(length(states(m))) # this would be a good container to use for your value function
 
+    # put your value iteration code here
+
+    return V
 end
 
 # You can use the following commented code to display the value. If you are in an environment with multimedia capability (e.g. Jupyter, Pluto, VSCode, Juno), you can display the environment with the following commented code. From the REPL, you can use the ElectronDisplay package.
@@ -49,7 +51,11 @@ end
 m = UnresponsiveACASMDP(2)
 
 # transition_matrices and reward_vectors work the same as for grid_world, however this problem is much larger, so you will have to exploit the structure of the problem. In particular, you may find the docstring of transition_matrices helpful:
-@doc transition_matrices
+display(@doc(transition_matrices))
+
+V = value_iteration(m)
+
+@show HW2.evaluate(V)
 
 ########
 # Extras
