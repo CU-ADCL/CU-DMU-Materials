@@ -72,13 +72,13 @@ A model with discretization level \texttt{n} can be constructed with
 \end{verbatim}
 The higher \texttt{n} is, the finer the discretization and the larger the state space. Again, all of the information needed to solve this problem can be extracted with the \texttt{HW2.transition\_matrices} and \texttt{HW2.reward\_vectors} functions, so you can start with your code from Question \ref{q:gw}.
 
-The score received for solving the problem is \texttt{n}. You must submit your code for this problem along with the \texttt{results.json} file from executing \texttt{HW2.evaluate(v, "email@colorado.edu")} where \texttt{v} is the value function vector. A score of \texttt{n} = 7 or higher will receive full credit\footnote{By taking advantage of the structure of the problem, it is possible to attain a score of \texttt{n} = 20 with less than 10 minutes of computation time on a single core of a i7 laptop processor.}.
+The score received for solving the problem is \texttt{n}. You must submit your code for this problem along with the \texttt{results.json} file from executing \texttt{HW2.evaluate(v, "email@colorado.edu")} where \texttt{v} is the value function vector\footnote{\texttt{HW2.evaluate} will check the value function with a tolerance of $1 \times 10^{-6}$}. A score of \texttt{n} = 7 or higher will receive full credit\footnote{By taking advantage of the structure of the problem, it is possible to attain a score of \texttt{n} = 20 with less than 10 minutes of computation time on a single core of a i7 laptop processor.}.
 
 \vspace{1em}
 \noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
 \vspace{1em}
 
-\textbf{The information above this line is sufficient to complete this homework.} However, the description of the model below may help to get the highest score on the leaderboard. The \texttt{UnresponsiveACASMDP} model implements the POMDPs.jl explicit MDP interface\footnote{The \texttt{states}, \texttt{actions}, \texttt{reward}, and \texttt{transition} functions from POMDPs.jl.}, and students are welcome to explore the problem further using that interface as well as ask on Ed and look at the source code for details. The underlying continuous model is defined as follows:
+\textbf{The information above this line is sufficient to complete this homework and receive full credit.} However, the description of the model below may help to get the highest score on the leaderboard. The \texttt{UnresponsiveACASMDP} model implements the POMDPs.jl explicit MDP interface\footnote{The \texttt{states}, \texttt{actions}, \texttt{reward}, and \texttt{transition} functions from POMDPs.jl.}, and students are welcome to explore the problem further using that interface as well as ask on Ed and look at the source code for details. The underlying continuous model is defined as follows:
 
 \begin{center}
     \includegraphics[width=0.7\textwidth]{unresponsive_acas.pdf}
