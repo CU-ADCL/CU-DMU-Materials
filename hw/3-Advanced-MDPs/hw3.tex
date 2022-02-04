@@ -69,7 +69,7 @@
         \item Write a simulation loop for the MDP equivalent to the following:
             \begin{verbatim}
                 r_total = 0.0
-                disc = 1.0
+                d = 1.0
                 while !isterminal(mdp, s)
                     a = :left # replace this with the heuristic policy or mcts!
                     s, r = @gen(:sp,:r)(mdp, s, a)
