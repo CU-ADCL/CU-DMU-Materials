@@ -16,6 +16,8 @@ can copy and paste into your homework code if you wish. It is not meant to be a
 fill-in-the blank skeleton code, so the structure of your final submission may
 differ from this considerably.
 
+Please make sure to update DMUStudent to gain access to the HW3 module.
+
 =#
 
 ############
