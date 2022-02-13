@@ -9,7 +9,7 @@ function evaluate(submission, email=nothing; fname="results.json")
     nsteps = 0
     regret = 0.0
     @showprogress for i in 1:N
-        m = rand(rng, DenseGridWorld)
+        m = DenseGridWorld(size=(100,100), seed=rand(rnt, UInt32))
         vip = solve(SparseValueIterationSolver(), m)
 
         if submission isa Function
