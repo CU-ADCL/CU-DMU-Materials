@@ -35,7 +35,7 @@
 
     \begin{enumerate}[label=\alph*)]
         \item The \textbf{source code} for both of the algorithms.
-        \item \textbf{Two learning curve plots}\footnote{These are the same plots shown in the SARSA notebook from class, and you may copy code from there.}.  The y-axis of both plots should be the average undiscounted reward per episode from the \emph{best learned policy} (not the exploration policy). Each plot should contain learning curves from both algorithms for easy comparison. The x-axis should be as follows for the two plots, respectively:
+        \item \textbf{Two learning curve plots}\footnote{These are the same plots shown in the SARSA notebook from class, and you may copy code from there.}.  The y-axis of both plots should be the average \textbf{undiscounted} reward per episode from the \emph{best learned policy} (not the exploration policy). Each plot should contain learning curves from both algorithms for easy comparison. The x-axis should be as follows for the two plots, respectively:
             \begin{enumerate}[label=\arabic*)]
                 \item The number of steps taken in the environment (calls to \texttt{act!}).
                 \item The cumulative wall-clock time for training.
@@ -55,7 +55,7 @@ Some algorithms to consider implementing are:
     \textbf{Please meet the following requirements} and consider the following tips:
     \begin{enumerate}
         \item \emph{One} of algorithms may be copied from the course notebooks or from any other reinforcement learning library you can find online, but at least one must be implemented by you from scratch or modified from the notebooks. You may also implement both from scratch.
-        \item It is possible to achieve average cumulative reward per episode of greater than 5. At least one of your algorithms must reach this level of performance.
+        \item It is possible to achieve average \textbf{undiscounted} cumulative reward per episode of greater than 5. At least one of your algorithms must reach this level of performance.
         \item Use only the functions from \href{https://github.com/JuliaReinforcementLearning/CommonRLInterface.jl}{\texttt{CommonRLInterface}} to interact with the environment, and use the \texttt{HW4.render} function if you want to render the environment.
         \item You may also wish to modify these algorithms with techniques discussed in class, such as improved exploration policies, eligibility traces, double Q learning, or entropy regularization.
     \end{enumerate}
