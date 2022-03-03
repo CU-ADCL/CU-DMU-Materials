@@ -1,0 +1,83 @@
+\documentclass{article}
+\usepackage{fullpage,amsmath,amsthm,graphicx,enumitem}
+\usepackage{multicol}
+\usepackage{booktabs}
+
+\theoremstyle{definition}
+\newtheorem{thm}{Theorem}
+\newtheorem{question}[thm]{Question}
+\newenvironment{solution}{\noindent\textit{Solution:}}{}
+
+\title{ASEN 5519-002 Decision Making under Uncertainty\\
+       Quiz 1: Probabilistic Models and MDPs}
+
+\date{\small Show all work and box answers.\\
+You may consult any source, but you may NOT communicate with any person except the instructor.}
+
+\begin{document}
+\maketitle
+
+\begin{question} (30 pts)
+    Let $A$, $B$, and $C$ be three binary-valued random variables (binary-valued means the support is $\{0,1\}$). Suppose we know the following pieces of information:
+    \begin{itemize}[nosep]
+        \item $P(B=1) = 0.25$
+        \item $P(A=1 \mid B=1) = 0.7$
+        \item $P(C=1 \mid B=1) = 0.8$
+        \item $P(A=1 \mid B=0) = 0.4$
+        \item $P(C=1 \mid B=0) = 0.4$
+        \item $A \perp C \mid B$ (that is, $A$ is conditionally independent of $C$ given $B$)
+    \end{itemize}
+
+    \begin{enumerate}[label=\alph*),noitemsep]
+        \item What is $P(A=1, B=1)$?
+        \item Write the marginal distribution of $C$.
+        \item If $A=1$, is $P(C=1)$ less than, equal to, or greater than 50\%?
+    \end{enumerate}
+\end{question}
+
+\begin{question} (10 pts)
+    Suppose you are a technician in a nuclear power plant and there is an increase in indicated reactor temperature. This increase could be caused by a coolant pump failure or another cause such as a temperature sensor failure. If there is a pump failure, there will always be a temperature increase. If there has not been a pump failure there is a 10\% chance of a temperature increase anyways. The marginal probability of a pump failure is 1\%.
+
+    What is the probability of a pump failure given the observed temperature rise?
+\end{question}
+
+\begin{question} (30 pts)
+    Consider a personal assistance robot helping a patient recovering from surgery in their home. There are three relevant rooms in the house: the kitchen, a bedroom where the patient is, and a hallway between the kitchen and bedroom. The robot starts in the hallway and the goal is to pick up an apple in the kitchen and deliver it to the bedroom as quickly as possible. The robot can take actions to move between adjoining rooms, but the floor is uneven, so the success rate for entering the next room is only 90\% (food is automatically picked with 100\% success rate when the robot enters the kitchen and the food is automatically delivered with 100\% success rate when it enters the bedroom with the food).
+
+    Formulate this problem as a Markov decision process by specifying $S$, $A$, $T$, $R$, and $\gamma$. (Note: there are many correct answers to this problem)
+\end{question}
+
+\emph{Question 4 is on the next page} \\
+
+\begin{samepage}
+\begin{question} (30 pts)
+    Consider a healthcare problem where doctors are considering whether or not to give an expensive antibiotic with questionable effectiveness to a patient with a minor infection. Without an antibiotic, the patient has an equal chance of getting better or worse. With the antibiotic, they have a 60\% chance of getting better. Considering cost and other factors, transferring to the ICU is 10 times as undesirable as giving the antibiotic. Formally, this can be expressed as the following MDP:
+    \begin{align*}
+        S &= \{\text{recovered}, \text{minor}, \text{severe}, \text{ICU}\} \\
+        A &= \{\text{antibiotic}, \text{wait}\} \\
+        R(s, a) &= R(s) + R(a) \\
+        R(s) &= \begin{cases}
+            -10 &\text{if } s = \text{severe} \\
+            0 &\text{otherwise}
+        \end{cases} \\
+        R(a) &= \begin{cases}
+            -1 &\text{if } a = \text{antibiotic} \\
+            0  &\text{otherwise}
+        \end{cases} \\
+        T(s' \mid s, a) &= \begin{cases}
+            1 &\text{if } s \in \{\text{recovered}, \text{ICU}\}, s' = s\\ 
+            1 &\text{if } s = \text{severe}, s' = \text{ICU} \\
+            0.5 &\text{if } a = \text{wait}, s = \text{minor}, s' = \text{recovered} \\
+            0.5 &\text{if } a = \text{wait}, s = \text{minor}, s' = \text{severe} \\
+            0.6 &\text{if } a = \text{antibiotic}, s = \text{minor}, s' = \text{recovered} \\
+            0.4 &\text{if } a = \text{antibiotic}, s = \text{minor}, s' = \text{severe} \\
+            0 &\text{otherwise}
+        \end{cases} \\
+        \gamma &= 1
+    \end{align*}
+
+    Find an optimal policy for this MDP. Should the doctors administer the antibiotic if the patient has a minor infection?
+\end{question}   
+\end{samepage}
+
+\end{document}
