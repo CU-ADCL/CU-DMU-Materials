@@ -1,0 +1,38 @@
+Dear Class,
+
+Quiz 3 will be a 105 minute timed at-home assessment administered through gradescope. The quiz will be available at 12 pm on Wednesday 4/20 and must be completed by 11:59 pm on Thursday 4/21.
+
+Some specific topics that will be covered are:
+
+    Bayesian Networks:
+        Meaning of structure and parameters
+        Conditional independence relationships
+        Exact inference
+        Inference via direct sampling
+        Inference via likelihood weighted sampling
+    Simple Games:
+        Construction of simple games from a description
+        Dominant strategies and dominant strategy equilibria
+        Pure Nash equilibria
+        Mixed Nash equilibria (you must understand the properties and be able to verify, but not find)
+        Correlated Equilibria
+    Sequential Games:
+        Analysis of 2 player zero-sum 2-player games using minimax trees from section 5 of AIMA*
+    Imitation and Inverse Reinforcement Learning (Basic Familiarity)
+        Behavioral cloning
+        DAgger
+        SMILe
+        Inverse Reinforcement Learning
+        Maximum Margin Reinforcement Learning
+        Maximum Entropy Inverse Reinforcement Learning
+
+You may find the following preparation tools useful:
+
+    Questions: 4 and 5 from last year's Quiz 2 (Links to an external site.).
+    Exercises: 2.8, 2.10, 18.1, 18.3, 18.4, 18.5, 24.2
+    Examples: 2.6, 24.1
+    Questions: (from https://drive.google.com/drive/folders/1-i87dRDpFahVcJeNocvj8xVhTyjuaOrx (Links to an external site.)) 5, 10, 11, 12, 31, 32, 33, 34
+
+*A pdf copy of Artificial Intelligence, a Modern Approach (AIMA) can be found here: https://raw.githubusercontent.com/yanshengjia/ml-road/master/resources/Artificial%20Intelligence%20-%20A%20Modern%20Approach%20(3rd%20Edition).pdf (Links to an external site.)
+
+Good luck!
