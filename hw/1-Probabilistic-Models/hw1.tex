@@ -2,6 +2,7 @@
 \usepackage{fullpage,amsmath,amsthm,graphicx,enumitem}
 \usepackage{multicol}
 \usepackage{booktabs}
+\usepackage{hyperref}
 
 \theoremstyle{definition}
 \newtheorem{thm}{Theorem}
@@ -27,22 +28,22 @@
         \toprule
             $A$ & $B$ & $C$ & $P(A,B,C)$ \\
         \midrule
-            $0$ & $0$ & $0$ & $0.06$ \\
             $0$ & $0$ & $1$ & $0.15$ \\
             $0$ & $1$ & $0$ & $0.05$ \\
             $0$ & $1$ & $1$ & $0.01$ \\
             $1$ & $0$ & $0$ & $0.14$ \\
             $1$ & $0$ & $1$ & $0.18$ \\
-            $1$ & $1$ & $0$ & $0.30$ \\
+            $1$ & $1$ & $0$ & $0.29$ \\
+            $1$ & $1$ & $1$ & $0.07$ \\
         \bottomrule
     \end{tabular}
     }
     \end{minipage}
     \begin{minipage}{0.75\linewidth}
         \begin{enumerate}[label=\alph*)]
-            \item What is the probability of the outcome $A=1$, $B=1$, $C=1$?
+            \item What is the probability of the outcome $A=0$, $B=0$, $C=0$?
             \item What is the marginal distribution of $A$?
-            \item What is the conditional distribution of $A$ given $B=1$ and $C=1$?
+            \item What is the conditional distribution of $A$ given $B=0$ and $C=1$?
         \end{enumerate}
     \end{minipage}
 \end{question}
@@ -76,14 +77,22 @@ Suppose that a stationary stochastic process $\{x_t\}$ is defined by the followi
 \section{Programming}
 
 \begin{question} (20 pts)
-    Write a rectified linear unit (relu) function in Julia. The relu function is
-    \begin{equation}
-        f(x) = \begin{cases}
-            x \text{ if } x > 0 \\
-            0 \text{ otherwise}
-        \end{cases}
-    \end{equation}
-    That is, it is flat to the left of zero and increases linearly to the right. In order to get used to writing efficient Julia code, this function will need to be type stable and return the same type as the argument. That is, if the argument is an \texttt{Int64}, the function should return an \texttt{Int64}; \texttt{UInt8} arguments should result in a \texttt{UInt8}, \texttt{Float64} in \texttt{Float64}, etc., for all numeric types. Moreover, the compiler must be able to infer this (this can be checked with the \texttt{@inferred} macro).
+    In this exercise, you will write a function in Julia that will require you to learn some concepts useful for the rest of the course. Your function should accept four positional arguments:
+    \begin{itemize}[nosep]
+        \item \texttt{a}: A real number.
+        \item \texttt{b}: A square matrix.
+        \item \texttt{c}: An array that has the same size and element type as \texttt{b}.
+        \item \texttt{d}: A \texttt{Dict} with \texttt{String} keys and vector values.
+    \end{itemize}
+    The function should return a \texttt{NamedTuple} with the following entries:
+    \begin{itemize}[nosep]
+        \item \texttt{relu}: The maximum of \texttt{a} and zero (the \href{https://en.wikipedia.org/wiki/Rectifier_(neural_networks)}{``rectified linear unit''} function).
+        \item \texttt{matrix}: The matrix product of \texttt{b} and \texttt{c}.
+        \item \texttt{elementwise}: The element-wise product of \texttt{b} and \texttt{c}.
+        \item \texttt{max}: The element-wise maximum of all of the vectors in \texttt{d} with keys that start with the character \texttt{'a'}.
+    \end{itemize}
+
+    The function must be completely ``type-stable'' (see the \href{https://docs.julialang.org/en/v1/manual/performance-tips/#Write-%22type-stable%22-functions}{``Performance Tips'' section of the Julia manual} to learn what this means and use \texttt{@code\_warntype} to debug) and must return objects with similar types to the input arguments (for instance if \texttt{a} is an \texttt{Int}, \texttt{relu} should also be an \texttt{Int}.
 
     Evaluate this function with \texttt{DMUStudent.HW1.evaluate} and submit the resulting json file \textit{along with a listing of the code}. A score of 1 will receive full credit.
 \end{question}
