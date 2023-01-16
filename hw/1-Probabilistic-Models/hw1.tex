@@ -16,14 +16,14 @@
 
 \maketitle
 
-\section{Conceptual Questions}
+\section{Questions}
 
 \begin{question} (20 pts)
     Consider the following joint distribution of three binary-valued random variables, \mbox{$A$, $B$, and $C$}:
 
-    \begin{minipage}{0.23\linewidth}
+    \begin{minipage}{0.3\linewidth}
         \vspace{1em}
-    {\tiny
+    {\small
     \begin{tabular}{cccc}
         \toprule
             $A$ & $B$ & $C$ & $P(A,B,C)$ \\
@@ -39,7 +39,7 @@
     \end{tabular}
     }
     \end{minipage}
-    \begin{minipage}{0.75\linewidth}
+    \begin{minipage}{0.7\linewidth}
         \begin{enumerate}[label=\alph*)]
             \item What is the probability of the outcome $A=0$, $B=0$, $C=0$?
             \item What is the marginal distribution of $A$?
@@ -48,23 +48,23 @@
     \end{minipage}
 \end{question}
 
-\begin{question} (20 pts)
-    Let $B$ be a uniformly-distributed binary random variable and let $A$ be a real-valued random variable with the following conditional distribution:
-    $$A \mid B=0 \quad \sim \quad \mathcal{U}(0,2)$$
-    $$A \mid B=1 \quad \sim \quad \mathcal{U}(1,3)$$
-    \begin{enumerate}[nosep,label=(\alph*)]
-        \item Plot or draw the probability density functions for the conditional distribution of $A$.
-        \item Plot or draw the marginal density function of $A$.
-        \item What is the probability that $A=1.5$?
-        \item What is the probability that $A \in [1.5, 1.6]$?
-    \end{enumerate}
-\end{question}
+% \begin{question} (20 pts)
+%     Let $B$ be a uniformly-distributed binary random variable and let $A$ be a real-valued random variable with the following conditional distribution:
+%     $$A \mid B=0 \quad \sim \quad \mathcal{U}(0,2)$$
+%     $$A \mid B=1 \quad \sim \quad \mathcal{U}(1,3)$$
+%     \begin{enumerate}[nosep,label=(\alph*)]
+%         \item Plot or draw the probability density functions for the conditional distribution of $A$.
+%         \item Plot or draw the marginal density function of $A$.
+%         \item What is the probability that $A=1.5$?
+%         \item What is the probability that $A \in [1.5, 1.6]$?
+%     \end{enumerate}
+% \end{question}
 
 \begin{question} (20 pts)
     2\% of women at age forty who participate in routine screening have breast cancer. 86\% of those with breast cancer will get positive mammograms. 8\% of those without breast cancer will also get positive mammograms. A woman in this age group had a positive mammogram in a routine screening. What is the probability that she actually has breast cancer?
 \end{question}
 
-\begin{question} (20 pts)
+\begin{question} (40 pts)
 Suppose that a stationary stochastic process $\{x_t\}$ is defined by the following equation: $x_{t+1} = 1.5 \, x_t - x_{t-1} + v_{t}$ where $v_t$ are independent, identically distributed random variables with $v_t \sim \mathcal{N}(0.0, 0.2^2)$.
     \begin{enumerate}[nosep,label=(\alph*)]
         \item Simulate and plot 10 20-step trajectories sampled from this process with $x_0 = x_{-1} = 1$ (as always, submit your code for this).
@@ -74,7 +74,11 @@ Suppose that a stationary stochastic process $\{x_t\}$ is defined by the followi
     \end{enumerate}
 \end{question}
 
-\section{Programming}
+(continues on next page)
+
+\pagebreak
+
+\section{Auto-graded Programming}
 
 \begin{question} (20 pts)
     In this exercise, you will write a function in Julia that will require you to learn some concepts useful for the rest of the course. Your function should accept four positional arguments:
@@ -89,10 +93,11 @@ Suppose that a stationary stochastic process $\{x_t\}$ is defined by the followi
         \item \texttt{relu}: The maximum of \texttt{a} and zero (the \href{https://en.wikipedia.org/wiki/Rectifier_(neural_networks)}{``rectified linear unit''} function).
         \item \texttt{matrix}: The matrix product of \texttt{b} and \texttt{c}.
         \item \texttt{elementwise}: The element-wise product of \texttt{b} and \texttt{c}.
-        \item \texttt{max}: The element-wise maximum of all of the vectors in \texttt{d} with keys that start with the character \texttt{'a'}.
+        \item \texttt{first}: The vector corresponding to the first key in \texttt{d} when the keys are alphabetically sorted.
+        \item \texttt{max}: The element-wise maximum over all of the vectors in \texttt{d}.
     \end{itemize}
 
-    The function must be completely ``type-stable'' (see the \href{https://docs.julialang.org/en/v1/manual/performance-tips/#Write-%22type-stable%22-functions}{``Performance Tips'' section of the Julia manual} to learn what this means and use \texttt{@code\_warntype} to debug) and must return objects with similar types to the input arguments (for instance if \texttt{a} is an \texttt{Int}, \texttt{relu} should also be an \texttt{Int}.
+    The function must be completely ``type-stable'' (see the \href{https://docs.julialang.org/en/v1/manual/performance-tips/#Write-%22type-stable%22-functions}{``Performance Tips'' section of the Julia manual}) and must return objects with similar types to the input arguments (for instance if \texttt{a} is an \texttt{Int}, \texttt{relu} should also be an \texttt{Int}.
 
     Evaluate this function with \texttt{DMUStudent.HW1.evaluate} and submit the resulting json file \textit{along with a listing of the code}. A score of 1 will receive full credit.
 \end{question}
