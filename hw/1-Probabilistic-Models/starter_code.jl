@@ -1,5 +1,15 @@
 import DMUStudent.HW1
 
+#------------- 
+# Problem 3
+#-------------
+
+# See https://github.com/zsunberg/CU-DMU-Materials/blob/master/notebooks/030-Stochastic-Processes.ipynb for code that simulates a stochastic process.
+
+#------------- 
+# Problem 4
+#-------------
+
 # Here is a functional but incorrect answer for the programming question
 function f(a, bs)
     return a*bs[1]
