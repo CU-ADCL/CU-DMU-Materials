@@ -81,23 +81,14 @@ Suppose that a stationary stochastic process $\{x_t\}$ is defined by the followi
 \section{Auto-graded Programming}
 
 \begin{question} (20 pts)
-    In this exercise, you will write a function in Julia that will require you to learn some concepts useful for the rest of the course. Your function should accept four positional arguments:
+    In this exercise, you will write and test a Julia function to ensure that you can get Julia and the course-specific code running and help you learn how to do a task that sometimes trips students up in homework 2. Your function should take two arguments:
     \begin{itemize}[nosep]
-        \item \texttt{a}: A real number.
-        \item \texttt{b}: A square matrix.
-        \item \texttt{c}: An array that has the same size and element type as \texttt{b}.
-        \item \texttt{d}: A \texttt{Dict} with \texttt{String} keys and vector values.
+        \item \texttt{a}: A matrix, and
+        \item \texttt{bs}: A non-empty vector of vectors.
     \end{itemize}
-    The function should return a \texttt{NamedTuple} with the following entries:
-    \begin{itemize}[nosep]
-        \item \texttt{relu}: The maximum of \texttt{a} and zero (the \href{https://en.wikipedia.org/wiki/Rectifier_(neural_networks)}{``rectified linear unit''} function).
-        \item \texttt{matrix}: The matrix product of \texttt{b} and \texttt{c}.
-        \item \texttt{elementwise}: The element-wise product of \texttt{b} and \texttt{c}.
-        \item \texttt{first}: The vector corresponding to the first key in \texttt{d} when the keys are alphabetically sorted.
-        \item \texttt{max}: The element-wise maximum over all of the vectors in \texttt{d}.
-    \end{itemize}
+    The function should multiply all of the vectors in \texttt{bs} by \texttt{a} and then return the \emph{elementwise} maximum of the resulting vectors.
 
-    The function must be completely ``type-stable'' (see the \href{https://docs.julialang.org/en/v1/manual/performance-tips/#Write-%22type-stable%22-functions}{``Performance Tips'' section of the Julia manual}) and must return objects with similar types to the input arguments (for instance if \texttt{a} is an \texttt{Int}, \texttt{relu} should also be an \texttt{Int}.
+    In order to get full-credit, the function must be completely ``type-stable'' (see the \href{https://docs.julialang.org/en/v1/manual/performance-tips/#Write-%22type-stable%22-functions}{``Performance Tips'' section of the Julia manual}). Your function should always return a vector with the same element type as \texttt{a}. You can assume the vectors in \texttt{bs} will have the same element type as \texttt{a}, but you should be able to handle \texttt{a} with any numeric element type.
 
     Evaluate this function with \texttt{DMUStudent.HW1.evaluate} and submit the resulting json file \textit{along with a listing of the code}. A score of 1 will receive full credit.
 \end{question}
