@@ -86,7 +86,16 @@ Suppose that a stationary stochastic process $\{x_t\}$ is defined by the followi
         \item \texttt{a}: a matrix, and
         \item \texttt{bs}: a non-empty vector of vectors.
     \end{itemize}
-    The function should multiply all of the vectors in \texttt{bs} by \texttt{a} and then return the \emph{elementwise} maximum of the resulting vectors.
+    The function should multiply all of the vectors in \texttt{bs} by \texttt{a} and then return a vector where the $i$th element is the maximum of the $i$th elements of all of the resulting vectors, that is, the \emph{elementwise} maximum of the resulting vectors.
+
+    Example: if
+    \begin{equation}
+        \texttt{a} = \begin{bmatrix} 2 & 0 \\ 0 & 1 \end{bmatrix}  \text{ and } \texttt{bs} \text{ has the vectors } \begin{bmatrix} 1 \\ 2 \end{bmatrix} \text{ and } \begin{bmatrix} 2 \\ 1 \end{bmatrix},
+    \end{equation}
+    then, after multiplication, the resulting vectors are
+    \begin{equation}
+        \begin{bmatrix} 2 \\ 2 \end{bmatrix} \text{ and } \begin{bmatrix} 4 \\ 1 \end{bmatrix} \text{, and the elementwise maximum that should be returned is } \begin{bmatrix} 4 \\ 2 \end{bmatrix} \text{.}
+    \end{equation}
 
     In order to get full-credit, the function must be completely ``type-stable'' (see the \href{https://docs.julialang.org/en/v1/manual/performance-tips/#Write-%22type-stable%22-functions}{``Performance Tips'' section of the Julia manual}). Your function should always return a vector with the same element type as \texttt{a}. You can assume the vectors in \texttt{bs} will have the same element type as \texttt{a}, but you should be able to handle \texttt{a} with any numeric element type.
 
