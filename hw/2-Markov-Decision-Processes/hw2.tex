@@ -36,7 +36,7 @@
 %     \end{enumerate}
 % \end{question}
 
-\begin{question} (20 pts)
+\begin{question} (25 pts)
     Consider a game with 3 squares in a horizontal line drawn on paper, a token, and a die. Each turn, the player can either reset or roll the die. If the player rolls and the die shows an odd number, the token is moved one square to the right, and if an even number is rolled, the token is moved two squares to the right (in both cases stopping at the rightmost square\footnote{If the die is rolled from the middle square or right square, it will always end up in the right square.}). If the player resets, the token is always moved to the leftmost square. If the reset occurs when the token is in the middle square, two points are added; if the player resets when the token is on the right square, a point is subtracted.
     \begin{enumerate}[label=\alph*)]
         \item Formulate this problem as an MDP (write down $S$, $A$, $T$, and $R$).
@@ -56,7 +56,7 @@
 \section{Challenge Problem}
 
 \begin{question}
-    (Value iteration for ACAS, 35 pts)
+    (Value iteration for ACAS, 20 pts autograder, 10 pts code)
 
 Your task is to find the optimal value function for an Aircraft Collision Avoidance System (ACAS). The encounter model will be specified as a Markov decision process, and your task will be to compute the value function for discount $\gamma=0.99$ using value iteration or another suitable algorithm that you implement. The continuous physical state space will be discretized at various levels of granularity and the goal is to find the value function for the finest discretization possible.
 
