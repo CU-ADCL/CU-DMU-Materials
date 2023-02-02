@@ -29,4 +29,3 @@ plot!([x[1] for x in history], [x[2] for x in history],
       arrow=true,
       markershape=:circle,
       label=string(start))
-
