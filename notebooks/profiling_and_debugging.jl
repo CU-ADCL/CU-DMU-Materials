@@ -1,5 +1,3 @@
-using Debugger
-
 function randmult(n)
     A = rand(n, n)
 
@@ -12,15 +10,19 @@ function randmult(n)
     return c
 end
 
-# @enter randmult(10)
+# using Debugger # Use Debugger if you are in the terminal instead of VSCode
 
-using ProfileView
+@enter randmult(10)
 
-@profview randmult(10)
+using BenchmarkTools
 
-@profview randmult(10000)
-
-@time randmult(10000)
+@btime randmult(10000)
 
 # first run 8.8 seconds
 # second run 0.5 seconds
+
+# using ProfileView # Use ProfileView if you are in the terminal instead of vscode
+
+@profview randmult(100)
+
+@profview randmult(10000)
