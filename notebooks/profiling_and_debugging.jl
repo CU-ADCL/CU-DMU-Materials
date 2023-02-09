@@ -12,14 +12,13 @@ end
 
 # using Debugger # Use Debugger if you are in the terminal instead of VSCode
 
-@enter randmult(10)
+# @enter randmult(10) # This enters the debugger
 
 using BenchmarkTools
 
-@btime randmult(10000)
+@btime randmult(100)
 
-# first run 8.8 seconds
-# second run 0.5 seconds
+# first run 419 us
 
 # using ProfileView # Use ProfileView if you are in the terminal instead of vscode
 
