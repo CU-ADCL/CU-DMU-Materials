@@ -18,10 +18,10 @@ using BenchmarkTools
 
 @btime randmult(100)
 
-# first run 419 us
+# first run 405 us
 
 # using ProfileView # Use ProfileView if you are in the terminal instead of vscode
 
-@profview randmult(100)
+@profview randmult(1000)
 
 @profview randmult(10000)
