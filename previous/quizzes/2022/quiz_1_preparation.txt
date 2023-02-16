@@ -1,6 +1,6 @@
 Dear Class,
 
-Quiz 1 will be a 90 minute 105 minute timed at-home assessment administered through gradescope. The quiz will be available at noon on Wednesday, 2/9, and must be completed by 11:59 pm on Thursday, 2/10.
+Quiz 1 will be a 90 minute timed at-home assessment administered through gradescope. The quiz will be available at noon on Monday 2/20, and must be completed by 11:59 pm on Tuesday 2/21.
 
 You may use any static print or online resource, such as the textbook, Wikipedia, etc. However, you may not communicate with anyone other than me about the quiz during the time that it is available.
 
@@ -19,7 +19,7 @@ Topics covered will include
 
 Study tools include:
 
-    Last year's Quiz 1 (Links to an external site.) and Solutions (Links to an external site.)  (but note that last year's quiz was too difficult to complete in 90 minutes - this year's quiz is designed to take less time to complete)
+    Previous Quiz 1 and Solutions (available on github under previous/quizzes)
     Homework 1 and 2 and solutions
     Exercises 7.2, 7.4, 7.5, 7.6, 7.7, 7.9
-    Questions from https://drive.google.com/drive/folders/1-i87dRDpFahVcJeNocvj8xVhTyjuaOrx (Links to an external site.): 1, 2, 3, 36, 37, 38, 39, 40, 42, 44, 47, 48
+    Questions from https://drive.google.com/drive/folders/1-i87dRDpFahVcJeNocvj8xVhTyjuaOrx : 1, 2, 3, 36, 37, 38, 39, 40, 42, 44, 47, 48
