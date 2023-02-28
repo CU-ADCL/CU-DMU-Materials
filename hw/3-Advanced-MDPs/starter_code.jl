@@ -70,7 +70,7 @@ inchrome(visualize_tree(q, n, t, SA[1,1]))
 # Question 4
 ############
 
-# A starting point for the MCTS select_action function which can be used for Questions 3 and 4
+# A starting point for the MCTS select_action function which can be used for Questions 4 and 5
 function select_action(m, s)
 
     start = time_ns()
@@ -87,7 +87,7 @@ function select_action(m, s)
 end
 
 ############
-# Question 4
+# Question 5
 ############
 
 HW3.evaluate(select_action, "your.gradescope.email@colorado.edu")
