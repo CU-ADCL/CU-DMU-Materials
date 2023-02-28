@@ -1,0 +1,63 @@
+\documentclass{article}
+\usepackage{fullpage,amsmath,amsthm,graphicx,enumitem,amssymb}
+\usepackage[hidelinks]{hyperref}
+\theoremstyle{definition}
+\newtheorem{thm}{Theorem}
+\newtheorem{question}[thm]{Question}
+\newenvironment{solution}{\noindent\textit{Solution:}}{}
+
+
+\newcommand{\reals}{\mathbb{R}}
+
+\title{ASEN 5519-003 Decision Making under Uncertainty\\
+       Homework 4: Tabular Reinforcement Learning}
+
+\begin{document}
+
+\maketitle
+
+\section{Conceptual Questions}
+
+\begin{question}
+    (30 pts) Consider a 3-armed Bernoulli Bandit with payoff probabilities $\theta = [0.2, 0.3, 0.7]$.
+    \begin{enumerate}[label=\alph*),noitemsep]
+        \item After a very large number of pulls, what is the expected payoff per pull of an $\epsilon$-greedy policy with $\epsilon=0.15$ (and no decay)?
+        \item After a very large number of pulls, what is the probability of selecting arm 3 when using a softmax policy with $\lambda=5$ (and a ``precision factor'' of 1.0)?
+        \item Suppose that you are maintaining a Bayesian belief over the parameters $\theta$ starting with initial prior of Beta(1,1). Plot or sketch\footnote{You may wish to use \url{https://homepage.divms.uiowa.edu/~mbognar/applets/beta.html} for this.} the pdfs of the posterior probability distributions for each $\theta$ assuming the following numbers of wins and losses for each arm: $w = [0, 1, 3]$, $l = [1, 0, 2]$.\label{it:pdf}
+        \item Given the situation in (\ref{it:pdf}, describe one iteration of Thompson sampling. What quantities are sampled from what distributions? Choose some plausible values for the random samples and indicate which arm will be pulled.
+    \end{enumerate}
+\end{question}
+
+\section{Exercises}
+
+\begin{question}
+    (70 pts) Implement \textbf{two} tabular or deep learning algorithms to learn a policy for the \texttt{DMUStudent.HW4.gw} grid world environment.     You will submit the following deliverables:
+
+    \begin{enumerate}[label=\alph*)]
+        \item The \textbf{source code} for both of the algorithms.
+        \item \textbf{Two learning curve plots}\footnote{These are the same plots shown in the SARSA notebook from class, and you may copy code from there.}.  The y-axis of both plots should be the average \textbf{undiscounted} reward per episode from the \emph{best learned policy} (not the exploration policy). Each plot should contain learning curves from both algorithms for easy comparison. The x-axis should be as follows for the two plots, respectively:
+            \begin{enumerate}[label=\arabic*)]
+                \item The number of steps taken in the environment (calls to \texttt{act!}).
+                \item The cumulative wall-clock time for training.
+            \end{enumerate}
+        \item \textbf{Write} a short paragraph describing the relative strengths of the algorithms. Which one has higher sample complexity? Which one learns faster in terms of wall clock time?
+    \end{enumerate}
+\end{question}
+
+Some algorithms to consider implementing are:
+    \begin{itemize}[noitemsep]
+        \item Policy Gradient
+        \item Max-Likelihood Model Based RL
+        \item Q-Learning\footnote{Q-Learning is probably the easiest of these to implement since it is only a small modification from SARSA.}
+        \item SARSA
+        \item Actor Critic
+    \end{itemize}
+    \textbf{Please meet the following requirements} and consider the following tips:
+    \begin{enumerate}
+        \item \emph{One} of algorithms may be copied from the course notebooks or from any other reinforcement learning library you can find online, but at least one must be implemented by you from scratch or modified from the notebooks. You may also implement both from scratch.
+        \item It is possible to achieve average \textbf{undiscounted} cumulative reward per episode of greater than 5. At least one of your algorithms must reach this level of performance.
+        \item Use only the functions from \href{https://github.com/JuliaReinforcementLearning/CommonRLInterface.jl}{\texttt{CommonRLInterface}} to interact with the environment, and use the \texttt{HW4.render} function if you want to render the environment.
+        \item You may also wish to modify these algorithms with techniques discussed in class, such as improved exploration policies, eligibility traces, double Q learning, or entropy regularization.
+    \end{enumerate}
+
+\end{document}
