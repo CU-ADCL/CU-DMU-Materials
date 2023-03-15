@@ -1,0 +1,101 @@
+\documentclass{article}
+\usepackage{fullpage,amsmath,amsthm,graphicx,enumitem,amsfonts}
+\usepackage{multicol}
+\usepackage{booktabs}
+
+\theoremstyle{definition}
+\newtheorem{thm}{Theorem}
+\newtheorem{question}[thm]{Question}
+\newenvironment{solution}{\noindent\textit{Solution:}}{}
+
+\title{ASEN 5264 Decision Making under Uncertainty\\
+       Quiz 1: Probabilistic Models and MDPs}
+
+\date{\small Clearly indicate your final answers and briefly justify numerical answers with text or mathematical expressions.\\
+If you do not understand how to do a problem, skip it and move on so that you have time to attempt all problems.\\
+You may consult any source, but you may NOT communicate with any person except the instructor or TA.}
+
+
+\begin{document}
+\maketitle
+
+% \begin{question}
+%     Probability: Go from a few marginals to a conditional
+% \end{question}
+
+\begin{question} (30 pts)
+    A foreign power periodically launches balloons that drift over your territory. If a balloon passes over your territory, there is a 63\% chance of detecting it with radar. If there is not a balloon present, there is a 7\% chance of a false detection.
+    \begin{enumerate}[label=\alph*)]
+        \item If there is a balloon over your territory, what is the probability that your radar does not detect it?
+        \item What additional probability distribution would you need to know to calculate the probability that a balloon has passed over your territory given that there was no detection.
+        \item Suppose that your intelligence service correctly forecasted a 47\% chance that the foreign power would launch a balloon for weather research and a 19\% chance that it would launch a balloon for surveillance. The foreign power can only launch one balloon and detection probabilities are the same for both types and given in part (a). If you detect a balloon, what is the probability that there is a surveillance balloon over your territory. 
+    \end{enumerate}
+\end{question} 
+
+
+\begin{question} (30 pts)
+    Find the optimal value function and an optimal policy for the following MDP:
+    \begin{itemize}
+        \item $S = \{1,2,3,4\}$
+        \item $A = \{0,1\}$
+        \item $R(s, a) = \begin{cases}
+                s \times a &\text{if } s = 3\\
+                0 & \text{otherwise}
+            \end{cases}$
+        \item $T^0 = \begin{bmatrix}
+                1 & 0 & 0 & 0 \\
+                0 & 0 & 0 & 1 \\
+                0 & 0 & 0 & 1 \\
+                0 & 0 & 0 & 1
+        \end{bmatrix}$ and 
+        $T^1 = \begin{bmatrix}
+                0 & 1 & 0 & 0 \\
+                0 & 0 & 1 & 0 \\
+                0 & 0 & 0 & 1 \\
+                0 & 0 & 0 & 1
+        \end{bmatrix}$ \\
+        where $T^a_{ij}$ is the probability of transitioning from state $i$ to state $j$.
+    \item $\gamma = 0.9$
+    \end{itemize}
+\end{question}
+
+\begin{question} (30 pts)
+    Two soccer players are trying to score a goal before the end of the game or losing the ball to a defender (and this is all they care about). Both players can either shoot or pass the ball. If Player 1 shoots, he has a 35\% chance of scoring. If Player 2 shoots, she has a 45\% chance of scoring. Player 1's passes are intercepted 15\% of the time. Player 2's passes are intercepted 20\% of the time. During each action, there is a 10\% chance that the referee will blow the whistle and end the game.  Formulate this problem as an MDP (define the state space, action space, reward function, transition probabilities, and discount factor).
+\end{question}
+
+(continued on next page) \pagebreak
+
+\begin{question} (5 pts)
+    Suppose you have a discrete MDP definition and someone gives you a policy that they claim is optimal. Describe the steps you would use to determine whether that policy is optimal and justify this approach.
+\end{question}
+
+\begin{question} (5 pts)
+    Consider the following partial MDP definition:
+    \begin{itemize}[noitemsep]
+        \item $S = \mathbb{R}$ (the real numbers)
+        \item $A = \mathbb{R}$
+        \item $T$: Given that action $a$ is taken in state $s$, the distribution of the next state is normal (Gaussian) with mean $s+a$ and variance $2.7$.
+    \end{itemize}
+    Complete the definition by specifying a reward function for which the MDP will have an infinite-horizon undiscounted optimal policy of the form $\pi^*(s) = -k\,s$ where $k$ is a nonzero real number. Briefly justify your answer.
+\end{question}
+
+
+
+% \begin{question} (5 pts)
+%     Consider the following partial MDP definition:
+%     \begin{itemize}[noitemsep]
+%         \item $S = \mathbb{R}$ (the real numbers)
+%         \item $A = \mathbb{R}$
+%         \item $T$: Given that action $a$ is taken in state $s$, the distribution of the next state is normal (Gaussian) with mean $s+a$ and variance $2.7$.
+%     \end{itemize}
+%     If the definition is completed by adding one of the following reward functions, which MDP will have an infinite-horizon undiscounted optimal policy of the form $\pi^*(s) = -k\,s$ where $k$ is a nonzero real number? Briefly justify your answer.
+%     \begin{enumerate}[label=\alph*),noitemsep]
+%         \item $R(s, a) = |s| + |a|$
+%         \item $R(s, a) = s^2 + a^2$
+%         \item $R(s, a) = -2s^2 - a^2$
+%         \item $R(s, a) = -e^s - e^a$
+%         \item $R(s, a) = sa^2$
+%     \end{enumerate}
+% \end{question}
+
+\end{document}
