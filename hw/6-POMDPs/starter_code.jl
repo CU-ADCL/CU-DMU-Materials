@@ -1,6 +1,6 @@
 using POMDPs
 using DMUStudent.HW6
-using POMDPModelTools: transition_matrices, reward_vectors, SparseCat, Deterministic, RolloutSimulator, DiscreteBelief, FunctionPolicy, ordered_states, ordered_actions
+using POMDPTools: transition_matrices, reward_vectors, SparseCat, Deterministic, RolloutSimulator, DiscreteBelief, FunctionPolicy, ordered_states, ordered_actions, DiscreteUpdater
 using QuickPOMDPs: QuickPOMDP
 using POMDPModels: TigerPOMDP
 using NativeSARSOP: SARSOPSolver
@@ -120,6 +120,7 @@ up = HW6Updater(cancer)
 heuristic = FunctionPolicy(function (b)
 
                                # Fill in your heuristic policy here
+                               # Use pdf(b, s) to get the probability of a state
 
                                return :wait
                            end
@@ -150,15 +151,13 @@ up = DiscreteUpdater(m) # you may want to replace this with your updater to test
 #----------------
 
 # You can make a gif showing what's going on like this:
-using BeliefUpdaters: DiscreteUpdater
 using POMDPGifs
 import Cairo, Fontconfig # needed to display properly
 
 makegif(m, qmdp_p, up, max_steps=30)
 
 # You can render a single frame like this
-using POMDPSimulators: stepthrough
-using POMDPModelTools: render
+using POMDPTools: stepthrough, render
 using Compose: draw, PNG
 
 history = []
@@ -166,5 +165,5 @@ for step in stepthrough(m, qmdp_p, up, max_steps=10)
     push!(history, step)
 end
 displayable_object = render(m, last(history))
-# display(displayable_object) # <-this will work in a jupyter notebook or if you have ElectronDisplay
+# display(displayable_object) # <-this will work in a jupyter notebook or if you have vs code or ElectronDisplay
 draw(PNG("lasertag.png"), displayable_object)
