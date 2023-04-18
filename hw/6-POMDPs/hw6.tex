@@ -25,7 +25,7 @@
 
     Write the following three elements of a POMDP solver that uses the QMDP approximation:
     \begin{enumerate}[noitemsep]
-        \item A belief \href{https://juliapomdp.github.io/POMDPs.jl/stable/def_updater/}{\texttt{Updater}} and the associated \href{https://juliapomdp.github.io/POMDPs.jl/stable/api/#POMDPs.update}{\texttt{update} function} to calculate the Bayesian belief update\footnote{This can be a discrete Bayesian filter or a particle filter}.
+        \item A belief \href{https://juliapomdp.github.io/POMDPs.jl/stable/def_updater/}{\texttt{Updater}} and the associated \href{https://juliapomdp.github.io/POMDPs.jl/stable/api/#POMDPs.update}{\texttt{update} function} to calculate the Bayesian belief update\footnote{This can be a discrete Bayesian filter or a particle filter - the discrete filter is easier to implement}.
         \item A \href{https://juliapomdp.github.io/POMDPs.jl/stable/concepts/#Solvers-and-Policies}{\texttt{Policy} \texttt{struct}} and associated \href{https://juliapomdp.github.io/POMDPs.jl/stable/api/#POMDPs.action}{\texttt{action} function} that chooses an action based on a list of alpha vectors.
         \item A function that calculates the QMDP alpha vectors for a \texttt{POMDP} and returns them as an object of the \texttt{Policy} type described above.
     \end{enumerate}
