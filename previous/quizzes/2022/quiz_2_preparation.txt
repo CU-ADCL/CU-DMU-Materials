@@ -13,7 +13,7 @@ Topics covered will include
     DQN as implemented in HW5
     POMDP problem definitions
     Bayesian filters
-    Alpha vectors (finite horizon, you will not have to perform a complete value iteration backup, but you should know how to draw alpha vectors for simple conditional plans and interpret them)
+    Alpha vectors (finite horizon, you will not have to perform a complete value iteration backup for an entire set of vectors, but you should know how to calculate draw alpha vectors for simple multi-step conditional plans and interpret them)
     Certainty equivalent and QMDP formulation approximations
     Weighted and unweighted particle filters
     History-space MCTS (aka POMCP, PO-UCT)
