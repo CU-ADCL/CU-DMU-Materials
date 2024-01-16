@@ -3,13 +3,14 @@
 \usepackage{multicol}
 \usepackage{booktabs}
 \usepackage{hyperref}
+\usepackage{tikz}
 
 \theoremstyle{definition}
 \newtheorem{thm}{Theorem}
 \newtheorem{question}[thm]{Question}
 \newenvironment{solution}{\noindent\textit{Solution:}}{}
 
-\title{ASEN 5519-003 Decision Making under Uncertainty\\
+\title{ASEN 5264 Decision Making under Uncertainty\\
        Homework 1: Probabilistic Models}
 
 \begin{document}
@@ -34,7 +35,7 @@
             $1$ & $0$ & $0$ & $0.14$ \\
             $1$ & $0$ & $1$ & $0.18$ \\
             $1$ & $1$ & $0$ & $0.29$ \\
-            $1$ & $1$ & $1$ & $0.07$ \\
+            $1$ & $1$ & $1$ & $0.06$ \\
         \bottomrule
     \end{tabular}
     }
@@ -64,15 +65,55 @@
     2\% of women at age forty who participate in routine screening have breast cancer. 86\% of those with breast cancer will get positive mammograms. 8\% of those without breast cancer will also get positive mammograms. A woman in this age group had a positive mammogram in a routine screening. What is the probability that she actually has breast cancer?
 \end{question}
 
-\begin{question} (35 pts)
-Suppose that a stationary stochastic process $\{x_t\}$ is defined by the following equation: $x_{t+1} = 1.5 \, x_t - x_{t-1} + v_{t}$ where $v_t$ are independent, identically distributed random variables with $v_t \sim \mathcal{N}(\mu=0.0, \sigma^2=0.04)$.
-    \begin{enumerate}[nosep,label=(\alph*)]
-        \item Simulate and plot 10 20-step trajectories sampled from this process with $x_0 = x_{-1} = 1$ (You may use any programming language, but, as always, submit your code).
-        \item Is this process a Markov process if the state is defined as $x_t$? Why or why not?
-        \item If you did not have access to the equations defining the process and instead only had access to the trajectories you generated, what evidence could you use to convince someone that this process is or is not Markov?
-        \item What would you need to include in the state to create a Markov process that can be used to generate $\{x_t\}$? To answer this, define a new process $\{y_t\}$ that is Markov.
+\begin{question} (20 pts) Suppose that $A$, $B$, and $C$ are binary random variables with $P(A=1) = 0.5$, $P(B=1|A=1) = 0.8$, $P(B=1|A=0) = 0.2$, $P(C=1|A=1) = 0.9$, $P(C=1|A=0) = 0.3$, and the following Bayesian network structure:
+    \begin{center}
+        \begin{tikzpicture}
+            \node[shape=circle,draw=black] (A) at (0,0) {A};
+            \node[shape=circle,draw=black] (B) at (1.5,0) {B};
+            \node[shape=circle,draw=black] (C) at (3,0) {C};
+            \path [->,line width=1pt] (A) edge node[left]{}(B);
+            \path [->,line width=1pt] (B) edge node[left]{}(C);
+        \end{tikzpicture}
+    \end{center}
+If we observe that $C=1$, what is the probability that $B=1$?
+\end{question}
+
+\begin{question} (20 pts)
+    Consider the following Bayesian network structure:
+
+    \begin{center}
+    \begin{tikzpicture}
+        \node[shape=circle,draw=black] (D) at (0,0) {D};
+        \node[shape=circle,draw=black] (A) at (2,0) {A};
+        \node[shape=circle,draw=black] (C) at (1,1) {C};
+        \node[shape=circle,draw=black] (F) at (3,1) {F};
+        \node[shape=circle,draw=black] (E) at (3,-1) {E};
+        \node[shape=circle,draw=black] (B) at (1,-1) {B};
+        \path [->,line width=1pt] (C) edge node[left]{}(A);
+        \path [->,line width=1pt] (D) edge node[left]{}(C);
+        \path [->,line width=1pt] (B) edge node[left]{}(A);
+        \path [->,line width=1pt] (A) edge node[left]{}(E);
+        \path [->,line width=1pt] (A) edge node[left]{}(F);
+        \path [->,line width=1pt] (C) edge node[left]{}(F);
+    \end{tikzpicture}
+    \end{center}
+
+    \begin{enumerate}[nosep,label=\alph*)]
+        \item Is it possible to conclude from the structure that $B \perp F \mid C$? Justify your answer.
+        \item Is it possible to conclude from the structure that $B \perp F \mid A$? Justify your answer.
+        \item Is it possible to conclude from the structure that $B \perp E \mid A$? Justify your answer.
     \end{enumerate}
 \end{question}
+
+% \begin{question} (35 pts)
+% Suppose that a stationary stochastic process $\{x_t\}$ is defined by the following equation: $x_{t+1} = 1.5 \, x_t - x_{t-1} + v_{t}$ where $v_t$ are independent, identically distributed random variables with $v_t \sim \mathcal{N}(\mu=0.0, \sigma^2=0.04)$.
+%     \begin{enumerate}[nosep,label=(\alph*)]
+%         \item Simulate and plot 10 20-step trajectories sampled from this process with $x_0 = x_{-1} = 1$ (You may use any programming language, but, as always, submit your code).
+%         \item Is this process a Markov process if the state is defined as $x_t$? Why or why not?
+%         \item If you did not have access to the equations defining the process and instead only had access to the trajectories you generated, what evidence could you use to convince someone that this process is or is not Markov?
+%         \item What would you need to include in the state to create a Markov process that can be used to generate $\{x_t\}$? To answer this, define a new process $\{y_t\}$ that is Markov.
+%     \end{enumerate}
+% \end{question}
 
 (assignment continues on next page)
 
