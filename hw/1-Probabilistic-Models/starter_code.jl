@@ -1,12 +1,6 @@
 import DMUStudent.HW1
 
 #------------- 
-# Problem 3
-#-------------
-
-# See https://github.com/zsunberg/CU-DMU-Materials/blob/master/notebooks/030-Stochastic-Processes.ipynb for code that simulates a stochastic process.
-
-#------------- 
 # Problem 4
 #-------------
 
