@@ -16,16 +16,16 @@
 
 \maketitle
 
-\section{Conceptual Questions}
+\section*{Conceptual Questions}
 
-\begin{question} (10 pts)
+\begin{question}\label{q:q} (10 pts)
     \begin{enumerate}[label=\alph*)]
         \item Describe the difference between the reward function and the state-action ($Q$) value function.
         \item Write down an equation for the state-action value in terms of $R$, $T$, and $V$.
     \end{enumerate}
 \end{question}
 
-\begin{question} (25 pts)
+\begin{question}\label{q:mdp} (25 pts)
     Consider a game with 3 squares in a horizontal line drawn on paper, a token, and a die. Each turn, the player can either reset or roll the die. If the player rolls and the die shows an odd number, the token is moved one square to the right, and if an even number is rolled, the token is moved two squares to the right (in both cases stopping at the rightmost square\footnote{If the die is rolled from the middle square or right square, it will always end up in the right square.}). If the player resets, the token is always moved to the leftmost square. If the reset occurs when the token is in the middle square, two points are added; if the player resets when the token is on the right square, a point is subtracted.
     \begin{enumerate}[label=\alph*)]
         \item Formulate this problem as an MDP (write down $S$, $A$, $T$, and $R$).
@@ -34,7 +34,7 @@
     \end{enumerate}
 \end{question}
 
-\section{Exercise}
+\section*{Exercise}
 
 \begin{question} \label{q:gw}
     (Value iteration for Grid World, 35 pts)
@@ -42,12 +42,12 @@
     Solve the MDP \texttt{HW2.grid\_world} with your own implementation of value iteration with a discount of $\gamma=0.95$ and plot the resulting value function. All of the necessary information to solve this problem can be extracted with the \texttt{HW2.transition\_matrices} and \texttt{HW2.reward\_vectors} functions, and plotting can be accomplished with \texttt{POMDPModelTools.render(HW2.grid\_world, color=v)} where \texttt{v} is the value function. See the starter code and function docstrings for more information.
 \end{question}
 
-\section{Challenge Problem}
+\section*{Challenge Problem}
 
-\begin{question}
+\begin{question}\label{q:acas}
     (Value iteration for ACAS, 20 pts autograder, 10 pts code)
 
-Your task is to find the optimal value function for an Aircraft Collision Avoidance System (ACAS). The encounter model will be specified as a Markov decision process, and your task will be to compute the value function for discount $\gamma=0.99$ using value iteration or another suitable algorithm that you implement. The continuous physical state space will be discretized at various levels of granularity and the goal is to find the value function for the finest discretization possible.
+Your task is to find the optimal value function for an Aircraft Collision Avoidance System (ACAS). The encounter model will be specified as a Markov decision process, and your task will be to compute the value function for discount $\gamma=0.99$ using value iteration or another suitable algorithm that you implement. The continuous physical state space can be discretized at different levels of granularity, and the goal is to find the value function for the finest discretization possible.
 
 A model with discretization level \texttt{n} can be constructed with
 \begin{verbatim}
@@ -59,5 +59,16 @@ The score received for solving the problem is \texttt{n}. You must submit your c
 
 \end{question}
 
+\section*{Deliverables}
+\subsection*{For the Homework 2 Gradescope Assignment:}
+\begin{itemize}
+    \item A pdf containing answers to Questions \ref{q:q} and \ref{q:mdp} and the plot of the value function for \ref{q:gw}.
+\end{itemize}
+
+\subsection*{For the Homework 2 Code Gradescope Assignment:}
+\begin{itemize}
+    \item Your code for Questions \ref{q:gw} and \ref{q:acas}.
+    \item \texttt{results.json}
+\end{itemize}
 
 \end{document}
