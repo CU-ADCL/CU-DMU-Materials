@@ -1,7 +1,7 @@
 function randmult(n)
     A = rand(n, n)
 
-    b = Float64[]
+    b = []
     for i in 1:n
         push!(b, randn())
     end
@@ -10,9 +10,10 @@ function randmult(n)
     return c
 end
 
-# using Debugger # Use Debugger if you are in the terminal instead of VSCode
+# @show randmult(100)
 
-# @enter randmult(10) # This enters the debugger
+# using Debugger # Use Debugger if you are in the terminal instead of VSCode
+# @enter randmult(10) # This enters the debugger if you are in the terminal
 
 using BenchmarkTools
 
@@ -22,6 +23,6 @@ using BenchmarkTools
 
 # using ProfileView # Use ProfileView if you are in the terminal instead of vscode
 
-@profview randmult(1000)
+# @profview randmult(1000)
 
-@profview randmult(10000)
+# @profview randmult(10000)
