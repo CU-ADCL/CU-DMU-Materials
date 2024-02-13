@@ -65,7 +65,7 @@ n[(SA[1,1], :right)] = 1
 n[(SA[2,1], :right)] = 0
 t[(SA[1,1], :right, SA[2,1])] = 1
 
-inbrowser(visualize_tree(q, n, t, SA[1,1]), "google-chrome")
+inchrome(visualize_tree(q, n, t, SA[1,1]))
 
 ############
 # Question 4
