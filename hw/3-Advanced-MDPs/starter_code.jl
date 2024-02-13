@@ -3,6 +3,7 @@ using POMDPs: actions, @gen, isterminal, discount, statetype, actiontype, simula
 using D3Trees: inchrome, inbrowser
 using StaticArrays: SA
 using Statistics: mean
+using BenchmarkTools: @btime
 
 ##############
 # Instructions
@@ -77,7 +78,9 @@ function select_action(m, s)
     n = Dict{Tuple{statetype(m), actiontype(m)}, Int}()
     q = Dict{Tuple{statetype(m), actiontype(m)}, Float64}()
 
-    while time_ns() < start + 40_000_000 # run for a maximum of 40 ms to leave 10 ms to select an action
+
+    for _ in 1:1000
+    # while time_ns() < start + 40_000_000 # you can replace the above line with this if you want to limit this loop to run within 40ms
         break # replace this with mcts iterations to fill n and q
     end
 
@@ -85,6 +88,8 @@ function select_action(m, s)
 
     return rand(actions(m)) # this dummy function returns a random action, but you should return your selected action
 end
+
+@btime select_action(m, SA[35,35]) # you can use this to see how much time your function takes to run. A good time is 10-20ms.
 
 ############
 # Question 5
@@ -102,4 +107,4 @@ HW3.evaluate(select_action, "your.gradescope.email@colorado.edu")
 
 # You may wish to call select_action once or twice before submitting it to evaluate to make sure that all parts of the function are precompiled.
 
-# Instead of submitting a select_action function, you can alternatively submit a POMDPs.Solver object that will get 50ms of time to run solve(solver, m) to produce a POMDPs.Policy object that will be used for planning for each grid world. You can achieve a score of 50 without doing this, but this may give you an advantage if you want to maximize your score.
+# Instead of submitting a select_action function, you can alternatively submit a POMDPs.Solver object that will get 50ms of time to run solve(solver, m) to produce a POMDPs.Policy object that will be used for planning for each grid world.
