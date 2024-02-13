@@ -65,7 +65,7 @@ n[(SA[1,1], :right)] = 1
 n[(SA[2,1], :right)] = 0
 t[(SA[1,1], :right, SA[2,1])] = 1
 
-inchrome(visualize_tree(q, n, t, SA[1,1]))
+inchrome(visualize_tree(q, n, t, SA[1,1])) # use inbrowser(visualize_tree(q, n, t, SA[1,1]), "firefox") etc. if you want to use a different browser
 
 ############
 # Question 4
