@@ -4,14 +4,31 @@
 using Markdown
 using InteractiveUtils
 
-# ╔═╡ 142a5d01-7379-40d4-876d-e8c6fe91f7f7
+# This Pluto notebook uses @bind for interactivity. When running this notebook outside of Pluto, the following 'mock version' of @bind gives bound variables a default value (instead of an error).
+macro bind(def, element)
+    quote
+        local iv = try Base.loaded_modules[Base.PkgId(Base.UUID("6e696c72-6542-2067-7265-42206c756150"), "AbstractPlutoDingetjes")].Bonds.initial_value catch; b -> missing; end
+        local el = $(esc(element))
+        global $(esc(def)) = Core.applicable(Base.get, el) ? Base.get(el) : iv(el)
+        el
+    end
+end
+
+# ╔═╡ 5f436c3f-d8e6-4820-838a-edcbaba85ce2
 begin
 	using PGFPlots
-	using Reactive
 	using Distributions
-	using TikzPictures
-	include("helpers.jl")
-	include("bandits.jl");
+	using Random
+	using PlutoUI
+	using Printf
+end
+
+# ╔═╡ 2163572e-d343-4141-a8d9-7fd83fc9e3d2
+begin
+	# using TikzPictures
+	# include("helpers.jl")
+	include("bandits.jl")
+	# import .Bandits: Bandits, BanditPolicy, BanditStatistics, Bandit, learningCurves
 end
 
 # ╔═╡ 0f9a747f-145b-40ce-bc6a-a56569ca6420
@@ -19,17 +36,43 @@ md"""
 # Exploration and Exploitation
 """
 
+# ╔═╡ 8c4fb522-09bc-44bb-9bd0-6149ec5706c7
+
+
+# ╔═╡ 2e721ea0-5e6b-4be7-8f75-0d798fa55a0e
+
+
 # ╔═╡ d12fea51-16a1-4307-8236-f4ee0057163a
 md"""
 ## Multi-Armed Bandit Problems
 """
 
 # ╔═╡ e6793e01-26e8-4c33-bf9e-1f6e456b2fb1
-using Random
-Random.seed!(2)
-arms = 3
-b = Bandit(arms)
-banditTrial(b)
+begin
+	Random.seed!(2)
+	arms = 3
+	b = Bandit(arms);
+	bs = BanditStatistics(arms)
+end
+
+# ╔═╡ fa76a48f-644d-4949-ab12-aa0492545ed2
+@bind arm_to_pull confirm(Select(1:arms))
+
+# ╔═╡ 6727d103-f07b-4280-89ae-8c11cdf293c5
+begin
+	update!(bs, arm_to_pull, pull(b, arm_to_pull))
+	[@sprintf("Arm %d: %d wins out of %d tries (%d percent)", a, bs.numWins[a], bs.numTries[a], 100*winProbabilities(bs)[a]) for a in 1:numArms(b)]
+end
+
+# ╔═╡ 47e76596-6321-40a0-9212-1e6e19b84349
+@bind show_probabilities Select(["Hide Probabilities", "Show Probabilities"])
+
+# ╔═╡ db8c7e24-40b9-4da5-b953-963dee3e5841
+if show_probabilities == "Show Probabilities"
+	b
+else
+	nothing
+end
 
 # ╔═╡ 938369d7-eb08-4af6-9e11-2c52983a19e5
 md"""
@@ -37,64 +80,64 @@ md"""
 """
 
 # ╔═╡ d840aafb-7963-425c-aa24-17ccc8fb1a7e
-struct AlwaysPull <: BanditPolicy
-    arm::Int
+begin
+	struct AlwaysPull <: BanditPolicy
+	    arm::Int
+	end
+	
+	arm(b::AlwaysPull, s::BanditStatistics) = b.arm;
 end
-
-arm(b::AlwaysPull, s::BanditStatistics) = b.arm;
 
 # ╔═╡ a0bfbcae-0cdc-4b92-ade8-768f434908d9
-mutable struct ExploreThenCommit <: BanditPolicy
-    k::Int
-    commitment::Int
+begin
+	mutable struct ExploreThenCommit <: BanditPolicy
+	    k::Int
+	    commitment::Int
+	end
+	ExploreThenCommit(k) = ExploreThenCommit(k, 0)
+	function reset!(p::ExploreThenCommit)
+	    p.commitment = 0
+	    return nothing
+	end
+	
+	function arm(b::ExploreThenCommit, s::BanditStatistics) 
+	    if sum(s.numTries) < b.k
+	        return rand(1:numArms(s))
+	    elseif sum(s.numTries) == b.k
+	        b.commitment = argmax(winProbabilities(s))
+	        return b.commitment
+	    else
+	        return b.commitment
+	    end
+	end;
 end
-ExploreThenCommit(k) = ExploreThenCommit(k, 0)
-function reset!(p::ExploreThenCommit)
-    p.commitment = 0
-    return nothing
-end
-
-function arm(b::ExploreThenCommit, s::BanditStatistics) 
-    if sum(s.numTries) < b.k
-        return rand(1:numArms(s))
-    elseif sum(s.numTries) == b.k
-        b.commitment = argmax(winProbabilities(s))
-        return b.commitment
-    else
-        return b.commitment
-    end
-end;
 
 # ╔═╡ 7547df72-f2c8-45e1-999a-72e18335ef8b
-struct EpsGreedy <: BanditPolicy
-    eps::Real 
+begin
+	struct EpsGreedy <: BanditPolicy
+	    eps::Real 
+	end
+	
+	function arm(b::EpsGreedy, s::BanditStatistics)
+	    if rand() < b.eps
+	        return rand(1:numArms(s))
+	    else
+	        ps = winProbabilities(s)
+	        return rand(findall(ps .== maximum(ps))) # like argmax but breaks ties randomly
+	    end
+	end;
 end
 
-function arm(b::EpsGreedy, s::BanditStatistics)
-    if rand() < b.eps
-        return rand(1:numArms(s))
-    else
-        ps = winProbabilities(s)
-        return rand(findall(ps .== maximum(ps))) # like argmax but breaks ties randomly
-    end
-end;
-
-# ╔═╡ d38676b7-8bc3-407b-b3f0-35a38681465c
-steps = 50
-iterations = 10000
-params = rand(Random.Xoshiro(1), 10)
-display(params)
-bandit = Bandit(params)
-# bandit = Bandit(collect(1:-0.2:0.1))
-@manipulate for epsgreedy in exp10.(-3:0.2:0), commit in 0:10:50
-    policies = [
-        "explore-commit" => ExploreThenCommit(commit),
-        "eps greedy" => EpsGreedy(epsgreedy),
-    ]
-    curves = [Plots.Linear([1,steps], fill(maximum(params),2), legendentry="best arm", style="very thick, dashed", mark="none")]
-    append!(curves, learningCurves(bandit, policies, steps=steps, iterations=iterations))
-    Axis(curves, style="legend pos=south east", ymin=0, ymax=1, xmin=0, xmax=steps, xlabel="Pulls", ylabel="Average success", width="15cm", height="10cm")
+# ╔═╡ 97500393-caa0-4cfe-9bdd-e173a9f33047
+begin
+	steps = 100
+	iterations = 1000
+	params = rand(Random.Xoshiro(1), 10)
+	bandit = Bandit(params)
 end
+
+# ╔═╡ 08fe5436-dffc-4ecf-8a13-9e9ee9ba63ef
+@bind commit Slider(0:10:50)
 
 # ╔═╡ 04b3af8d-1482-4e92-84e1-1489b326f199
 md"""
@@ -102,45 +145,40 @@ md"""
 """
 
 # ╔═╡ 3d606c42-a344-4423-b5ad-7b0c09bc6a6a
-struct SoftMax <: BanditPolicy
-    precision::Float64 
+begin
+	struct SoftMax <: BanditPolicy
+	    precision::Float64 
+	end
+	
+	function arm(b::SoftMax, s::BanditStatistics)
+	    p = exp.(b.precision * winProbabilities(s))
+	    p = p / sum(p)
+	    D = Categorical(p)
+	    return rand(D)
+	end;
 end
-
-function arm(b::SoftMax, s::BanditStatistics)
-    p = exp.(b.precision * winProbabilities(s))
-    p = p / sum(p)
-    D = Categorical(p)
-    return rand(D)
-end;
 
 # ╔═╡ badefcc1-83fd-467d-9161-0d9915275c8d
-struct UCB <: BanditPolicy
-    c::Float64
+begin
+	struct UCB <: BanditPolicy
+	    c::Float64
+	end
+	    
+	function arm(p::UCB, s::BanditStatistics)
+	    logn = log(max(2, sum(s.numTries)))
+	    ucbs = winProbabilities(s) .+ p.c*sqrt.(logn./s.numTries)
+	    return rand(findall(ucbs .== maximum(ucbs))) # like argmax but breaks ties randomly
+	end    
 end
-    
-function arm(p::UCB, s::BanditStatistics)
-    logn = log(max(2, sum(s.numTries)))
-    ucbs = winProbabilities(s) .+ p.c*sqrt.(logn./s.numTries)
-    return rand(findall(ucbs .== maximum(ucbs))) # like argmax but breaks ties randomly
-end    
 
-# ╔═╡ 1d3d6f6f-1f1f-4843-846d-d7936b725495
-steps = 100
-iterations = 1000
-params = rand(Random.Xoshiro(1), 10)
-display(params)
-bandit = Bandit(params)
-# bandit = Bandit(collect(1:-0.2:0.1))
-@manipulate for epsgreedy in exp10.(-3:0.2:0), softmax in 0:5:40, ucb_c in exp10.(range(-2, 0, 8))
-    policies = [
-        "softmax ($softmax)" => SoftMax(softmax),
-        "eps greedy ($epsgreedy)" => EpsGreedy(epsgreedy),
-        "ucb ($ucb_c)" => UCB(ucb_c),
-    ]
-    curves = [Plots.Linear([1,steps], fill(maximum(params),2), legendentry="best arm", style="very thick, dashed", mark="none")]
-    append!(curves, learningCurves(bandit, policies, steps=steps, iterations=iterations))
-    Axis(curves, style="legend pos=south east", ymin=0, ymax=1, xmin=0, xmax=steps, xlabel="Pulls", ylabel="Average success", width="15cm", height="10cm")
+# ╔═╡ 6096fb15-9005-4334-938a-3aa412cfd407
+begin
+	params2 = rand(Random.Xoshiro(1), 10)
+	bandit2 = Bandit(params)
 end
+
+# ╔═╡ 0020749f-1828-4c68-b798-5bd2353788b5
+@bind softmax Slider(0:10:80)
 
 # ╔═╡ 95021f43-df52-431d-8c21-2a15422f1e8d
 md"""
@@ -148,65 +186,152 @@ md"""
 """
 
 # ╔═╡ 44a1be5b-5184-4af8-a70a-c3ed44c2a640
-Random.seed!(3)
-arms = 2
-b = Bandit(arms)
-banditEstimation(b)
+begin
+	Random.seed!(3)
+	arms2 = 2
+	b2 = Bandit(arms2)
+	bs2 = BanditStatistics(arms2)
+	# banditEstimation(b2)
+end
+
+# ╔═╡ 55ca1d54-cf80-4266-9eb8-66f4ef540c57
+@bind arm_to_pull2 confirm(Select(1:arms2))
+
+# ╔═╡ c1c82bd1-4216-4572-aebc-525dc94a10b9
+begin
+	update!(bs2, arm_to_pull2, pull(b2, arm_to_pull2))
+	[@sprintf("Arm %d: %d wins out of %d tries (%d percent)", a, bs2.numWins[a], bs2.numTries[a], 100*winProbabilities(bs2)[a]) for a in 1:numArms(b2)]
+end
+
+# ╔═╡ 27c88187-fa49-4b6c-a897-a97dae36ca9e
+Axis(map(1:numArms(b2)) do a
+	w = bs2.numWins[a]
+	t = bs2.numTries[a]
+	Plots.Linear(θ->pdf(Beta(w+1, t-w+1), θ), (0,1), legendentry="Beta($(w+1), $(t-w+1))")    	
+end, xmin=0,xmax=1,ymin=0, width="15cm", height="10cm")
+
+# ╔═╡ 9ba5d6e9-0f2c-4c7e-9511-d994d7766951
+@bind show_probabilities2 Select(["Hide Probabilities", "Show Probabilities"])
+
+# ╔═╡ c585c65b-ad5a-4909-bb68-e4267656f89b
+if show_probabilities2 == "Show Probabilities"
+	b2
+else
+	nothing
+end
 
 # ╔═╡ f61ae797-c22e-4c71-94d1-4a6c475f7d7f
-# Select arm with highest alpha upper confidence bound
-struct IntervalExploration <: BanditPolicy
-    alpha::Real
+begin
+	# Select arm with highest alpha upper confidence bound
+	struct IntervalExploration <: BanditPolicy
+	    alpha::Real
+	end
+	
+	function arm(b::IntervalExploration, s::BanditStatistics)
+	    qs = [quantile(Beta(s.numWins[i] + 1, s.numTries[i] - s.numWins[i] + 1), b.alpha) for i in 1:length(s.numWins)]
+	    return rand(findall(qs .== maximum(qs))) # like argmax but breaks ties randomly
+	end;
 end
-
-function arm(b::IntervalExploration, s::BanditStatistics)
-    qs = [quantile(Beta(s.numWins[i] + 1, s.numTries[i] - s.numWins[i] + 1), b.alpha) for i in 1:length(s.numWins)]
-    return rand(findall(qs .== maximum(qs))) # like argmax but breaks ties randomly
-end;
 
 # ╔═╡ fc1a2678-2055-4bd0-b809-9c33e9d5c508
-struct ThompsonSampling <: BanditPolicy end
-
-function arm(p::ThompsonSampling, s::BanditStatistics)
-    params = rand.([Beta(s.numWins[i] + 1, s.numTries[i] - s.numWins[i] + 1) for i in 1:length(s.numWins)])
-    return argmax(params)
+begin
+	struct ThompsonSampling <: BanditPolicy end
+	
+	function arm(p::ThompsonSampling, s::BanditStatistics)
+	    params = rand.([Beta(s.numWins[i] + 1, s.numTries[i] - s.numWins[i] + 1) for i in 1:length(s.numWins)])
+	    return argmax(params)
+	end
 end
 
-# ╔═╡ 9230407b-d368-4ca6-b71e-347c201c0f28
-steps = 100
-iterations = 1000
-params = rand(Random.Xoshiro(1), 10)
-display(params)
-bandit = Bandit(params)
-# bandit = Bandit(collect(1:-0.2:0.1))
-@manipulate for epsgreedy in exp10.(-3:0.2:0), interval in 0.5:0.05:1, ucb_c in exp10.(range(-2, 0, 8))
-    policies = [
-        # "eps greedy ($epsgreedy)" => EpsGreedy(epsgreedy),
-        # "ucb ($ucb_c)" => UCB(ucb_c),
-        "interval" => IntervalExploration(interval),
-        "thompson sampling" => ThompsonSampling(),
-    ]
-    curves = [Plots.Linear([1,steps], fill(maximum(params),2), legendentry="best arm", style="very thick, dashed", mark="none")]
-    append!(curves, learningCurves(bandit, policies, steps=steps, iterations=iterations))
-    Axis(curves, style="legend pos=south east", ymin=0, ymax=1, xmin=0, xmax=steps, xlabel="Pulls", ylabel="Average success", width="15cm", height="10cm")
+# ╔═╡ 074e8d7b-7ffe-4e4e-9e30-9f2a5f09179c
+begin
+	params3 = rand(Random.Xoshiro(1), 10)
+	bandit3 = Bandit(params)
+	# bandit = Bandit(collect(1:-0.2:0.1))
+end
+
+# ╔═╡ 413fe950-7dbd-4a18-935f-196a276aca47
+
+
+# ╔═╡ 0228a893-85ea-46e6-9ee8-991acd156c3d
+begin
+policies = [
+    "explore-commit ($commit)" => ExploreThenCommit(commit),
+	"eps greedy ($epsgreedy)" => EpsGreedy(epsgreedy),
+]
+curves = [Plots.Linear([1,steps], fill(maximum(params),2), legendentry="best arm", style="very thick, dashed", mark="none")]
+append!(curves, learningCurves(bandit, policies, steps=steps, iterations=iterations))
+Axis(curves, style="legend pos=south east", ymin=0, ymax=1, xmin=0, xmax=steps, xlabel="Pulls", ylabel="Average success", width="15cm", height="10cm")
+end
+
+# ╔═╡ 1eb0c0df-f632-47ae-b00f-d1e54c1d3565
+@bind interval Slider(0.5:0.05:1)
+
+# ╔═╡ e1ebf804-d5ac-4949-8652-e3ed0caaefed
+begin
+	    policies2 = [
+	        "softmax ($softmax)" => SoftMax(softmax),
+	        "eps greedy ($epsgreedy)" => EpsGreedy(epsgreedy),
+	        "ucb ($ucb_c)" => UCB(ucb_c),
+	    ]
+	    curves2 = [Plots.Linear([1,steps], fill(maximum(params),2), legendentry="best arm", style="very thick, dashed", mark="none")]
+	    append!(curves2, learningCurves(bandit, policies2, steps=steps, iterations=iterations))
+	    Axis(curves2, style="legend pos=south east", ymin=0, ymax=1, xmin=0, xmax=steps, xlabel="Pulls", ylabel="Average success", width="15cm", height="10cm")
+end
+
+# ╔═╡ 3c7fd68c-3c72-4378-8cc0-4cc574134c38
+begin
+	policies3 = [
+	        # "eps greedy ($epsgreedy)" => EpsGreedy(epsgreedy),
+	        "ucb ($ucb_c)" => UCB(ucb_c),
+	        "interval ($interval)" => IntervalExploration(interval),
+	        "thompson sampling" => ThompsonSampling(),
+	    ]
+	curves3 = [Plots.Linear([1,steps], fill(maximum(params),2), legendentry="best arm", style="very thick, dashed", mark="none")]
+	append!(curves3, learningCurves(bandit, policies3, steps=steps, iterations=iterations))
+	Axis(curves3, style="legend pos=south east", ymin=0, ymax=1, xmin=0, xmax=steps, xlabel="Pulls", ylabel="Average success", width="15cm", height="10cm")
 end
 
 # ╔═╡ f8c8efcb-a4f1-4c44-94c5-22d64cca50af
 
+
+# ╔═╡ 1f31fda2-5978-44d5-8cca-d7cf1f69c499
+@bind ucb_c Slider(exp10.(range(-2, 0, 8)))
+
+# ╔═╡ cedf762b-d831-4eb6-b4d1-a27e706cba71
+# ╠═╡ disabled = true
+#=╠═╡
+@bind epsgreedy Slider(exp10.(-3:0.2:0))
+  ╠═╡ =#
+
+# ╔═╡ d24d4d81-a6f8-4715-bc28-4bc1996d63bc
+# ╠═╡ disabled = true
+#=╠═╡
+@bind ucb_c Slider(exp10.(range(-2, 0, 8)))
+  ╠═╡ =#
+
+# ╔═╡ a915a7ee-0d16-40d4-9653-be2a259f5e59
+@bind epsgreedy Slider(exp10.(-3:0.2:0))
+
+# ╔═╡ ac8a1910-1b5b-4699-8b61-ae28c5e8e88a
+# ╠═╡ disabled = true
+#=╠═╡
+@bind epsgreedy Slider(exp10.(-3:0.2:0))
+  ╠═╡ =#
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
 Distributions = "31c24e10-a181-5473-b8eb-7969acd0382f"
 PGFPlots = "3b7a836e-365b-5785-a47d-02c71176b4aa"
-Reactive = "a223df75-4e93-5b7c-acf9-bdd599c0f4de"
-TikzPictures = "37f6aa50-8035-52d0-81c2-5a1d08754b2d"
+PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
+Printf = "de0858da-6303-5e67-8744-51eddeeeb8d7"
+Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
 
 [compat]
 Distributions = "~0.25.107"
 PGFPlots = "~3.4.4"
-Reactive = "~0.8.3"
-TikzPictures = "~3.5.0"
+PlutoUI = "~0.7.57"
 """
 
 # ╔═╡ 00000000-0000-0000-0000-000000000002
@@ -215,7 +340,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.10.1"
 manifest_format = "2.0"
-project_hash = "b1dc4423eec16576265377b067b88b3eac4dbbd5"
+project_hash = "56497401dd908fd22cb04634eea12149b721dbc1"
 
 [[deps.AbstractFFTs]]
 deps = ["LinearAlgebra"]
@@ -227,6 +352,12 @@ weakdeps = ["ChainRulesCore", "Test"]
     [deps.AbstractFFTs.extensions]
     AbstractFFTsChainRulesCoreExt = "ChainRulesCore"
     AbstractFFTsTestExt = "Test"
+
+[[deps.AbstractPlutoDingetjes]]
+deps = ["Pkg"]
+git-tree-sha1 = "c278dfab760520b8bb7e9511b968bf4ba38b7acc"
+uuid = "6e696c72-6542-2067-7265-42206c756150"
+version = "1.2.3"
 
 [[deps.Adapt]]
 deps = ["LinearAlgebra", "Requires"]
@@ -250,9 +381,9 @@ version = "0.2.0"
 
 [[deps.ArrayInterface]]
 deps = ["Adapt", "LinearAlgebra", "Requires", "SparseArrays", "SuiteSparse"]
-git-tree-sha1 = "bbec08a37f8722786d87bedf84eae19c020c4efa"
+git-tree-sha1 = "c5aeb516a84459e0318a02507d2261edad97eb75"
 uuid = "4fba245c-0d91-5ea0-9b3e-6abc04ee57a9"
-version = "7.7.0"
+version = "7.7.1"
 
     [deps.ArrayInterface.extensions]
     ArrayInterfaceBandedMatricesExt = "BandedMatrices"
@@ -331,9 +462,9 @@ version = "0.2.2"
 
 [[deps.ChainRulesCore]]
 deps = ["Compat", "LinearAlgebra"]
-git-tree-sha1 = "ad25e7d21ce10e01de973cdc68ad0f850a953c52"
+git-tree-sha1 = "892b245fdec1c511906671b6a5e1bafa38a727c1"
 uuid = "d360d2e6-b24c-11e9-a2a3-2a2ae2dbcce4"
-version = "1.21.1"
+version = "1.22.0"
 weakdeps = ["SparseArrays"]
 
     [deps.ChainRulesCore.extensions]
@@ -387,9 +518,9 @@ version = "0.12.10"
 
 [[deps.Compat]]
 deps = ["TOML", "UUIDs"]
-git-tree-sha1 = "75bd5b6fc5089df449b5d35fa501c846c9b6549b"
+git-tree-sha1 = "d2c021fbdde94f6cdaa799639adfeeaa17fd67f5"
 uuid = "34da2185-b29b-5c13-b0c7-acf172513d20"
-version = "4.12.0"
+version = "4.13.0"
 weakdeps = ["Dates", "LinearAlgebra"]
 
     [deps.Compat.extensions]
@@ -445,9 +576,9 @@ version = "1.6.1"
 
 [[deps.DataStructures]]
 deps = ["Compat", "InteractiveUtils", "OrderedCollections"]
-git-tree-sha1 = "ac67408d9ddf207de5cfa9a97e114352430f01ed"
+git-tree-sha1 = "1fb174f0d48fe7d142e1109a10636bc1d14f5ac2"
 uuid = "864edb3b-99cc-5e75-8d2d-829cb0a9cfe8"
-version = "0.18.16"
+version = "0.18.17"
 
 [[deps.DataValueInterfaces]]
 git-tree-sha1 = "bfc1187b79289637fa0ef6d4436ebdfe6905cbd6"
@@ -591,6 +722,12 @@ git-tree-sha1 = "9b02998aba7bf074d14de89f9d37ca24a1a0b046"
 uuid = "78b55507-aeef-58d4-861c-77aaff3498b1"
 version = "0.21.0+0"
 
+[[deps.Ghostscript_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
+git-tree-sha1 = "43ba3d3c82c18d88471cfd2924931658838c9d8f"
+uuid = "61579ee1-b43e-5ca0-a5da-69d92c66a64b"
+version = "9.55.0+4"
+
 [[deps.Glib_jll]]
 deps = ["Artifacts", "Gettext_jll", "JLLWrappers", "Libdl", "Libffi_jll", "Libiconv_jll", "Libmount_jll", "PCRE2_jll", "Zlib_jll"]
 git-tree-sha1 = "e94c92c7bf4819685eb80186d51c43e71d4afa17"
@@ -645,11 +782,29 @@ git-tree-sha1 = "f218fe3736ddf977e0e772bc9a586b2383da2685"
 uuid = "34004b35-14d8-5ef3-9330-4cdb6864b03a"
 version = "0.3.23"
 
+[[deps.Hyperscript]]
+deps = ["Test"]
+git-tree-sha1 = "179267cfa5e712760cd43dcae385d7ea90cc25a4"
+uuid = "47d2ed2b-36de-50cf-bf87-49c2cf4b8b91"
+version = "0.0.5"
+
+[[deps.HypertextLiteral]]
+deps = ["Tricks"]
+git-tree-sha1 = "7134810b1afce04bbc1045ca1985fbe81ce17653"
+uuid = "ac1192a8-f4b3-4bfe-ba22-af5b92cd3ab2"
+version = "0.9.5"
+
 [[deps.ICU_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
 git-tree-sha1 = "20b6765a3016e1fca0c9c93c80d50061b94218b7"
 uuid = "a51ab1cf-af8e-5615-a023-bc2c838bba6b"
 version = "69.1.0+0"
+
+[[deps.IOCapture]]
+deps = ["Logging", "Random"]
+git-tree-sha1 = "8b72179abc660bfab5e28472e019392b97d0985c"
+uuid = "b5f81e59-6552-4d32-b1f0-c071b021bf89"
+version = "0.2.4"
 
 [[deps.IfElse]]
 git-tree-sha1 = "debdd00ffef04665ccbb3e150747a77560e8fad1"
@@ -712,15 +867,15 @@ version = "0.6.7"
 
 [[deps.ImageMagick]]
 deps = ["FileIO", "ImageCore", "ImageMagick_jll", "InteractiveUtils"]
-git-tree-sha1 = "b0b765ff0b4c3ee20ce6740d843be8dfce48487c"
+git-tree-sha1 = "8e2eae13d144d545ef829324f1f0a5a4fe4340f3"
 uuid = "6218d12a-5da1-5696-b52f-db25d2ecc6d1"
-version = "1.3.0"
+version = "1.3.1"
 
 [[deps.ImageMagick_jll]]
-deps = ["JpegTurbo_jll", "Libdl", "Libtiff_jll", "Pkg", "Zlib_jll", "libpng_jll"]
-git-tree-sha1 = "1c0a2295cca535fabaf2029062912591e9b61987"
+deps = ["Artifacts", "Ghostscript_jll", "JLLWrappers", "JpegTurbo_jll", "Libdl", "Libtiff_jll", "OpenJpeg_jll", "Pkg", "Zlib_jll", "libpng_jll"]
+git-tree-sha1 = "8d2e786fd090199a91ecbf4a66d03aedd0fb24d4"
 uuid = "c73af94c-d91f-53ed-93a7-00f77d67a9d7"
-version = "6.9.10-12+3"
+version = "6.9.11+4"
 
 [[deps.ImageMetadata]]
 deps = ["AxisArrays", "ImageAxes", "ImageBase", "ImageCore"]
@@ -815,13 +970,14 @@ version = "0.15.1"
     Unitful = "1986cc42-f94f-5a68-af5c-568840ba703d"
 
 [[deps.IntervalSets]]
-git-tree-sha1 = "581191b15bcb56a2aa257e9c160085d0f128a380"
+git-tree-sha1 = "dba9ddf07f77f60450fe5d2e2beb9854d9a49bd0"
 uuid = "8197267c-284f-5f27-9208-e0e47529a953"
-version = "0.7.9"
-weakdeps = ["Random", "Statistics"]
+version = "0.7.10"
+weakdeps = ["Random", "RecipesBase", "Statistics"]
 
     [deps.IntervalSets.extensions]
     IntervalSetsRandomExt = "Random"
+    IntervalSetsRecipesBaseExt = "RecipesBase"
     IntervalSetsStatisticsExt = "Statistics"
 
 [[deps.InvertedIndices]]
@@ -846,9 +1002,9 @@ version = "1.0.0"
 
 [[deps.JLD2]]
 deps = ["FileIO", "MacroTools", "Mmap", "OrderedCollections", "Pkg", "PrecompileTools", "Printf", "Reexport", "Requires", "TranscodingStreams", "UUIDs"]
-git-tree-sha1 = "7c0008f0b7622c6c0ee5c65cbc667b69f8a65672"
+git-tree-sha1 = "5ea6acdd53a51d897672edb694e3cc2912f3f8a7"
 uuid = "033835bb-8acc-5ee8-8aae-3f567f8a3819"
-version = "0.4.45"
+version = "0.4.46"
 
 [[deps.JLLWrappers]]
 deps = ["Artifacts", "Preferences"]
@@ -993,9 +1149,9 @@ version = "2.12.0+0"
 
 [[deps.LogExpFunctions]]
 deps = ["DocStringExtensions", "IrrationalConstants", "LinearAlgebra"]
-git-tree-sha1 = "7d6dd4e9212aebaeed356de34ccf262a3cd415aa"
+git-tree-sha1 = "18144f3e9cbe9b15b070288eef858f71b291ce37"
 uuid = "2ab3a3ac-af41-5b50-aa03-7779005ae688"
-version = "0.3.26"
+version = "0.3.27"
 
     [deps.LogExpFunctions.extensions]
     LogExpFunctionsChainRulesCoreExt = "ChainRulesCore"
@@ -1024,6 +1180,11 @@ version = "0.12.166"
     ChainRulesCore = "d360d2e6-b24c-11e9-a2a3-2a2ae2dbcce4"
     ForwardDiff = "f6369f11-7733-5829-9624-2563aa707210"
     SpecialFunctions = "276daf66-3868-5448-9aa4-cd146d93841b"
+
+[[deps.MIMEs]]
+git-tree-sha1 = "65f28ad4b594aebe22157d6fac869786a255b7eb"
+uuid = "6c6e2e6c-3030-632d-7369-2d6c69616d65"
+version = "0.1.4"
 
 [[deps.MKL_jll]]
 deps = ["Artifacts", "IntelOpenMP_jll", "JLLWrappers", "LazyArtifacts", "Libdl"]
@@ -1215,6 +1376,12 @@ git-tree-sha1 = "f9501cc0430a26bc3d156ae1b5b0c1b47af4d6da"
 uuid = "eebad327-c553-4316-9ea0-9fa01ccd7688"
 version = "0.3.3"
 
+[[deps.PlutoUI]]
+deps = ["AbstractPlutoDingetjes", "Base64", "ColorTypes", "Dates", "FixedPointNumbers", "Hyperscript", "HypertextLiteral", "IOCapture", "InteractiveUtils", "JSON", "Logging", "MIMEs", "Markdown", "Random", "Reexport", "URIs", "UUIDs"]
+git-tree-sha1 = "a6783c887ca59ce7e97ed630b74ca1f10aefb74d"
+uuid = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
+version = "0.7.57"
+
 [[deps.PolyesterWeave]]
 deps = ["BitTwiddlingConvenienceFunctions", "CPUSummary", "IfElse", "Static", "ThreadingUtilities"]
 git-tree-sha1 = "240d7170f5ffdb285f9427b92333c3463bf65bf6"
@@ -1317,12 +1484,6 @@ weakdeps = ["FixedPointNumbers"]
 
     [deps.Ratios.extensions]
     RatiosFixedPointNumbersExt = "FixedPointNumbers"
-
-[[deps.Reactive]]
-deps = ["DataStructures", "Distributed", "Test"]
-git-tree-sha1 = "5862d915387ebb954016f50a88e34f79a9e5fcd2"
-uuid = "a223df75-4e93-5b7c-acf9-bdd599c0f4de"
-version = "0.8.3"
 
 [[deps.RealDot]]
 deps = ["LinearAlgebra"]
@@ -1470,9 +1631,9 @@ weakdeps = ["OffsetArrays", "StaticArrays"]
 
 [[deps.StaticArrays]]
 deps = ["LinearAlgebra", "PrecompileTools", "Random", "StaticArraysCore"]
-git-tree-sha1 = "7b0e9c14c624e435076d19aea1e5cbdec2b9ca37"
+git-tree-sha1 = "bf074c045d3d5ffd956fa0a461da38a44685d6b2"
 uuid = "90137ffa-7385-5640-81b9-e52037218182"
-version = "1.9.2"
+version = "1.9.3"
 weakdeps = ["ChainRulesCore", "Statistics"]
 
     [deps.StaticArrays.extensions]
@@ -1503,9 +1664,9 @@ version = "0.34.2"
 
 [[deps.StatsFuns]]
 deps = ["HypergeometricFunctions", "IrrationalConstants", "LogExpFunctions", "Reexport", "Rmath", "SpecialFunctions"]
-git-tree-sha1 = "f625d686d5a88bcd2b15cd81f18f98186fdc0c9a"
+git-tree-sha1 = "cef0472124fab0695b58ca35a77c6fb942fdab8a"
 uuid = "4c63d2b9-4356-54db-8cca-17b64c39e42c"
-version = "1.3.0"
+version = "1.3.1"
 
     [deps.StatsFuns.extensions]
     StatsFunsChainRulesCoreExt = "ChainRulesCore"
@@ -1594,6 +1755,16 @@ weakdeps = ["Random", "Test"]
 
     [deps.TranscodingStreams.extensions]
     TestExt = ["Test", "Random"]
+
+[[deps.Tricks]]
+git-tree-sha1 = "eae1bb484cd63b36999ee58be2de6c178105112f"
+uuid = "410a4b4d-49e4-4fbc-ab6d-cb71b17b3775"
+version = "0.1.8"
+
+[[deps.URIs]]
+git-tree-sha1 = "67db6cc7b3821e19ebe75791a9dd19c9b1188f2b"
+uuid = "5c2747f8-b7ea-4ff2-ba2e-563bfd36b1d4"
+version = "1.5.1"
 
 [[deps.UUIDs]]
 deps = ["Random", "SHA"]
@@ -1697,9 +1868,9 @@ version = "5.8.0+1"
 
 [[deps.libpng_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Zlib_jll"]
-git-tree-sha1 = "93284c28274d9e75218a416c65ec49d0e0fcdf3d"
+git-tree-sha1 = "873b4f805771d3e4bafe63af759a26ea8ca84d14"
 uuid = "b53b4c65-9356-5827-b1ea-8c7a1a84506f"
-version = "1.6.40+0"
+version = "1.6.42+0"
 
 [[deps.libsixel_jll]]
 deps = ["Artifacts", "JLLWrappers", "JpegTurbo_jll", "Libdl", "Pkg", "libpng_jll"]
@@ -1726,23 +1897,47 @@ version = "0.13.1+0"
 
 # ╔═╡ Cell order:
 # ╟─0f9a747f-145b-40ce-bc6a-a56569ca6420
-# ╠═142a5d01-7379-40d4-876d-e8c6fe91f7f7
+# ╠═5f436c3f-d8e6-4820-838a-edcbaba85ce2
+# ╠═2163572e-d343-4141-a8d9-7fd83fc9e3d2
+# ╠═8c4fb522-09bc-44bb-9bd0-6149ec5706c7
+# ╠═2e721ea0-5e6b-4be7-8f75-0d798fa55a0e
 # ╟─d12fea51-16a1-4307-8236-f4ee0057163a
 # ╠═e6793e01-26e8-4c33-bf9e-1f6e456b2fb1
+# ╠═fa76a48f-644d-4949-ab12-aa0492545ed2
+# ╟─6727d103-f07b-4280-89ae-8c11cdf293c5
+# ╟─47e76596-6321-40a0-9212-1e6e19b84349
+# ╟─db8c7e24-40b9-4da5-b953-963dee3e5841
 # ╟─938369d7-eb08-4af6-9e11-2c52983a19e5
 # ╠═d840aafb-7963-425c-aa24-17ccc8fb1a7e
 # ╠═a0bfbcae-0cdc-4b92-ade8-768f434908d9
 # ╠═7547df72-f2c8-45e1-999a-72e18335ef8b
-# ╠═d38676b7-8bc3-407b-b3f0-35a38681465c
+# ╠═97500393-caa0-4cfe-9bdd-e173a9f33047
+# ╠═ac8a1910-1b5b-4699-8b61-ae28c5e8e88a
+# ╠═08fe5436-dffc-4ecf-8a13-9e9ee9ba63ef
+# ╠═0228a893-85ea-46e6-9ee8-991acd156c3d
 # ╟─04b3af8d-1482-4e92-84e1-1489b326f199
 # ╠═3d606c42-a344-4423-b5ad-7b0c09bc6a6a
 # ╠═badefcc1-83fd-467d-9161-0d9915275c8d
-# ╠═1d3d6f6f-1f1f-4843-846d-d7936b725495
+# ╠═6096fb15-9005-4334-938a-3aa412cfd407
+# ╠═a915a7ee-0d16-40d4-9653-be2a259f5e59
+# ╠═0020749f-1828-4c68-b798-5bd2353788b5
+# ╠═1f31fda2-5978-44d5-8cca-d7cf1f69c499
+# ╠═e1ebf804-d5ac-4949-8652-e3ed0caaefed
 # ╟─95021f43-df52-431d-8c21-2a15422f1e8d
 # ╠═44a1be5b-5184-4af8-a70a-c3ed44c2a640
+# ╠═55ca1d54-cf80-4266-9eb8-66f4ef540c57
+# ╠═c1c82bd1-4216-4572-aebc-525dc94a10b9
+# ╠═27c88187-fa49-4b6c-a897-a97dae36ca9e
+# ╠═9ba5d6e9-0f2c-4c7e-9511-d994d7766951
+# ╟─c585c65b-ad5a-4909-bb68-e4267656f89b
 # ╠═f61ae797-c22e-4c71-94d1-4a6c475f7d7f
 # ╠═fc1a2678-2055-4bd0-b809-9c33e9d5c508
-# ╠═9230407b-d368-4ca6-b71e-347c201c0f28
+# ╠═074e8d7b-7ffe-4e4e-9e30-9f2a5f09179c
+# ╠═413fe950-7dbd-4a18-935f-196a276aca47
+# ╠═cedf762b-d831-4eb6-b4d1-a27e706cba71
+# ╠═1eb0c0df-f632-47ae-b00f-d1e54c1d3565
+# ╠═d24d4d81-a6f8-4715-bc28-4bc1996d63bc
+# ╠═3c7fd68c-3c72-4378-8cc0-4cc574134c38
 # ╠═f8c8efcb-a4f1-4c44-94c5-22d64cca50af
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002

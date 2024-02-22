@@ -1,11 +1,17 @@
+# module Bandits
+
 using Printf
 using Random
 using PGFPlots
 
+# export Bandit, BanditPolicy, BanditStatistics, arm, reset!
+
+# export Bandit, BanditStatistics, BanditPolicy, pull, numArms, update!, winProbabilities, simulate, simulateAverage, learningCurves
+
 mutable struct Bandit
   θ::Vector{Float64} # true bandit probabilities
 end
-Bandit(k::Integer) = Bandit(rand(k))
+Bandit(k::Int) = Bandit(rand(k))
 pull(b::Bandit, i::Integer) = rand() < b.θ[i]
 numArms(b::Bandit) = length(b.θ)
 
@@ -108,3 +114,5 @@ function learningCurves(b::Bandit, policies; steps=10, iterations=10)
     end
     return lines
 end
+
+# end # module
