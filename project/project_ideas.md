@@ -9,4 +9,4 @@
 7. Laser Tag Belief MDP (contact Himanshu Gupta)
 8. Create a Julia or Python package that enumerates all equilibria of a bimatrix game using the lrsNash algorithm [Enumeration of Nash equilibria for two-player games (2009; Avis, Rosenberg, Savani, von Stengel)]
 
-You can also find examples in the [previous/projects directory](https://github.com/zsunberg/CU-DMU-Materials/tree/master/previous/projects) in this repo or here https://web.stanford.edu/class/aa228/cgi-bin/wp/old-projects/ or here https://github.com/zsunberg/CU-DMUPP-Materials/tree/main/previous/projects .
+You can also find examples in the [previous/projects directory](https://github.com/zsunberg/CU-DMU-Materials/tree/master/previous/projects) in this repo or here https://aa228.stanford.edu/old-projects/ or here https://github.com/zsunberg/CU-DMUPP-Materials/tree/main/previous/projects .
