@@ -71,7 +71,7 @@ inchrome(visualize_tree(q, n, t, SA[1,1])) # use inbrowser(visualize_tree(q, n, 
 # Question 4
 ############
 
-# A starting point for the MCTS select_action function which can be used for Questions 4 and 5
+# A starting point for the MCTS select_action function (a policy) which can be used for Questions 4 and 5
 function select_action(m, s)
 
     start = time_ns()
@@ -90,6 +90,9 @@ function select_action(m, s)
 end
 
 @btime select_action(m, SA[35,35]) # you can use this to see how much time your function takes to run. A good time is 10-20ms.
+
+# use the code below to evaluate the MCTS policy
+@show results = [rollout(m, select_action, rand(initialstate(m)), max_steps=100) for _ in 1:100]
 
 ############
 # Question 5
