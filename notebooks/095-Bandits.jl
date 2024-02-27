@@ -136,6 +136,12 @@ begin
 	bandit = Bandit(params)
 end
 
+# ╔═╡ ac8a1910-1b5b-4699-8b61-ae28c5e8e88a
+# ╠═╡ disabled = true
+#=╠═╡
+@bind epsgreedy Slider(exp10.(-3:0.2:0))
+  ╠═╡ =#
+
 # ╔═╡ 08fe5436-dffc-4ecf-8a13-9e9ee9ba63ef
 @bind commit Slider(0:10:50)
 
@@ -177,8 +183,37 @@ begin
 	bandit2 = Bandit(params)
 end
 
+# ╔═╡ a915a7ee-0d16-40d4-9653-be2a259f5e59
+@bind epsgreedy Slider(exp10.(-3:0.2:0))
+
+# ╔═╡ 0228a893-85ea-46e6-9ee8-991acd156c3d
+begin
+policies = [
+    "explore-commit ($commit)" => ExploreThenCommit(commit),
+	"eps greedy ($epsgreedy)" => EpsGreedy(epsgreedy),
+]
+curves = [Plots.Linear([1,steps], fill(maximum(params),2), legendentry="best arm", style="very thick, dashed", mark="none")]
+append!(curves, learningCurves(bandit, policies, steps=steps, iterations=iterations))
+Axis(curves, style="legend pos=south east", ymin=0, ymax=1, xmin=0, xmax=steps, xlabel="Pulls", ylabel="Average success", width="15cm", height="10cm")
+end
+
 # ╔═╡ 0020749f-1828-4c68-b798-5bd2353788b5
 @bind softmax Slider(0:10:80)
+
+# ╔═╡ 1f31fda2-5978-44d5-8cca-d7cf1f69c499
+@bind ucb_c Slider(exp10.(range(-2, 0, 8)))
+
+# ╔═╡ e1ebf804-d5ac-4949-8652-e3ed0caaefed
+begin
+	    policies2 = [
+	        "softmax ($softmax)" => SoftMax(softmax),
+	        "eps greedy ($epsgreedy)" => EpsGreedy(epsgreedy),
+	        "ucb ($ucb_c)" => UCB(ucb_c),
+	    ]
+	    curves2 = [Plots.Linear([1,steps], fill(maximum(params),2), legendentry="best arm", style="very thick, dashed", mark="none")]
+	    append!(curves2, learningCurves(bandit, policies2, steps=steps, iterations=iterations))
+	    Axis(curves2, style="legend pos=south east", ymin=0, ymax=1, xmin=0, xmax=steps, xlabel="Pulls", ylabel="Average success", width="15cm", height="10cm")
+end
 
 # ╔═╡ 95021f43-df52-431d-8c21-2a15422f1e8d
 md"""
@@ -253,31 +288,20 @@ end
 # ╔═╡ 413fe950-7dbd-4a18-935f-196a276aca47
 
 
-# ╔═╡ 0228a893-85ea-46e6-9ee8-991acd156c3d
-begin
-policies = [
-    "explore-commit ($commit)" => ExploreThenCommit(commit),
-	"eps greedy ($epsgreedy)" => EpsGreedy(epsgreedy),
-]
-curves = [Plots.Linear([1,steps], fill(maximum(params),2), legendentry="best arm", style="very thick, dashed", mark="none")]
-append!(curves, learningCurves(bandit, policies, steps=steps, iterations=iterations))
-Axis(curves, style="legend pos=south east", ymin=0, ymax=1, xmin=0, xmax=steps, xlabel="Pulls", ylabel="Average success", width="15cm", height="10cm")
-end
+# ╔═╡ cedf762b-d831-4eb6-b4d1-a27e706cba71
+# ╠═╡ disabled = true
+#=╠═╡
+@bind epsgreedy Slider(exp10.(-3:0.2:0))
+  ╠═╡ =#
 
 # ╔═╡ 1eb0c0df-f632-47ae-b00f-d1e54c1d3565
 @bind interval Slider(0.5:0.05:1)
 
-# ╔═╡ e1ebf804-d5ac-4949-8652-e3ed0caaefed
-begin
-	    policies2 = [
-	        "softmax ($softmax)" => SoftMax(softmax),
-	        "eps greedy ($epsgreedy)" => EpsGreedy(epsgreedy),
-	        "ucb ($ucb_c)" => UCB(ucb_c),
-	    ]
-	    curves2 = [Plots.Linear([1,steps], fill(maximum(params),2), legendentry="best arm", style="very thick, dashed", mark="none")]
-	    append!(curves2, learningCurves(bandit, policies2, steps=steps, iterations=iterations))
-	    Axis(curves2, style="legend pos=south east", ymin=0, ymax=1, xmin=0, xmax=steps, xlabel="Pulls", ylabel="Average success", width="15cm", height="10cm")
-end
+# ╔═╡ d24d4d81-a6f8-4715-bc28-4bc1996d63bc
+# ╠═╡ disabled = true
+#=╠═╡
+@bind ucb_c Slider(exp10.(range(-2, 0, 8)))
+  ╠═╡ =#
 
 # ╔═╡ 3c7fd68c-3c72-4378-8cc0-4cc574134c38
 begin
@@ -294,30 +318,6 @@ end
 
 # ╔═╡ f8c8efcb-a4f1-4c44-94c5-22d64cca50af
 
-
-# ╔═╡ 1f31fda2-5978-44d5-8cca-d7cf1f69c499
-@bind ucb_c Slider(exp10.(range(-2, 0, 8)))
-
-# ╔═╡ cedf762b-d831-4eb6-b4d1-a27e706cba71
-# ╠═╡ disabled = true
-#=╠═╡
-@bind epsgreedy Slider(exp10.(-3:0.2:0))
-  ╠═╡ =#
-
-# ╔═╡ d24d4d81-a6f8-4715-bc28-4bc1996d63bc
-# ╠═╡ disabled = true
-#=╠═╡
-@bind ucb_c Slider(exp10.(range(-2, 0, 8)))
-  ╠═╡ =#
-
-# ╔═╡ a915a7ee-0d16-40d4-9653-be2a259f5e59
-@bind epsgreedy Slider(exp10.(-3:0.2:0))
-
-# ╔═╡ ac8a1910-1b5b-4699-8b61-ae28c5e8e88a
-# ╠═╡ disabled = true
-#=╠═╡
-@bind epsgreedy Slider(exp10.(-3:0.2:0))
-  ╠═╡ =#
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
