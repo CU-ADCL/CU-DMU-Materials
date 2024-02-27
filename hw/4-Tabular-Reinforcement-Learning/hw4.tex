@@ -29,7 +29,7 @@
 \end{question}
 
 \begin{question}
-    (20 pts) Consider the following simple MDP: $S = \{1,2\}$, $A = \{L,R\}$. The initial state is 1, and 2 is a terminal state. Both actions result in deterministic transitions to state 2. $R(1,L) = 10$, $R(1,R) = 20$. Consider a policy parameterized with $\theta = [\theta_L, \theta_R]$, where $$\pi_\theta (a \mid s) = \frac{e^{\theta_a}}{e^{\theta_L} + e^{\theta_R}} \text{.}$$ Calculate the policy gradients at $\theta = [0.5, 0.5]$ without baseline subtraction for two trajectories: $(1,L,5,2)$ and $(1,R,10,2)$.
+    (20 pts) Consider the following simple MDP: $S = \{1,2\}$, $A = \{L,R\}$. The initial state is 1, and 2 is a terminal state. Both actions result in deterministic transitions to state 2. $R(1,L) = 10$, $R(1,R) = 20$. Consider a policy parameterized with $\theta = [\theta_L, \theta_R]$, where $$\pi_\theta (a \mid s) = \frac{e^{\theta_a}}{e^{\theta_L} + e^{\theta_R}} \text{.}$$ Calculate the policy gradients at $\theta = [0.5, 0.5]$ without baseline subtraction for two trajectories: $(1,L,10,2)$ and $(1,R,20,2)$.
 \end{question}
 
 \section{Exercises}
