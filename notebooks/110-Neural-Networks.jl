@@ -28,6 +28,7 @@ n = 100
 
 # ╔═╡ 2238a0a0-884d-4ad6-a562-5be6518ca069
 dx = rand(Float32, n)
+# dx = convert.(Float32, LinRange(0, 1, n))
 
 # ╔═╡ cd53454a-bc66-4852-a2f4-8b272f04c4cf
 dy = convert.(Float32, sin.(4*pi*dx) + 0.1*randn(n))
@@ -49,8 +50,8 @@ loss(x, y) = sum((m(x)-y).^2)
 models = [deepcopy(m)]
 
 # ╔═╡ 5631775f-edd1-49d4-bc48-5a5477d6fdde
-for i in 1:10
-	Flux.train!(loss, Flux.params(m), repeat(data, 50), Adam());
+for i in 1:20
+	Flux.train!(loss, Flux.params(m), repeat(data, 50), Descent());
 	push!(models, deepcopy(m))
 end
 
@@ -60,7 +61,7 @@ end
 # ╔═╡ 8a411fc9-6e96-43b3-a61c-e200d6f6e312
 begin
 	p = plot(sort(dx), x->(sin(4*pi*x)), label="sin(4π x)")
-	plot!(p, sort(dx), first.(models[i].(SVector.(sort(dx)))), label="NN approximation")
+	plot!(p, sort(dx), first.(models[i].(SVector.(sort(dx)))), label="NN approx. ($(i))")
 	scatter!(p, dx, dy, label="data")
 end
 
