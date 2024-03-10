@@ -90,9 +90,9 @@ sim = RolloutSimulator(max_steps=100)
 using CommonRLInterface
 using Flux
 using CommonRLInterface.Wrappers: QuickWrapper
-using VegaLite
-using ElectronDisplay # not needed if you're using a notebook or something that can display graphs
-using DataFrames: DataFrame
+# using VegaLite
+# using ElectronDisplay # not needed if you're using a notebook or something that can display graphs
+# using DataFrames: DataFrame
 
 # The following are some basic components needed for DQN
 
@@ -145,21 +145,27 @@ HW5.evaluate(s->actions(env)[argmax(Q(s[1:2]))], n_episodes=100) # you will need
 # Rendering
 #----------
 
-# You can show an image of the environment like this:
+# You can show an image of the environment like this (use ElectronDisplay if running from REPL):
 display(render(env))
 
-# The following code allows you to render the value function using VegaLite and ElectronDisplay
-function render_value(value)
-    xs = -3.0:0.1:3.0
-    vs = -0.3:0.01:0.3
+# The following code allows you to render the value function
+using Plots
+xs = -3.0f0:0.1f0:3.0f0
+vs = -0.3f0:0.01f0:0.3f0
+heatmap(xs, vs, (x, v) -> maximum(Q([x, v])), xlabel="Position (x)", ylabel="Velocity (v)", title="Max Q Value")
 
-    data = DataFrame(
-                     x = vec([x for x in xs, v in vs]),
-                     v = vec([v for x in xs, v in vs]),
-                     val = vec([value([x, v]) for x in xs, v in vs])
-    )
 
-    data |> @vlplot(:rect, "x:o", "v:o", color=:val, width="container", height="container")
-end
-
-display(render_value(s->maximum(Q(s))))
+# function render_value(value)
+#     xs = -3.0:0.1:3.0
+#     vs = -0.3:0.01:0.3
+# 
+#     data = DataFrame(
+#                      x = vec([x for x in xs, v in vs]),
+#                      v = vec([v for x in xs, v in vs]),
+#                      val = vec([value([x, v]) for x in xs, v in vs])
+#     )
+# 
+#     data |> @vlplot(:rect, "x:o", "v:o", color=:val, width="container", height="container")
+# end
+# 
+# display(render_value(s->maximum(Q(s))))
