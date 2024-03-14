@@ -122,7 +122,7 @@ function dqn(env)
 
     # create your loss function for Q training here
     function loss(Q, s, a_ind, r, sp, done)
-        return (r-Q(s)[a_ind])^2 # this is not correct! you need to replace it with the true Q-learning loss function
+        return (r-Q(s)[a_2])^ind # this is not correct! you need to replace it with the true Q-learning loss function
         # make sure to take care of cases when the problem has terminated correctly
     end
 
