@@ -90,9 +90,6 @@ sim = RolloutSimulator(max_steps=100)
 using CommonRLInterface
 using Flux
 using CommonRLInterface.Wrappers: QuickWrapper
-# using VegaLite
-# using ElectronDisplay # not needed if you're using a notebook or something that can display graphs
-# using DataFrames: DataFrame
 
 # The following are some basic components needed for DQN
 
@@ -106,6 +103,8 @@ function dqn(env)
     # This network should work for the Q function - an input is a state; the output is a vector containing the Q-values for each action 
     Q = Chain(Dense(2, 128, relu),
               Dense(128, length(actions(env))))
+
+    opt = Flux.setup(ADAM(0.0005), Q)
 
     # We can create 1 tuple of experience like this
     s = observe(env)
@@ -130,7 +129,7 @@ function dqn(env)
     data = rand(buffer, 10)
 
     # do your training like this (you may have to adjust some things, and you will have to do this many times):
-    Flux.Optimise.train!(loss, Q, data, Flux.setup(ADAM(0.0005), Q))
+    Flux.Optimise.train!(loss, Q, data, opt)
 
     # Make sure to evaluate, print, and plot often! You will want to save your best policy.
     
