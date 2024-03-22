@@ -118,10 +118,13 @@ function dqn(env)
     # this container should work well for the experience buffer:
     buffer = [experience_tuple]
     # you will need to push more experience into it and randomly select data for training
+    
+    # this is the fixed target Q network
+    Q_target = deepcopy(Q)
 
     # create your loss function for Q training here
     function loss(Q, s, a_ind, r, sp, done)
-        return (r-Q(s)[a_2])^ind # this is not correct! you need to replace it with the true Q-learning loss function
+        return (Q(s)[a_ind] - Q_target(s)[a_ind])^2 # this is not correct! you need to replace it with the true Q-learning loss function
         # make sure to take care of cases when the problem has terminated correctly
     end
 
