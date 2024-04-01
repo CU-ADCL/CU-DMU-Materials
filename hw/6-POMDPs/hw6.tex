@@ -1,0 +1,64 @@
+\documentclass{article}
+\usepackage{fullpage,amsmath,amsthm,graphicx,enumitem,amssymb}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\theoremstyle{definition}
+\newtheorem{thm}{Theorem}
+\newtheorem{question}[thm]{Question}
+\newenvironment{solution}{\noindent\textit{Solution:}}{}
+
+\newcommand{\reals}{\mathbb{R}}
+
+\title{ASEN 5264 Decision Making under Uncertainty\\
+       Homework 6: POMDPs}
+
+\begin{document}
+
+\maketitle
+
+
+
+\section{Exercises}
+
+\begin{question} \label{q:tiger}
+    (35 pts)
+
+    Write the following three elements of a POMDP solver that uses the QMDP approximation:
+    \begin{enumerate}[noitemsep]
+        \item A belief \href{https://juliapomdp.github.io/POMDPs.jl/stable/def_updater/}{\texttt{Updater}} and the associated \href{https://juliapomdp.github.io/POMDPs.jl/stable/api/#POMDPs.update}{\texttt{update} function} to calculate the Bayesian belief update\footnote{This can be a discrete Bayesian filter or a particle filter - the discrete filter is easier to implement}.
+        \item A \href{https://juliapomdp.github.io/POMDPs.jl/stable/concepts/#Solvers-and-Policies}{\texttt{Policy} \texttt{struct}} and associated \href{https://juliapomdp.github.io/POMDPs.jl/stable/api/#POMDPs.action}{\texttt{action} function} that chooses an action based on a list of alpha vectors.
+        \item A function that calculates the QMDP alpha vectors for a \texttt{POMDP} and returns them as an object of the \texttt{Policy} type described above.
+    \end{enumerate}
+    The \href{https://github.com/zsunberg/CU-DMU-Materials/blob/master/hw/6-POMDPs/starter_code.jl}{starter code} contains the skeleton code for these three items. Use your QMDP code and the SARSOP.jl package to solve the \texttt{TigerPOMDP} from the POMDPModels.jl package. Provide the following two deliverables:
+    \begin{enumerate}[label=\alph*)]
+        \item Plot the alpha vectors from SARSOP\footnote{You can use the \texttt{alphavectors} function from POMDPPolicies.jl to access the alpha vectors from the policy that SARSOP returns.} and the pseudo alpha vectors from QMDP.
+        \item Evaluate the QMDP policy and a near-optimal policy calculated with the SARSOP.jl package using Monte Carlo simulations. Report the average return and standard error of the mean.
+    \end{enumerate}
+\end{question}
+
+\begin{question}
+    (25 pts)
+
+    Evaluate the following three policies on the cancer problem that you created in Homework 5:
+    \begin{enumerate}[noitemsep]
+        \item The QMDP policy obtained using your code from Question~\ref{q:tiger} above.
+        \item A heuristic policy \emph{that outperforms the QMDP policy}\footnote{Hint: you may want to use the QMDP policy within your heuristic policy, i.e. take the QMDP actions some of the time.}.
+        \item A near-optimal policy calculated by the SARSOP solver from the SARSOP.jl package.
+    \end{enumerate}
+    First, report the results of these simulations in a table, then write a short paragraph answering the following question: Both the tiger and cancer problems are similar in that they have information-gathering actions. However, the performance gap between the QMDP and optimal solutions in one of the problems is much larger. Which problem has the larger gap, and why?
+\end{question}
+
+\section{Challenge Problem}
+
+\begin{question}
+    (Lasertag POMDP, 40 pts)
+    
+    In this problem, you will create a high-performance policy for a laser tag POMDP model \href{https://github.com/zsunberg/DMUStudent.jl/blob/master/src/HW6.jl#L20-L268}{\texttt{HW6.LaserTagPOMDP()}}.  In this POMDP, a robot seeks to tag a moving target in a grid world with obstacles. The state space consists of all positions the robot and the target can take, and the problem ends with a reward of 100 as soon as they occupy the same cell. There are five actions, \texttt{:up}, \texttt{:down}, \texttt{:left}, \texttt{:right}, and \texttt{:measure}. The \texttt{:measure} action has a cost of -2 and gives the robot returns from lasers pointed in the four directions indicating the \emph{exact} distance to the first wall, obstacle, or target that the laser encounters. When any other action is taken, the reward is -1 and the laser observations are much less reliable: 90\% of the time they fail (returning 0), and 10\% of the time they return an accurate distance. The source code, along with the \texttt{POMDPs.jl} interface including \texttt{POMDPModelTools.render} can be used to further explore the problem.
+
+    \begin{enumerate}[label=\alph*)]
+        \item Submit a \texttt{Policy} or a tuple containing a \texttt{Policy} and an \texttt{Updater} to the \texttt{HW6.evaluate} function. A score of 15 will get full credit. You can use or modify your QMDP code from Question~\ref{q:tiger}, or you are encouraged to use any tools available to you - any POMDPs.jl solvers, deep reinforcement learning, a modification of your MCTS code from earlier homework, or heuristic policies are all acceptable. The \texttt{Policy} object may be a solution that was calculated offline, or an online planner.
+        \item Write a short paragraph describing your approach.
+    \end{enumerate}
+\end{question}
+
+\end{document}
