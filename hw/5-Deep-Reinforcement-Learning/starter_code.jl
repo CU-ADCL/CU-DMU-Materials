@@ -106,6 +106,7 @@ function dqn(env)
 
     opt = Flux.setup(ADAM(0.0005), Q)
 
+
     # We can create 1 tuple of experience like this
     s = observe(env)
     a_ind = 1 # action index - the index, rather than the actual action itself, will be needed in the loss function
@@ -119,6 +120,8 @@ function dqn(env)
     buffer = [experience_tuple]
     # you will need to push more experience into it and randomly select data for training
     
+    reset!(env) # NOTE: after each time the environment reaches a terminal state, you need to reset it
+
     # this is the fixed target Q network
     Q_target = deepcopy(Q)
 
