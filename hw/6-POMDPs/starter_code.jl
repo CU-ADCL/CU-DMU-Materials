@@ -2,7 +2,7 @@ using POMDPs
 using DMUStudent.HW6
 using POMDPTools: transition_matrices, reward_vectors, SparseCat, Deterministic, RolloutSimulator, DiscreteBelief, FunctionPolicy, ordered_states, ordered_actions, DiscreteUpdater
 using QuickPOMDPs: QuickPOMDP
-using POMDPModels: TigerPOMDP
+using POMDPModels: TigerPOMDP, TIGER_LEFT, TIGER_RIGHT, TIGER_LISTEN, TIGER_OPEN_LEFT, TIGER_OPEN_RIGHT
 using NativeSARSOP: SARSOPSolver
 using POMDPTesting: has_consistent_distributions
 
