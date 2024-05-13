@@ -1,0 +1,77 @@
+\documentclass{article}
+\usepackage{fullpage,amsmath,amsthm,graphicx,enumitem,amsfonts}
+\usepackage{multicol}
+\usepackage{booktabs}
+\usepackage{sgame}
+
+\usepackage{tikz}
+
+\theoremstyle{definition}
+\newtheorem{thm}{Theorem}
+\newtheorem{question}[thm]{Question}
+\newenvironment{solution}{\noindent\textit{Solution:}}{}
+
+\title{ASEN 5264 Decision Making under Uncertainty\\
+       Exam 2: POMDPs and Simple Games}
+
+\date{\small Clearly indicate your final answers and briefly justify answers with text or mathematical expressions.\\
+If you do not understand how to do a problem, skip it and move on so that you have time to attempt all problems.\\
+You may consult any static source, but you may NOT communicate with any person except the instructor or TA, and you may not use LLMs such as ChatGPT.}
+
+\begin{document}
+\maketitle
+
+\begin{question} \label{q:eclipse} (50 pts)
+
+    Suppose that you are getting ready to view a partial solar eclipse, but you have doubts about whether your eclipse glasses are safe. You decide decide to use a POMDP with state space $\mathcal{S} = \{\text{SAFE}, \text{UNSAFE}\}$ to evaluate your options. You can either look through the glasses or not ($\mathcal{A} = \{\text{LOOK}, \text{WAIT}\}$). If the glasses are safe, you will see the eclipse and receive a positive reward. If the glasses are unsafe, you will damage your eyes and receive a negative reward. The problem terminates after you decide to LOOK or WAIT.
+    \begin{enumerate}[label=\alph*)]
+        \item What reward function would generate one-step alpha vectors $[20, -100]$ and $[0, 0]$?
+        \item Draw these alpha vectors in the manner used in class. Clearly label the axes and what the alpha vectors correspond to. \label{item:alpha}
+        % \item If you are 80\% sure that the glasses are safe, what is the optimal action in this POMDP?
+    \end{enumerate}
+    Now suppose that you have an additional action to COMPARE with the glasses that one of the many random people standing around you is using. There is a small penalty for this action ($\mathcal{R}(\cdot, \text{COMPARE}) = -1$) because it is slightly embarrassing. The observations after comparing are $\mathcal{O} = \{\text{DARK}, \text{LIGHTER}\}$ denoting that your glasses are at least as dark as theirs or lighter than theirs respectively. Suppose there is only a 90\% chance that each other person has safe glasses, so the observation probabilities are
+    \begin{align*}
+        \mathcal{Z}(\text{DARK} \mid \text{COMPARE}, \text{SAFE}) &= 1.0 \\
+        \mathcal{Z}(\text{DARK} \mid \text{COMPARE}, \text{UNSAFE}) &= 0.1 \text{.}
+    \end{align*}
+    \begin{enumerate}[label=\alph*)]
+        \setcounter{enumi}{2}
+        \item Draw a diagram of a two-step conditional plan where the initial action is COMPARE and the subsequent action for observation DARK is LOOK and the subsequent action for LIGHTER is WAIT.
+        \item Calculate the alpha vector for this conditional plan and draw it with the alpha vectors from part \ref{item:alpha} on the same axis. (Assume $\gamma=1$ and note that the one-step $\alpha$ vectors from part \ref{item:alpha} are compatible with this two step alpha vector because the problem terminates after a LOOK or WAIT action.)
+        \item Under the policy defined by these alpha vectors, what option should you choose if you are 90\% sure that the glasses are safe?
+        \item Is the value function defined by these alpha vectors the optimal value function for the problem if it has an infinite horizon (but still terminates on LOOK or WAIT actions)? Why or why not?
+    \end{enumerate}
+\end{question}
+
+\clearpage
+(Additional page for work on Question \ref{q:eclipse}.)
+
+
+\clearpage
+\begin{question} (15 pts)
+    Consider the three-action eclipse POMDP defined in Question \ref{q:eclipse} above. Suppose that you have a prior belief that the glasses are SAFE with probability 0.8. 
+    \begin{enumerate}[label=\alph*)]
+        \item After you take the COMPARE action, you observe that your glasses are as DARK as the other person's. What is your posterior belief that your glasses are SAFE?
+        \item Suppose that you are using an unweighted particle filter with 5 particles to approximate your belief. By chance, all 5 initial particles are sampled as SAFE states. If you receive the LIGHTER observation, what will be the result of the belief update?
+    \end{enumerate}
+\end{question}
+
+\clearpage
+\begin{question} (35 pts)
+    Consider the following two-player game:\\
+    \begin{center}
+   \begin{game}{2}{2}
+        & $L$ & $R$ \\
+        $T$ & $2,1$ & $1,2$ \\
+        $B$ & $1,1$ & $2,2$
+    \end{game}
+    \end{center}
+    \begin{enumerate}[label=\alph*)]
+        \item Find all of the pure Nash equilibria of the game.
+        \item Do any players have a dominant strategy in this game? If so, describe the strategy.
+        \item Modify the game to add one additional pure Nash equilibrium. Write down the new payoff matrix.
+        \item Find all of the Nash equilibria of the modified game.
+    \end{enumerate}
+\end{question}
+
+\end{document}
