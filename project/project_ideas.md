@@ -9,5 +9,7 @@
 7. Laser Tag Belief MDP (contact Himanshu Gupta)
 8. Create a Julia or Python package that enumerates all equilibria of a bimatrix game using the lrsNash algorithm [Enumeration of Nash equilibria for two-player games (2009; Avis, Rosenberg, Savani, von Stengel)]
 9. Use [BSK-RL](https://github.com/AVSLab/bsk_rl) to do some satellite reinforcement learning
+10. Imitation learning or multiplayer RL on Atari with/against a real human player
+11. Develop POMDPs.jl domains with Kyle Wray.
 
 You can also find examples in the [previous/projects directory](https://github.com/zsunberg/CU-DMU-Materials/tree/master/previous/projects) in this repo or here https://aa228.stanford.edu/old-projects/ or here https://github.com/zsunberg/CU-DMUPP-Materials/tree/main/previous/projects .
