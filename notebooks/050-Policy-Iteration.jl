@@ -71,7 +71,7 @@ function policy_iteration(m)
 end
 
 # ╔═╡ 13d43813-1a75-4841-a2f7-6423c9be398c
-m = SimpleGridWorld(discount=0.8)
+m = SimpleGridWorld(discount=0.7, tprob=1.0)
 
 # ╔═╡ 79406caa-d33b-4975-b45c-838accdb6eb3
 render(m)

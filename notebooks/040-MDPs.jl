@@ -142,7 +142,13 @@ md"""
 
 # ╔═╡ 8f47d8a0-feb5-4b75-b7ac-a36eeec5af97
 function policy_function(s)
-	return :right
+	if s[1] < 9
+		return :right
+	elseif s[2] > 3
+		return :down
+	else
+		return :left
+	end
 end
 
 # ╔═╡ d51a88a1-b729-4ea1-82cc-19603099eb78
