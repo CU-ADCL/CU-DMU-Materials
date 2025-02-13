@@ -17,7 +17,7 @@ end
 
 using BenchmarkTools
 
-@btime randmult(100)
+@benchmark randmult(100)
 
 # first run 405 us
 
@@ -25,4 +25,4 @@ using BenchmarkTools
 
 # @profview randmult(1000)
 
-# @profview randmult(10000)
+@profview randmult(10000)
