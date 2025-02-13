@@ -33,7 +33,7 @@ display(R) # this is a Dict that contains a reward vector for each action
 function value_iteration(m)
     # It is good to put performance-critical code in a function: https://docs.julialang.org/en/v1/manual/performance-tips/
 
-    V = rand(length(states(m))) # this would be a good container to use for your value function
+    V = zeros(length(states(m))) # this would be a good container to use for your value function
 
     # put your value iteration code here
 
