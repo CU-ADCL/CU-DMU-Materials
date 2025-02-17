@@ -138,12 +138,6 @@ begin
 	bandit = Bandit(params)
 end
 
-# ╔═╡ ac8a1910-1b5b-4699-8b61-ae28c5e8e88a
-# ╠═╡ disabled = true
-#=╠═╡
-@bind epsgreedy Slider(exp10.(-3:0.2:0))
-  ╠═╡ =#
-
 # ╔═╡ 08fe5436-dffc-4ecf-8a13-9e9ee9ba63ef
 @bind commit Slider(0:10:50)
 
@@ -184,9 +178,6 @@ begin
 	params2 = rand(Random.Xoshiro(1), 10)
 	bandit2 = Bandit(params)
 end
-
-# ╔═╡ a915a7ee-0d16-40d4-9653-be2a259f5e59
-@bind epsgreedy Slider(exp10.(-3:0.2:0))
 
 # ╔═╡ 0228a893-85ea-46e6-9ee8-991acd156c3d
 begin
@@ -320,6 +311,15 @@ end
 
 # ╔═╡ f8c8efcb-a4f1-4c44-94c5-22d64cca50af
 
+
+# ╔═╡ a915a7ee-0d16-40d4-9653-be2a259f5e59
+# ╠═╡ disabled = true
+#=╠═╡
+@bind epsgreedy Slider(exp10.(-3:0.2:0))
+  ╠═╡ =#
+
+# ╔═╡ ac8a1910-1b5b-4699-8b61-ae28c5e8e88a
+@bind epsgreedy Slider(exp10.(-4:0.5:0))
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
