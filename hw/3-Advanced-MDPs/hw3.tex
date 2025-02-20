@@ -34,7 +34,7 @@
 \end{question}
 
 \section{Exercises}
-    \texttt{HW3.DenseGridWorld()} generates a 60x60 grid world MDP. There is a reward of +100 every 20 cells, i.e. at [20,20], [20,40], [40,20], etc. Once the agent reaches one of these reward cells, or an edge cell, the problem terminates. All cells also have a cost. Only a generative transition model is available. You will use the following functions from POMDPs.jl to interact with this problem (or larger versions) in the rest of this assignment:
+    \texttt{HW3.DenseGridWorld()} generates a 60x60 grid world MDP. There is a reward of +100 every 20 cells, i.e. at [20,20], [20,40], [40,20], etc. After the agent reaches one of these reward cells, the problem terminates. All cells also have a cost. Only a generative transition model is available. You will use the following functions from POMDPs.jl to interact with this problem (or larger versions) in the rest of this assignment:
     \begin{itemize}[nosep]
         \item \texttt{actions(m)}
         \item \texttt{@gen(:sp, :r)(m, s, a)}
