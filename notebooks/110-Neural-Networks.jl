@@ -50,7 +50,7 @@ loss(x, y) = sum((m(x)-y).^2)
 
 # ╔═╡ 5631775f-edd1-49d4-bc48-5a5477d6fdde
 begin
-	opt = Adam(0.01)
+	opt = Adam(0.0001)
 	models = [deepcopy(m)]
 	total_loss = sum(loss.(first.(data), last.(data)))
 	@info("Initial model", total_loss)
@@ -76,18 +76,18 @@ begin
 end
 
 # ╔═╡ d5b21d62-fcd1-430f-b123-e738058aa6f2
-m = Chain(Dense(1=>50,tanh), Dense(50=>50,tanh), Dense(50=>1))
-
-# ╔═╡ ff4db8dc-493c-4229-85d6-5af03b110ac2
 # ╠═╡ disabled = true
 #=╠═╡
-m = Chain(
-    Dense(1, 16, tanh; init=Flux.glorot_uniform()),  # Input layer with tanh activation
-    Dense(16, 32, tanh; init=Flux.glorot_uniform()), # Hidden layer
-    Dense(32, 16, tanh; init=Flux.glorot_uniform()), # Hidden layer
-    Dense(16, 1; init=Flux.glorot_uniform())         # Output layer (no activation for regression)
-)
+m = Chain(Dense(1=>128,σ), Dense(128=>128,σ), Dense(128=>1))
   ╠═╡ =#
+
+# ╔═╡ ff4db8dc-493c-4229-85d6-5af03b110ac2
+m = Chain(
+    Dense(1 => 32, tanh),  # Input layer with tanh activation
+    Dense(32 => 32, tanh), # Hidden layer
+    Dense(32 => 16, tanh), # Hidden layer
+    Dense(16 => 1)         # Output layer (no activation for regression)
+)
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
