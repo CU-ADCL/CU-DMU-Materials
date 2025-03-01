@@ -16,78 +16,113 @@ macro bind(def, element)
     #! format: on
 end
 
-# ╔═╡ b5ac4734-dabe-11ee-2e66-a1e943cd8190
-begin
-	using Plots: scatter, scatter!, plot, plot!
-	using Flux
-	using StaticArrays
-	using Random: randperm
-	using PlutoUI
-end
+# ╔═╡ 1256a862-f61d-11ef-05e2-191ed73722f1
+using PlutoUI, Plots, Flux
 
-# ╔═╡ b06f8ca7-0ea7-4a51-9943-841e934858c2
-n = 100
-
-# ╔═╡ 2238a0a0-884d-4ad6-a562-5be6518ca069
-dx = rand(Float32, n)
-# dx = convert.(Float32, LinRange(0, 1, n))
-
-# ╔═╡ cd53454a-bc66-4852-a2f4-8b272f04c4cf
-dy = convert.(Float32, sin.(4*pi*dx) + 0.1*randn(n))
-
-# ╔═╡ 381c32ef-33bc-4763-81bb-09d3bf3ea4c2
-scatter(dx, dy)
-
-# ╔═╡ c0884d1f-f33f-4d9c-a027-5a9ced9e0091
-data = [(SVector(dx[i]), SVector(dy[i])) for i in 1:length(dx)]
-
-# ╔═╡ 369af853-8d4e-4252-ab98-dea544aa087a
-m([0.4f0])
-
-# ╔═╡ c38dfe1d-c85e-46a2-8fd4-f6c3082d6d49
-# loss(x, y) = Flux.mse(m(x), y)
-loss(x, y) = sum((m(x)-y).^2)
-
-# ╔═╡ 5631775f-edd1-49d4-bc48-5a5477d6fdde
-begin
-	opt = Adam(0.01)
-	models = [deepcopy(m)]
-	total_loss = sum(loss.(first.(data), last.(data)))
-	@info("Initial model", total_loss)
-	for i in 1:20
-		Flux.train!(loss, Flux.params(m), repeat(data, 50), opt);
-		total_loss = sum(loss.(first.(data), last.(data)))
-		@info("Iteration $i", total_loss)
-		push!(models, deepcopy(m))
-		if total_loss < 2.0
-			break
-		end
+# ╔═╡ 82f8b78d-238d-4656-949f-eaf5b610fba4
+function get_params()
+	return PlutoUI.combine() do Child
+		pairs = (
+			("learning_rate", 10.0 .^ (-5:0), 1e-3),
+			("n_epochs", 2_000:2_000:10_000, 10_000),
+			("minibatch_size", [1, 10, 100], 1)
+		)
+		
+		inputs = [
+			md""" $(name): $(Child(name, Slider(vals; default)))"""
+			for (name, vals, default) in pairs
+		]
+	
+		md"""
+		### Parameters
+		$(inputs)
+		"""
 	end
 end
 
-# ╔═╡ e27932e8-f83d-4ec6-85e3-8de5a2df2e82
-@bind i Slider(1:length(models))
+# ╔═╡ 0a8b7c3b-7419-45ab-842f-4bee623f9aba
+loss(model, x, y) = sum((model(x) - y) .^ 2) / length(y)
 
-# ╔═╡ 8a411fc9-6e96-43b3-a61c-e200d6f6e312
-begin
-	p = plot(sort(dx), x->(sin(4*pi*x)), label="sin(4π x)")
-	plot!(p, sort(dx), first.(models[i].(SVector.(sort(dx)))), label="NN approx. ($(i))")
-	scatter!(p, dx, dy, label="data")
+# ╔═╡ 116e7b6e-1af7-4a7b-b5ce-eaa608c7f02d
+function train(x_data, y_data; 
+	learning_rate=1e-3, n_epochs=1_000, save_every=50, minibatch_size=1
+	)
+	
+	model = Chain(
+		Dense(1=>50, tanh), 
+		Dense(50=>50, tanh), 
+		Dense(50=>1)
+	)
+	opt_state = Flux.setup(Adam(learning_rate), model)
+
+	losses = Float32[]
+	models = [deepcopy(model)]
+
+	n_minibatches = length(y_data) ÷ minibatch_size
+	
+	for epoch in 1:n_epochs
+		batch_loss = zero(Float32)
+
+		for i in 1:n_minibatches
+			idxs = (1:minibatch_size) .+ minibatch_size * (i - 1)
+			x_minibatch = x_data[:, idxs]
+			y_minibatch = y_data[:, idxs]
+				
+			minibatch_loss, grads = Flux.withgradient(model) do m
+				loss(m, x_minibatch, y_minibatch)
+			end
+			
+			Flux.update!(opt_state, model, grads[1])
+			
+			batch_loss += minibatch_loss / n_minibatches
+		end
+		
+		push!(losses, batch_loss)
+
+		if epoch % save_every == 0
+			push!(models, deepcopy(model))
+		end
+	end
+
+	return models, losses
 end
 
-# ╔═╡ d5b21d62-fcd1-430f-b123-e738058aa6f2
-m = Chain(Dense(1=>50,tanh), Dense(50=>50,tanh), Dense(50=>1))
+# ╔═╡ 35bb93e3-2a76-4836-881a-d55f541c6954
+begin
+	x_true = range(0, 1, 500)
+	y_true = sin.(4 * pi * x_true)
+	p1 = plot(x_true, y_true; label="sin(4πx)", xlabel="x", ylabel="y")
 
-# ╔═╡ ff4db8dc-493c-4229-85d6-5af03b110ac2
-# ╠═╡ disabled = true
-#=╠═╡
-m = Chain(
-    Dense(1, 16, tanh; init=Flux.glorot_uniform()),  # Input layer with tanh activation
-    Dense(16, 32, tanh; init=Flux.glorot_uniform()), # Hidden layer
-    Dense(32, 16, tanh; init=Flux.glorot_uniform()), # Hidden layer
-    Dense(16, 1; init=Flux.glorot_uniform())         # Output layer (no activation for regression)
-)
-  ╠═╡ =#
+	# Data generation
+	# Each data entry should be its own column
+	# Using Float32 is important as math will be faster compared to Float64
+	n = 100
+	x_data = rand(Float32, 1, n)
+	y_data = sin.(4 * (pi * x_data)) + 0.1f0 * randn(Float32, 1, n)
+	scatter!(p1, x_data[1,:], y_data[1,:]; label="Training Data", )
+end
+
+# ╔═╡ 5739d09b-2b73-4af3-814c-00d98b5b9b35
+@bind params get_params()
+
+# ╔═╡ eacb92a7-fe92-4db5-84d8-93016f790b6c
+@show params;
+
+# ╔═╡ b8b3ef90-2135-4088-8c0b-d42d107e9885
+models, losses = train(x_data, y_data; params...);
+
+# ╔═╡ 159670ea-2481-437c-9302-4812a06d35ac
+@bind i Slider(1:length(models); default=length(models))
+
+# ╔═╡ 84933c61-54f4-43ca-bf89-a9129c6c23d8
+begin 
+	p2 = plot(losses; 
+		label=false, xlabel="Epochs", ylabel="Loss", 
+		yaxis=:log, ylims=(1e-3,1e0)
+	)
+	p3 = scatter(p1, x_data[1,:], models[i](x_data)[1,:]; label="NN approx. ($i)")
+	plot(p2, p3; layout=(2,1))
+end
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -95,14 +130,11 @@ PLUTO_PROJECT_TOML_CONTENTS = """
 Flux = "587475ba-b771-5e3f-ad9e-33799f191a9c"
 Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
 PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
-Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
-StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
 
 [compat]
-Flux = "~0.14.12"
-Plots = "~1.40.1"
-PlutoUI = "~0.7.58"
-StaticArrays = "~1.9.3"
+Flux = "~0.16.3"
+Plots = "~1.40.9"
+PlutoUI = "~0.7.61"
 """
 
 # ╔═╡ 00000000-0000-0000-0000-000000000002
@@ -111,7 +143,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.11.3"
 manifest_format = "2.0"
-project_hash = "d78bf08998aee42ca8b5a0dc76e7e1c236882619"
+project_hash = "805a71cb5fb74f9e35ca89a8fe46636003ccb7aa"
 
 [[deps.AbstractFFTs]]
 deps = ["LinearAlgebra"]
@@ -186,9 +218,9 @@ version = "1.11.0"
 
 [[deps.Atomix]]
 deps = ["UnsafeAtomics"]
-git-tree-sha1 = "93da6c8228993b0052e358ad592ee7c1eccaa639"
+git-tree-sha1 = "b5bb4dc6248fde467be2a863eb8452993e74d402"
 uuid = "a9b6321e-bd34-4604-b9c9-b65b8de01458"
-version = "1.1.0"
+version = "1.1.1"
 
     [deps.Atomix.extensions]
     AtomixCUDAExt = "CUDA"
@@ -433,6 +465,15 @@ deps = ["ArgTools", "FileWatching", "LibCURL", "NetworkOptions"]
 uuid = "f43a241f-c20a-4ad4-852c-f6b1247861c6"
 version = "1.6.0"
 
+[[deps.EnzymeCore]]
+git-tree-sha1 = "0cdb7af5c39e92d78a0ee8d0a447d32f7593137e"
+uuid = "f151be2c-9106-41f4-ab19-57ee4f262869"
+version = "0.8.8"
+weakdeps = ["Adapt"]
+
+    [deps.EnzymeCore.extensions]
+    AdaptExt = "Adapt"
+
 [[deps.EpollShim_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl"]
 git-tree-sha1 = "8a4be429317c42cfae6a7fc03c31bad1970c310d"
@@ -502,10 +543,10 @@ uuid = "53c48c17-4a7d-5ca2-90c5-79b7896eea93"
 version = "0.8.5"
 
 [[deps.Flux]]
-deps = ["Adapt", "ChainRulesCore", "Compat", "Functors", "LinearAlgebra", "MLDataDevices", "MLUtils", "MacroTools", "NNlib", "OneHotArrays", "Optimisers", "Preferences", "ProgressLogging", "Random", "Reexport", "Setfield", "SparseArrays", "SpecialFunctions", "Statistics", "Zygote"]
-git-tree-sha1 = "df520a0727f843576801a0294f5be1a94be28e23"
+deps = ["Adapt", "ChainRulesCore", "Compat", "EnzymeCore", "Functors", "LinearAlgebra", "MLDataDevices", "MLUtils", "MacroTools", "NNlib", "OneHotArrays", "Optimisers", "Preferences", "ProgressLogging", "Random", "Reexport", "Setfield", "SparseArrays", "SpecialFunctions", "Statistics", "Zygote"]
+git-tree-sha1 = "49d213a90b159c74e9fc2b53162b5f699b6f3516"
 uuid = "587475ba-b771-5e3f-ad9e-33799f191a9c"
-version = "0.14.25"
+version = "0.16.3"
 
     [deps.Flux.extensions]
     FluxAMDGPUExt = "AMDGPU"
@@ -557,10 +598,10 @@ uuid = "559328eb-81f9-559d-9380-de523a88c83c"
 version = "1.0.16+0"
 
 [[deps.Functors]]
-deps = ["LinearAlgebra"]
-git-tree-sha1 = "64d8e93700c7a3f28f717d265382d52fac9fa1c1"
+deps = ["Compat", "ConstructionBase", "LinearAlgebra", "Random"]
+git-tree-sha1 = "60a0339f28a233601cb74468032b5c302d5067de"
 uuid = "d9f16b24-f501-4c13-a1f2-28368ffc5196"
-version = "0.4.12"
+version = "0.5.2"
 
 [[deps.Future]]
 deps = ["Random"]
@@ -726,16 +767,12 @@ deps = ["Adapt", "Atomix", "InteractiveUtils", "MacroTools", "PrecompileTools", 
 git-tree-sha1 = "80d268b2f4e396edc5ea004d1e0f569231c71e9e"
 uuid = "63c18a36-062a-441e-b654-da1e3ab1ce7c"
 version = "0.9.34"
+weakdeps = ["EnzymeCore", "LinearAlgebra", "SparseArrays"]
 
     [deps.KernelAbstractions.extensions]
     EnzymeExt = "EnzymeCore"
     LinearAlgebraExt = "LinearAlgebra"
     SparseArraysExt = "SparseArrays"
-
-    [deps.KernelAbstractions.weakdeps]
-    EnzymeCore = "f151be2c-9106-41f4-ab19-57ee4f262869"
-    LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
-    SparseArrays = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
 
 [[deps.LAME_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl"]
@@ -926,15 +963,16 @@ version = "1.0.0"
 
 [[deps.MLDataDevices]]
 deps = ["Adapt", "Compat", "Functors", "Preferences", "Random"]
-git-tree-sha1 = "85b47bc5a8bf0c886286638585df3bec7c9f8269"
+git-tree-sha1 = "7ebebb5ed33cb29b3b91917bb0e8d88cf2c0d570"
 uuid = "7e8f7934-dd98-4c1a-8fe8-92b47a384d40"
-version = "1.5.3"
+version = "1.7.0"
 
     [deps.MLDataDevices.extensions]
     MLDataDevicesAMDGPUExt = "AMDGPU"
     MLDataDevicesCUDAExt = "CUDA"
     MLDataDevicesChainRulesCoreExt = "ChainRulesCore"
     MLDataDevicesChainRulesExt = "ChainRules"
+    MLDataDevicesComponentArraysExt = "ComponentArrays"
     MLDataDevicesFillArraysExt = "FillArrays"
     MLDataDevicesGPUArraysExt = "GPUArrays"
     MLDataDevicesMLUtilsExt = "MLUtils"
@@ -954,6 +992,7 @@ version = "1.5.3"
     CUDA = "052768ef-5323-5732-b1bb-66c8b64840ba"
     ChainRules = "082447d4-558c-5d27-93f4-14fc19e9eca2"
     ChainRulesCore = "d360d2e6-b24c-11e9-a2a3-2a2ae2dbcce4"
+    ComponentArrays = "b0b7db55-cfe3-40fc-9ded-d10e2dbeff66"
     FillArrays = "1a297f60-69ca-5386-bcde-b61e274b549b"
     GPUArrays = "0c68f7d7-f131-5f86-a1c3-88cf8149b2d7"
     MLUtils = "f1d291b0-491e-4a28-83b9-f70985020b54"
@@ -1104,10 +1143,15 @@ uuid = "efe28fd5-8261-553b-a9e1-b2916fc3738e"
 version = "0.5.6+0"
 
 [[deps.Optimisers]]
-deps = ["ChainRulesCore", "Functors", "LinearAlgebra", "Random", "Statistics"]
-git-tree-sha1 = "c9ff5c686240c31eb8570b662dd1f66f4b183116"
+deps = ["ChainRulesCore", "ConstructionBase", "Functors", "LinearAlgebra", "Random", "Statistics"]
+git-tree-sha1 = "c57a1a58e29a017a2b07e78d075385b981942430"
 uuid = "3bd65402-5787-11e9-1adc-39752487f4e2"
-version = "0.3.4"
+version = "0.4.5"
+weakdeps = ["Adapt", "EnzymeCore"]
+
+    [deps.Optimisers.extensions]
+    OptimisersAdaptExt = ["Adapt"]
+    OptimisersEnzymeCoreExt = "EnzymeCore"
 
 [[deps.Opus_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl"]
@@ -1293,9 +1337,9 @@ version = "1.0.1"
 
 [[deps.Requires]]
 deps = ["UUIDs"]
-git-tree-sha1 = "838a3a4188e2ded87a4f9f184b4b0d78a1e91cb7"
+git-tree-sha1 = "62389eeff14780bfe55195b7204c0d8738436d64"
 uuid = "ae029012-a4dd-5104-9daa-d747884805df"
-version = "1.3.0"
+version = "1.3.1"
 
 [[deps.SHA]]
 uuid = "ea8e919c-243c-51af-8825-aaa63cd721ce"
@@ -1390,9 +1434,9 @@ version = "1.0.2"
 
 [[deps.StaticArrays]]
 deps = ["LinearAlgebra", "PrecompileTools", "Random", "StaticArraysCore"]
-git-tree-sha1 = "e3be13f448a43610f978d29b7adf78c76022467a"
+git-tree-sha1 = "0feb6b9031bd5c51f9072393eb5ab3efd31bf9e4"
 uuid = "90137ffa-7385-5640-81b9-e52037218182"
-version = "1.9.12"
+version = "1.9.13"
 weakdeps = ["ChainRulesCore", "Statistics"]
 
     [deps.StaticArrays.extensions]
@@ -1762,9 +1806,9 @@ version = "1.5.7+1"
 
 [[deps.Zygote]]
 deps = ["AbstractFFTs", "ChainRules", "ChainRulesCore", "DiffRules", "Distributed", "FillArrays", "ForwardDiff", "GPUArrays", "GPUArraysCore", "IRTools", "InteractiveUtils", "LinearAlgebra", "LogExpFunctions", "MacroTools", "NaNMath", "PrecompileTools", "Random", "Requires", "SparseArrays", "SpecialFunctions", "Statistics", "ZygoteRules"]
-git-tree-sha1 = "0b3c944f5d2d8b466c5d20a84c229c17c528f49e"
+git-tree-sha1 = "dabc8bf48149b0220010c2d3e555b0ca84400ce1"
 uuid = "e88e6eb3-aa80-5325-afca-941959d7151f"
-version = "0.6.75"
+version = "0.7.4"
 
     [deps.Zygote.extensions]
     ZygoteColorsExt = "Colors"
@@ -1889,18 +1933,15 @@ version = "1.4.1+2"
 """
 
 # ╔═╡ Cell order:
-# ╠═b5ac4734-dabe-11ee-2e66-a1e943cd8190
-# ╟─b06f8ca7-0ea7-4a51-9943-841e934858c2
-# ╠═2238a0a0-884d-4ad6-a562-5be6518ca069
-# ╠═cd53454a-bc66-4852-a2f4-8b272f04c4cf
-# ╠═381c32ef-33bc-4763-81bb-09d3bf3ea4c2
-# ╠═c0884d1f-f33f-4d9c-a027-5a9ced9e0091
-# ╠═d5b21d62-fcd1-430f-b123-e738058aa6f2
-# ╠═ff4db8dc-493c-4229-85d6-5af03b110ac2
-# ╠═369af853-8d4e-4252-ab98-dea544aa087a
-# ╠═c38dfe1d-c85e-46a2-8fd4-f6c3082d6d49
-# ╠═5631775f-edd1-49d4-bc48-5a5477d6fdde
-# ╠═e27932e8-f83d-4ec6-85e3-8de5a2df2e82
-# ╠═8a411fc9-6e96-43b3-a61c-e200d6f6e312
+# ╠═1256a862-f61d-11ef-05e2-191ed73722f1
+# ╠═82f8b78d-238d-4656-949f-eaf5b610fba4
+# ╠═0a8b7c3b-7419-45ab-842f-4bee623f9aba
+# ╠═116e7b6e-1af7-4a7b-b5ce-eaa608c7f02d
+# ╠═35bb93e3-2a76-4836-881a-d55f541c6954
+# ╠═5739d09b-2b73-4af3-814c-00d98b5b9b35
+# ╠═eacb92a7-fe92-4db5-84d8-93016f790b6c
+# ╠═b8b3ef90-2135-4088-8c0b-d42d107e9885
+# ╠═159670ea-2481-437c-9302-4812a06d35ac
+# ╠═84933c61-54f4-43ca-bf89-a9129c6c23d8
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
