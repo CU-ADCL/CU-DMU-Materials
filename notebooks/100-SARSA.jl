@@ -93,6 +93,18 @@ end
 # ╔═╡ 0aac5be2-89f5-40fa-9e8f-a6b7d21caf06
 sarsa_episodes = sarsa!(env, n_episodes=10_000, α=0.1);
 
+# ╔═╡ 4899c8c7-dbf9-4683-976c-05233085fb55
+# ╠═╡ disabled = true
+#=╠═╡
+@bind episode Select(1:length(sarsa_episodes))
+  ╠═╡ =#
+
+# ╔═╡ e1384405-0b45-4f9d-9c7c-ede60791d4d2
+# ╠═╡ disabled = true
+#=╠═╡
+@bind step Slider(1:maximum(ep->length(ep.hist), sarsa_episodes))
+  ╠═╡ =#
+
 # ╔═╡ ad47f711-ed2c-476a-b17c-c644bf7468e6
 md"""
 # SARSA-λ
@@ -165,6 +177,12 @@ end
 
 # ╔═╡ cb3404c9-73f8-4fb4-b365-7b7e67c305cc
 lambda_episodes = sarsa_lambda!(env, n_episodes=10_000, α=0.1, λ=0.9);
+
+# ╔═╡ 9b518034-96c8-4a92-af15-d30a0f4faf70
+@bind episode Select(1:length(lambda_episodes))
+
+# ╔═╡ f322f812-c70f-44ee-856a-17ea6fd01d38
+@bind step Slider(1:maximum(ep->length(ep.hist), lambda_episodes))
 
 # ╔═╡ 5e343101-8927-4a0f-a13b-8386f93bef26
 begin
@@ -289,24 +307,6 @@ end
 
 # ╔═╡ 3a7e51f1-8544-4629-95f1-1c9b70747402
 learning_curve_clock(episodes)
-
-# ╔═╡ e1384405-0b45-4f9d-9c7c-ede60791d4d2
-# ╠═╡ disabled = true
-#=╠═╡
-@bind step Slider(1:maximum(ep->length(ep.hist), sarsa_episodes))
-  ╠═╡ =#
-
-# ╔═╡ 9b518034-96c8-4a92-af15-d30a0f4faf70
-@bind episode Select(1:length(lambda_episodes))
-
-# ╔═╡ 4899c8c7-dbf9-4683-976c-05233085fb55
-# ╠═╡ disabled = true
-#=╠═╡
-@bind episode Select(1:length(sarsa_episodes))
-  ╠═╡ =#
-
-# ╔═╡ f322f812-c70f-44ee-856a-17ea6fd01d38
-@bind step Slider(1:maximum(ep->length(ep.hist), lambda_episodes))
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
