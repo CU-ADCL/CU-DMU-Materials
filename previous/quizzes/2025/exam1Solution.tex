@@ -139,27 +139,29 @@
         \begin{align*}
             S &= \{H,A,P,F\} \\
             A &= \{A,P\}\\
+            \gamma &= 0.9\\
             R(s,a) &= 
             \begin{cases}
                 -1& \text{ if } s\in\{H,P\}\text{ and } a = A\\
                 -1& \text{ if } s = A\text{ and } a = P\\
                 -2& \text{ if } s = H\text{ and } a = P\\
+                % -100 & \text{ if } s = a \quad \text{(keeps the quad from staying in the same location, less than $-2/(1-\gamma)$)} \\
                 0 & \text{ o.w.}
             \end{cases}\\
             T^A &= \begin{bmatrix}
                             0.3 & 0.7 & 0 & 0\\
-                            0 & 1 & 0 & 0\\
+                            1 & 0 & 0 & 0\\
                             0 & 0 & 0.1 & 0.9\\
                             0 & 0 & 0 & 1\\
                          \end{bmatrix}\\
              T^P &= \begin{bmatrix}
                             0.1 & 0 & 0.9 & 0\\
                             0 & 0.2 & 0 & 0.8\\
-                            0 & 0 & 1 & 0\\
+                            0 & 0 & 0 & 0\\
                             0 & 0 & 0 & 1\\
                          \end{bmatrix}\\
-             \gamma &= 0.9
         \end{align*}
+        Note that if $s = a$, the vehicle transitions back to home. Since all rewards are negative, this will prevent the vehicle from staying in the same location. There are other ways to accomplish this, for instance with a reward for reaching the finish state (this is a little more cumbersome to represent) and a large negative reward, for instance $-2/(1-\gamma)$, for staying in the same location. It is also acceptable to use the large staying penalty with only three states because it forces the vehicle to move and visit both locations.
         \item Write down the following policies as functions of the states that you defined. Make sure to define an action for every state.
         \begin{itemize}[noitemsep]
             \item Policy 1: Go to the alley first, then the park.
@@ -215,7 +217,7 @@
             U^{\pi_1} &= [-2.42,-1.22,0,0]^T\\
             U^{\pi_2} &= [-3.18,0,-1.10,0]^T
         \end{align*}
-        Policy 1 has a lower expected fuel cost for state $H$, so it is the better policy.
+        Policy 1 has a lower expected battery cost for state $H$, so it is the better policy.
     \end{enumerate}
 \end{question}
 
