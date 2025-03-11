@@ -106,7 +106,7 @@ end
 @bind params get_params()
 
 # ╔═╡ eacb92a7-fe92-4db5-84d8-93016f790b6c
-@show params;
+@info params;
 
 # ╔═╡ b8b3ef90-2135-4088-8c0b-d42d107e9885
 models, losses = train(x_data, y_data; params...);
@@ -1934,7 +1934,7 @@ version = "1.4.1+2"
 
 # ╔═╡ Cell order:
 # ╠═1256a862-f61d-11ef-05e2-191ed73722f1
-# ╠═82f8b78d-238d-4656-949f-eaf5b610fba4
+# ╟─82f8b78d-238d-4656-949f-eaf5b610fba4
 # ╠═0a8b7c3b-7419-45ab-842f-4bee623f9aba
 # ╠═116e7b6e-1af7-4a7b-b5ce-eaa608c7f02d
 # ╠═35bb93e3-2a76-4836-881a-d55f541c6954
