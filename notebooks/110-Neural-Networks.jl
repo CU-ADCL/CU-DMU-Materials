@@ -67,10 +67,12 @@ function train(x_data, y_data;
 			idxs = (1:minibatch_size) .+ minibatch_size * (i - 1)
 			x_minibatch = x_data[:, idxs]
 			y_minibatch = y_data[:, idxs]
-				
-			minibatch_loss, grads = Flux.withgradient(model) do m
-				loss(m, x_minibatch, y_minibatch)
+
+			function f(model)
+				return loss(model, x_minibatch, y_minibatch)
 			end
+			
+			minibatch_loss, grads = Flux.withgradient(f, model)
 			
 			Flux.update!(opt_state, model, grads[1])
 			

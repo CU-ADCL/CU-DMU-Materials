@@ -4,18 +4,6 @@
 using Markdown
 using InteractiveUtils
 
-# This Pluto notebook uses @bind for interactivity. When running this notebook outside of Pluto, the following 'mock version' of @bind gives bound variables a default value (instead of an error).
-macro bind(def, element)
-    #! format: off
-    quote
-        local iv = try Base.loaded_modules[Base.PkgId(Base.UUID("6e696c72-6542-2067-7265-42206c756150"), "AbstractPlutoDingetjes")].Bonds.initial_value catch; b -> missing; end
-        local el = $(esc(element))
-        global $(esc(def)) = Core.applicable(Base.get, el) ? Base.get(el) : iv(el)
-        el
-    end
-    #! format: on
-end
-
 # ╔═╡ 5429722d-a832-4f35-9c99-86134a7e6cc1
 begin
 	using POMDPModels: SimpleGridWorld
@@ -93,18 +81,6 @@ end
 # ╔═╡ 0aac5be2-89f5-40fa-9e8f-a6b7d21caf06
 sarsa_episodes = sarsa!(env, n_episodes=10_000, α=0.1);
 
-# ╔═╡ 4899c8c7-dbf9-4683-976c-05233085fb55
-# ╠═╡ disabled = true
-#=╠═╡
-@bind episode Select(1:length(sarsa_episodes))
-  ╠═╡ =#
-
-# ╔═╡ e1384405-0b45-4f9d-9c7c-ede60791d4d2
-# ╠═╡ disabled = true
-#=╠═╡
-@bind step Slider(1:maximum(ep->length(ep.hist), sarsa_episodes))
-  ╠═╡ =#
-
 # ╔═╡ ad47f711-ed2c-476a-b17c-c644bf7468e6
 md"""
 # SARSA-λ
@@ -178,13 +154,8 @@ end
 # ╔═╡ cb3404c9-73f8-4fb4-b365-7b7e67c305cc
 lambda_episodes = sarsa_lambda!(env, n_episodes=10_000, α=0.1, λ=0.9);
 
-# ╔═╡ 9b518034-96c8-4a92-af15-d30a0f4faf70
-@bind episode Select(1:length(lambda_episodes))
-
-# ╔═╡ f322f812-c70f-44ee-856a-17ea6fd01d38
-@bind step Slider(1:maximum(ep->length(ep.hist), lambda_episodes))
-
 # ╔═╡ 5e343101-8927-4a0f-a13b-8386f93bef26
+#=╠═╡
 begin
 	ep = sarsa_episodes[episode]
 
@@ -202,8 +173,10 @@ begin
 		POMDPTools.render(m, (s=ep.hist[i],), color=s->maximum(map(a->ep.Q[(s,a)], actions(env))))
 	end
 end
+  ╠═╡ =#
 
 # ╔═╡ a716393e-1093-458f-81f2-3f334fd79a12
+#=╠═╡
 begin
     l_ep = lambda_episodes[episode]
     l_i = min(step, length(l_ep.hist))
@@ -220,6 +193,7 @@ begin
 		POMDPTools.render(m, (s=l_ep.hist[l_i],), color=s->maximum(map(a->l_ep.Q[(s,a)], actions(env))))
 	end
 end
+  ╠═╡ =#
 
 # ╔═╡ a1084505-44b6-452b-b0c9-8e87abd45c06
 md"""
@@ -307,6 +281,28 @@ end
 
 # ╔═╡ 3a7e51f1-8544-4629-95f1-1c9b70747402
 learning_curve_clock(episodes)
+
+# ╔═╡ 4899c8c7-dbf9-4683-976c-05233085fb55
+# ╠═╡ disabled = true
+#=╠═╡
+@bind episode Select(1:length(sarsa_episodes))
+  ╠═╡ =#
+
+# ╔═╡ f322f812-c70f-44ee-856a-17ea6fd01d38
+#=╠═╡
+@bind step Slider(1:maximum(ep->length(ep.hist), lambda_episodes))
+  ╠═╡ =#
+
+# ╔═╡ e1384405-0b45-4f9d-9c7c-ede60791d4d2
+# ╠═╡ disabled = true
+#=╠═╡
+@bind step Slider(1:maximum(ep->length(ep.hist), sarsa_episodes))
+  ╠═╡ =#
+
+# ╔═╡ 9b518034-96c8-4a92-af15-d30a0f4faf70
+#=╠═╡
+@bind episode Select(1:length(lambda_episodes))
+  ╠═╡ =#
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
