@@ -1,0 +1,122 @@
+\documentclass{article}
+\usepackage{fullpage,amsmath,amsthm,graphicx,enumitem,amsfonts}
+\usepackage{multicol}
+\usepackage{booktabs}
+
+\usepackage{tikz}
+
+\theoremstyle{definition}
+\newtheorem{thm}{Theorem}
+\newtheorem{question}[thm]{Question}
+\newenvironment{solution}{\noindent\textit{Solution:}}{}
+
+\title{ASEN 5264 Decision Making under Uncertainty\\
+       Exam 1: Probabilistic Models and MDPs}
+
+\date{\small 
+    \textbf{Instructions:} Clearly indicate your final answers and briefly justify numerical answers with text or mathematical expressions. If you do not understand how to do a problem, skip it and move on so that you have time to attempt all problems. You may consult any static source, but you may NOT communicate with any person except the instructor or TA, and you may not use LLMs such as ChatGPT.
+}
+
+\begin{document}
+\maketitle
+
+\noindent\textbf{Important:} Please include the following statement along with your signature (typed or handwritten) on the exam: \textbf{``I affirm that I completed this exam without the use of any artificial intelligence tool such as ChatGPT or Github Copilot.''}
+
+\begin{question} (30 pts)
+    Consider the following Bayesian network made up of binary random variables:
+    \begin{center}
+    \begin{tikzpicture}
+        \node[shape=circle,draw=black] (A) at (0,0) {A};
+        \node[shape=circle,draw=black] (B) at (2,0) {B};
+        \node[shape=circle,draw=black] (C) at (1,-1) {C};
+        \path [->,line width=1pt] (A) edge node[left]{}(C);
+        \path [->,line width=1pt] (B) edge node[left]{}(C);
+    \end{tikzpicture}
+    \end{center}
+
+    \begin{enumerate}[label=\alph*)]
+        \item Is it possible to conclude from the structure alone that $A$ and $B$ are conditionally independent given $C$? Justify your answer.
+        \item Suppose that the conditional distribution for $C$ is given by the following table:
+        \begin{center}
+        \begin{tabular}{cc|c}
+            \toprule
+            $A$ & $B$ & $P(C=1 \mid A,B)$ \\
+            \midrule
+            0 & 0 & 0.2 \\
+            0 & 1 & 0.3 \\
+            1 & 0 & 0.4 \\
+            1 & 1 & 0.5 \\
+            \bottomrule
+        \end{tabular}\\
+        \end{center}
+        and that $P(A=1) = 0.6$ and $P(B=1) = 0.7$. Calculate $P(A=1 \mid B=1, C=1)$.
+        \item Now, suppose that $P(A=1) = 0.5$, $P(B=1) = 0.5$, and $P(C=1 \mid A, B) = 0.5$ for all values of $A$ and $B$. Are $A$ and $B$ conditionally independent given $C$? Justify your answer.
+    \end{enumerate}
+\end{question}
+
+\clearpage
+
+\begin{question} (50 pts)
+    Whiskers the family cat has gotten away again, however this is a fairly common occurrence, so you know that she is either in the alley (A) or at the park (P). You plan to use your camera-equipped drone to quickly search for her, however, since it is late 2024 in New Jersey, you want to avoid being sited and contributing to conspiracy theories.
+
+\begin{itemize}[noitemsep]
+    \item You must take off from home (H), and visit both sites (you do not need to account for returning home). 
+    \item You seek the policy that minimizes the expected battery usage.
+    \item Due to obstacles and wind the amount of battery used is not proportional to the distance, but instead is given in the table below.
+    \item There is also a probability the drone encounters a person along the route given in the second table below.  Since a person may arrive or leave, the presence of a person is independent from time step to time step. If the drone encounters a person, it will return to the location it just left from but will have used the same amount of battery as if it had arrived at the desired location.
+\end{itemize}
+
+    \begin{minipage}{0.5\textwidth}
+    \centering
+    Battery usage table\\
+        \begin{tabular}{r@{\hspace{1em}}lccc}
+            \toprule
+       To:     & & A & P \\
+            \midrule
+            & H & 1 & 2 \\
+       From: & A & 0 & 1 \\
+            & P & 1 & 0 \\
+            \bottomrule
+        \end{tabular}
+    \end{minipage}
+    \begin{minipage}{0.5\textwidth}
+    Probability of encountering a person\\
+        \begin{tabular}{r@{\hspace{1em}}lccc}
+            \toprule
+       To:     & & A & P \\
+            \midrule
+            & H &  0.3 & 0.1 \\
+       From: & A &  0.0 & 0.2 \\
+            & P &  0.1 & 0.0 \\
+            \bottomrule
+        \end{tabular}
+    \end{minipage}
+
+    \begin{enumerate}[label=\alph*)]
+        \item Formulate this as a Markov decision process by writing down the state space, action space, transition probabilities, reward function. You can choose any discount factor 0.9 or above.
+        \item Write down the following policies as functions of the states that you defined. Make sure to define an action for every state.
+        \begin{itemize}[noitemsep]
+            \item Policy 1: Go to the alley first, then the park.
+            \item Policy 2: Go to the park first, then the alley.
+        \end{itemize}
+        \item Which of the two policies is better? Justify your answer by showing which policy will accrue the most reward.
+    \end{enumerate}
+\end{question}
+
+\clearpage
+
+(Additional Room for Question 2)
+
+\clearpage
+
+\begin{question} (10 pts)
+You are evaluating two MDP policies through simulation. For policy 1, you run 2000 simulations, recording the total reward, $\hat{u}$, obtained in each simulation. The sample standard deviation for this set of simulations is 50. For policy 2, you run 300 simulations, again recording the total reward of each and find that the sample standard deviation is 15. For which policy do you have a better estimate of the expected total reward, $U(\pi)$? Justify your answer.
+\end{question}
+
+\vspace{10cm}
+
+\begin{question} (10 pts)
+Consider an MDP with states that are integers. Policy $\pi_1$ has value $U^{\pi_1}(1) = 10.0$ and $U^{\pi_1}(2) = 12.0$. Policy $\pi_2$ has value $U^{\pi_2}(1) = 11.0$ and $U^{\pi_2}(2) = 10.0$. Is it possible that either one of these policies is an optimal policy? Justify your answer.
+\end{question}
+
+\end{document}
