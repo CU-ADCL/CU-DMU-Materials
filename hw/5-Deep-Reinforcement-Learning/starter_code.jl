@@ -99,6 +99,12 @@ env = QuickWrapper(HW5.mc,
                    observe=mc->observe(mc)[1:2]
                   )
 
+# create your loss function for Q training here
+function loss(Q, Q_target, s, a_ind, r, sp, done)
+    return (Q(s)[a_ind] - Q_target(s)[a_ind])^2 # this is not correct! you need to replace it with the true Q-learning loss function
+    # make sure to take care of cases when the problem has terminated correctly
+end
+
 function dqn(env)
     # This network should work for the Q function - an input is a state; the output is a vector containing the Q-values for each action 
     Q = Chain(Dense(2, 128, relu),
@@ -125,17 +131,14 @@ function dqn(env)
     # this is the fixed target Q network
     Q_target = deepcopy(Q)
 
-    # create your loss function for Q training here
-    function loss(Q, s, a_ind, r, sp, done)
-        return (Q(s)[a_ind] - Q_target(s)[a_ind])^2 # this is not correct! you need to replace it with the true Q-learning loss function
-        # make sure to take care of cases when the problem has terminated correctly
+    # select some data from the buffer and train (you may have to adjust some things, and you will have to do this many times):
+    for data in rand(buffer, 10)
+        # this runs a forward and backward pass to calculate the loss and gradient
+        loss_value, grads = Flux.withgradient(loss, Q, Q_target, data...)
+
+        # this will take a gradient step
+        Flux.update!(opt, Q, grads[1])
     end
-
-    # select some data from the buffer
-    data = rand(buffer, 10)
-
-    # do your training like this (you may have to adjust some things, and you will have to do this many times):
-    Flux.Optimise.train!(loss, Q, data, opt)
 
     # Make sure to evaluate, print, and plot often! You will want to save your best policy.
     
@@ -158,19 +161,3 @@ using Plots
 xs = -3.0f0:0.1f0:3.0f0
 vs = -0.3f0:0.01f0:0.3f0
 heatmap(xs, vs, (x, v) -> maximum(Q([x, v])), xlabel="Position (x)", ylabel="Velocity (v)", title="Max Q Value")
-
-
-# function render_value(value)
-#     xs = -3.0:0.1:3.0
-#     vs = -0.3:0.01:0.3
-# 
-#     data = DataFrame(
-#                      x = vec([x for x in xs, v in vs]),
-#                      v = vec([v for x in xs, v in vs]),
-#                      val = vec([value([x, v]) for x in xs, v in vs])
-#     )
-# 
-#     data |> @vlplot(:rect, "x:o", "v:o", color=:val, width="container", height="container")
-# end
-# 
-# display(render_value(s->maximum(Q(s))))
