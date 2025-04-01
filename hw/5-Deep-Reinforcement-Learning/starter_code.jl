@@ -81,7 +81,7 @@ sim = RolloutSimulator(max_steps=100)
 # Question 2
 ############
 
-# The notebook at https://github.com/zsunberg/CU-DMU-Materials/blob/master/notebooks/110-Neural-Networks.ipynb can serve as a starting point for this problem.
+# The notebook at https://github.com/zsunberg/CU-DMU-Materials/blob/master/notebooks/110-Neural-Networks.jl can serve as a starting point for this problem.
 
 ############
 # Question 3
