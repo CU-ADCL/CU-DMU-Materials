@@ -282,26 +282,26 @@ end
 # ╔═╡ 3a7e51f1-8544-4629-95f1-1c9b70747402
 learning_curve_clock(episodes)
 
+# ╔═╡ f322f812-c70f-44ee-856a-17ea6fd01d38
+#=╠═╡
+@bind step Slider(1:maximum(ep->length(ep.hist), lambda_episodes))
+  ╠═╡ =#
+
+# ╔═╡ 9b518034-96c8-4a92-af15-d30a0f4faf70
+#=╠═╡
+@bind episode Select(1:length(lambda_episodes))
+  ╠═╡ =#
+
 # ╔═╡ 4899c8c7-dbf9-4683-976c-05233085fb55
 # ╠═╡ disabled = true
 #=╠═╡
 @bind episode Select(1:length(sarsa_episodes))
   ╠═╡ =#
 
-# ╔═╡ f322f812-c70f-44ee-856a-17ea6fd01d38
-#=╠═╡
-@bind step Slider(1:maximum(ep->length(ep.hist), lambda_episodes))
-  ╠═╡ =#
-
 # ╔═╡ e1384405-0b45-4f9d-9c7c-ede60791d4d2
 # ╠═╡ disabled = true
 #=╠═╡
 @bind step Slider(1:maximum(ep->length(ep.hist), sarsa_episodes))
-  ╠═╡ =#
-
-# ╔═╡ 9b518034-96c8-4a92-af15-d30a0f4faf70
-#=╠═╡
-@bind episode Select(1:length(lambda_episodes))
   ╠═╡ =#
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
