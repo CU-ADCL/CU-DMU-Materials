@@ -17,6 +17,13 @@
 
 \maketitle
 
+A submission should consist of two or three files:
+\begin{itemize}[nosep]
+    \item A single PDF file containing answers to questions (typed, handwritten, or exported notebook).
+    \item JSON file output from \texttt{DMUStudent.HW1.evaluate}.
+    \item A code listing \emph{if the code is not included in the PDF}.
+\end{itemize}
+
 \section{Questions}
 
 \begin{question} (15 pts)
@@ -65,43 +72,70 @@
     2\% of women at age forty who participate in routine screening have breast cancer. 91\% of those with breast cancer will get positive mammograms. 8\% of those without breast cancer will also get positive mammograms. A woman in this age group had a positive mammogram in a routine screening. What is the probability that she actually has breast cancer?
 \end{question}
 
-\begin{question} (20 pts) Suppose that $A$, $B$, and $C$ are binary random variables with $P(A=1) = 0.5$, $P(B=1|A=1) = 0.8$, $P(B=1|A=0) = 0.2$, $P(C=1|B=1) = 0.9$, $P(C=1|B=0) = 0.3$, and the following Bayesian network structure:
-    \begin{center}
-        \begin{tikzpicture}
-            \node[shape=circle,draw=black] (A) at (0,0) {A};
-            \node[shape=circle,draw=black] (B) at (1.5,0) {B};
-            \node[shape=circle,draw=black] (C) at (3,0) {C};
-            \path [->,line width=1pt] (A) edge node[left]{}(B);
-            \path [->,line width=1pt] (B) edge node[left]{}(C);
-        \end{tikzpicture}
-    \end{center}
-If we observe that $C=1$, what is the probability that $B=1$?
-\end{question}
+% \begin{question} (20 pts) Suppose that $A$, $B$, and $C$ are binary random variables with $P(A=1) = 0.5$, $P(B=1|A=1) = 0.8$, $P(B=1|A=0) = 0.2$, $P(C=1|B=1) = 0.9$, $P(C=1|B=0) = 0.3$, and the following Bayesian network structure:
+%     \begin{center}
+%         \begin{tikzpicture}
+%             \node[shape=circle,draw=black] (A) at (0,0) {A};
+%             \node[shape=circle,draw=black] (B) at (1.5,0) {B};
+%             \node[shape=circle,draw=black] (C) at (3,0) {C};
+%             \path [->,line width=1pt] (A) edge node[left]{}(B);
+%             \path [->,line width=1pt] (B) edge node[left]{}(C);
+%         \end{tikzpicture}
+%     \end{center}
+% If we observe that $C=1$, what is the probability that $B=1$?
+% \end{question}
 
-\begin{question} (20 pts)
-    Consider the following Bayesian network structure:
+% \begin{question} (20 pts)
+%     Consider the following Bayesian network structure:
+% 
+%     \begin{center}
+%     \begin{tikzpicture}
+%         \node[shape=circle,draw=black] (D) at (0,0) {D};
+%         \node[shape=circle,draw=black] (A) at (2,0) {A};
+%         \node[shape=circle,draw=black] (C) at (1,1) {C};
+%         \node[shape=circle,draw=black] (F) at (3,1) {F};
+%         \node[shape=circle,draw=black] (E) at (3,-1) {E};
+%         \node[shape=circle,draw=black] (B) at (1,-1) {B};
+%         \path [->,line width=1pt] (C) edge node[left]{}(A);
+%         \path [->,line width=1pt] (D) edge node[left]{}(C);
+%         \path [->,line width=1pt] (B) edge node[left]{}(A);
+%         \path [->,line width=1pt] (A) edge node[left]{}(E);
+%         \path [->,line width=1pt] (A) edge node[left]{}(F);
+%         \path [->,line width=1pt] (C) edge node[left]{}(F);
+%     \end{tikzpicture}
+%     \end{center}
+% 
+%     \begin{enumerate}[nosep,label=\alph*)]
+%         \item Is it possible to conclude from the structure that $B \perp F \mid C$? Justify your answer.
+%         \item Is it possible to conclude from the structure that $B \perp F \mid A$? Justify your answer.
+%         \item Is it possible to conclude from the structure that $B \perp E \mid A$? Justify your answer.
+%     \end{enumerate}
+% \end{question}
+
+\begin{question} (40 pts)
+    Consider the following Bayesian network structure where all variables are binary:
 
     \begin{center}
     \begin{tikzpicture}
-        \node[shape=circle,draw=black] (D) at (0,0) {D};
-        \node[shape=circle,draw=black] (A) at (2,0) {A};
-        \node[shape=circle,draw=black] (C) at (1,1) {C};
-        \node[shape=circle,draw=black] (F) at (3,1) {F};
+        % \node[shape=circle,draw=black] (D) at (0,0) {D};
+        \node[shape=circle,draw=black] (C) at (2,0) {C};
+        \node[shape=circle,draw=black] (A) at (1,1) {A};
+        \node[shape=circle,draw=black] (B) at (3,1) {B};
         \node[shape=circle,draw=black] (E) at (3,-1) {E};
-        \node[shape=circle,draw=black] (B) at (1,-1) {B};
-        \path [->,line width=1pt] (C) edge node[left]{}(A);
+        \node[shape=circle,draw=black] (D) at (1,-1) {D};
+        \path [->,line width=1pt] (A) edge node[left]{}(C);
         \path [->,line width=1pt] (D) edge node[left]{}(C);
-        \path [->,line width=1pt] (B) edge node[left]{}(A);
-        \path [->,line width=1pt] (A) edge node[left]{}(E);
-        \path [->,line width=1pt] (A) edge node[left]{}(F);
-        \path [->,line width=1pt] (C) edge node[left]{}(F);
+        \path [->,line width=1pt] (C) edge node[left]{}(B);
+        \path [->,line width=1pt] (C) edge node[left]{}(E);
+        \path [->,line width=1pt] (B) edge node[left]{}(E);
     \end{tikzpicture}
     \end{center}
 
     \begin{enumerate}[nosep,label=\alph*)]
-        \item Is it possible to conclude from the structure that $B \perp F \mid C$? Justify your answer.
-        \item Is it possible to conclude from the structure that $B \perp F \mid A$? Justify your answer.
-        \item Is it possible to conclude from the structure that $B \perp E \mid A$? Justify your answer.
+        \item Is it possible to conclude from the structure that $A \perp E \mid C$? Justify your answer.
+        \item Is it possible to conclude from the structure that $A \perp D \mid C$? Justify your answer.
+        \item Suppose that $P(E=0 \mid A=0, C=1, B=1) = 0.3$. What is $P(E=1 \mid A=1, C=1, B=1)$? Justify your answer.
+        \item Assume that $P(B=1 \mid C=0) = 0.6$, $P(E=0 \mid B=1, C=0) = 0.1)$ and $P(E=0 \mid B=0, C=0) = 0.8$. If we observe that $C=0$ and $E=0$, what is the probability that $B=1$? Justify your answer.
     \end{enumerate}
 \end{question}
 
