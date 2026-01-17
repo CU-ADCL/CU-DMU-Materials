@@ -11,13 +11,30 @@ using BenchmarkTools
     # println("Dim of a as run by evaluate is: $(size(a, 1))")
     # println("Dim of b as run by evaluate is: $(size(bs, 1))")
 
-    if size(bs, 1) == 2
-        # @show hcat(a*bs[1], a*bs[2])
-        return vec(maximum(hcat(a*bs[1], a*bs[2]), dims=2))
-    else
-        return maximum(a*bs[1], dims=2)
+    n = size(a, 1) # pretty sure its always 2
+    result = fill(typemin(T), n)
+
+    @inbounds for b in bs
+        @inbounds for i in 1:n
+            val = zero(T)
+            @inbounds for j in 1:length(b)
+                val += a[i, j] * b[j]
+            end
+            # compare to value already in there
+            result[i] = max(result[i], val)
+        end
     end
+    return result
 end
+
+
+#     if size(bs, 1) == 2
+#         # @show hcat(a*bs[1], a*bs[2])
+#         return vec(maximum(hcat(a*bs[1], a*bs[2]), dims=2))
+#     else
+#         return maximum(a*bs[1], dims=2)
+#     end
+# end
 
 # You can can test it yourself with inputs like this
 # a = [2.0 0.0; 0.0 1.0]
