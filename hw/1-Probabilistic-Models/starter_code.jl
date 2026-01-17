@@ -3,10 +3,11 @@ using BenchmarkTools
 #------------- 
 # Problem 4
 # mulitply matrix a (2x2) by a list of vectors (2,)
-#
+# something something read the pdf
 #-------------
 
 # Here is a functional but incorrect answer for the programming question
+# neato -> parameterize typing lets julia compile code for every T under Reals
 @inline function f(a::Matrix{T}, bs::Vector{Vector{T}})::Vector{T} where T<:Real
     # println("+++++++++++")
     # println("Dim of a as run by evaluate is: $(size(a, 1))")
@@ -15,7 +16,6 @@ using BenchmarkTools
     # final method, just hard code it lollll. supa fastttt
     if size(bs, 1) == 2 # most cases
         # @show hcat(a*bs[1], a*bs[2])
-
         return [max(a[1,1]*bs[1][1] + a[1,2]*bs[1][2], a[1,1]*bs[2][1] + a[1,2]*bs[2][2]),
                 max(a[2,1]*bs[1][1] + a[2,2]*bs[1][2], a[2,1]*bs[2][1] + a[2,2]*bs[2][2])]
     else
