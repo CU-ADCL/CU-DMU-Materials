@@ -11,20 +11,10 @@ using BenchmarkTools
     # println("Dim of a as run by evaluate is: $(size(a, 1))")
     # println("Dim of b as run by evaluate is: $(size(bs, 1))")
 
-    n = size(a, 1) # pretty sure its always 2
-    result = fill(typemin(T), n)
+    b_reduced = reduce(hcat, bs)
 
-    @inbounds for b in bs
-        @inbounds for i in 1:n
-            val = zero(T)
-            @inbounds for j in 1:length(b)
-                val += a[i, j] * b[j]
-            end
-            # compare to value already in there
-            result[i] = max(result[i], val)
-        end
-    end
-    return result
+    # b is now 2 by N, so a@b is 2 by N, and I can max
+    return vec(maximum(a * b_reduced, dims=2))
 end
 
 
@@ -48,4 +38,4 @@ bs = [rand(2) for _ in 1:100]
 @btime f($a, $bs)
 
 # This is how you create the json file to submit
-#HW1.evaluate(f, "owen.kranz@colorado.edu")
+HW1.evaluate(f, "owen.kranz@colorado.edu")
