@@ -8,7 +8,7 @@ using BenchmarkTools
 
 # Here is a functional but incorrect answer for the programming question
 # neato -> parameterize typing lets julia compile code for every T under Reals
-@inline function f(a::Matrix{T}, bs::Vector{Vector{T}})::Vector{T} where T<:Real
+@inline function f_fast(a::Matrix{T}, bs::Vector{Vector{T}})::Vector{T} where T<:Real
     # println("+++++++++++")
     # println("Dim of a as run by evaluate is: $(size(a, 1))")
     # println("Dim of b as run by evaluate is: $(size(bs, 1))")
@@ -23,35 +23,28 @@ using BenchmarkTools
     end
 end
 
-# REALLY SLOW... reduce is slow?? probs just allocation is slow
-#     b_reduced = reduce(hcat, bs)
 
-#     # b is now 2 by N, so a@b is 2 by N, and I can max
-#     return vec(maximum(a * b_reduced, dims=2))
-# end
+function f_proper(a::Matrix{T}, bs::Vector{Vector{T}})::Vector{T} where T<:Real
 
-# First implementation is actually decently fast :O
-#     if size(bs, 1) == 2
-#         # @show hcat(a*bs[1], a*bs[2])
-#         return vec(maximum(hcat(a*bs[1], a*bs[2]), dims=2))
-#     else
-#         return maximum(a*bs[1], dims=2)
-#     end
-# end
+        # println("+++++++++++")
+    # println("Dim of a as run by evaluate is: $(size(a, 1))")
+    # println("Dim of b as run by evaluate is: $(size(bs, 1))")
 
-# You can can test it yourself with inputs like this
-# a = [2.0 0.0; 0.0 1.0]
-# @show a
-# bs = [[1.0, 2.0], [2.0, 1.0]]
-# @show bs
-# @show f(a, bs)
+
+    #REALLY SLOW... reduce is slow?? probs just allocation is slow
+    b_reduced = reduce(hcat, bs)
+
+    # b is now 2 by N, so a@b is 2 by N, and I can max
+    return vec(maximum(a * b_reduced, dims=2))
+end
+
 
 a = rand(2,2)
 test_bs = [[rand(2) for _ in 1:2] for _ in 1:100]
 
 @btime for b in $test_bs
-    f($a, b)
+    f_fast($a, b)
 end
 
 # This is how you create the json file to submit
-HW1.evaluate(f, "owen.kranz@colorado.edu")
+HW1.evaluate(f_fast, "owen.kranz@colorado.edu")
