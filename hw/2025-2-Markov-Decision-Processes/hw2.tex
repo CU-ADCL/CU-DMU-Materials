@@ -2,6 +2,9 @@
 \usepackage{fullpage,amsmath,amsthm,graphicx,enumitem,amssymb}
 \usepackage[hidelinks]{hyperref}
 \usepackage{todonotes}
+\usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{automata, positioning, arrows.meta, bending}
 \theoremstyle{definition}
 \newtheorem{thm}{Theorem}
 \newtheorem{question}[thm]{Question}
@@ -27,9 +30,53 @@
 
 \begin{question}\label{q:mdp} (25 pts)
     Consider a game with 3 squares in a horizontal line drawn on paper, a token, and a die. Each turn, the player can either reset or roll the die. If the player rolls and the die shows an odd number, the token is moved one square to the right, and if an even number is rolled, the token is moved two squares to the right (in both cases stopping at the rightmost square\footnote{If the die is rolled from the middle square or right square, it will always end up in the right square.}). If the player resets, the token is always moved to the leftmost square. If the reset occurs when the token is in the middle square, two points are added; if the player resets when the token is on the right square, a point is subtracted.
+    
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[
+            > = Stealth,
+            node distance = 4cm,
+            on grid,
+            state/.style = {circle, draw, minimum size=1.0cm, font=\large},
+            every edge/.style = {draw, ->, >=Stealth, auto, bend left=20, thick},
+            every loop/.style = {looseness=4, thick, min distance=15mm}
+        ]
+        
+            % States
+            \node[state] (L) {$L$};
+            \node[state] (M) [right=of L] {$M$};
+            \node[state] (R) [right=of M] {$R$};
+        
+            % Roll actions from L
+            \path (L.180) edge[loop, in=120, out=60, looseness=5, min distance=15mm,] 
+            node[align=center, above=3mm] {reset \\ $r=0$} (L.179);
+            \path (L) edge[bend left=15] node[above=0mm] {roll: 0.5} (M);
+            \path (L) edge[bend left=30] node[above=0mm] {roll: 0.5} (R);
+        
+            % Roll actions from M
+            \path (M) edge[bend left=15] node[align=center, above=0mm] {reset: $r=+2$} (L);
+            \path (M) edge[bend left=15] node[above=0mm] {roll: $1$} (R);
+        
+            % Actions from R
+            \path (R) edge[bend left=30] node[align=center, below=2mm] {reset: $r = -1$} (L);
+            
+            % UPDATED LOOP POSITION
+            \path (R.359) edge[loop, in=300, out=240, looseness=5, min distance=15mm] 
+            node[align=center, right=0.1mm, below=1mm] {roll: $1$} (R.0);
+        
+            % Labels
+            \node[below=0.65cm of L] {\small Left};
+            \node[below=0.65cm of M] {\small Middle};
+            \node[below=0.65cm of R] {\small Right};
+        
+        \end{tikzpicture}
+    \end{figure}
+    
     \begin{enumerate}[label=\alph*)]
         \item Formulate this problem as an MDP (write down $S$, $A$, $T$, and $R$).
-        \item Calculate the optimal value when the token is in the leftmost square assuming a discount factor of $\gamma = 0.95$.\footnote{Hint: Guess an optimal policy, evaluate that optimal policy, and then verify that it satisfies the Bellman equation.}
+        \item Assume the game lasts for exactly 3 turns. Assuming no discounting ($\gamma = 1.0$), find the optimal actions for each state for the first turn that maximizes the expected cumulative reward.
+        \item Now assume an infinite horizon with a discount factor of $\gamma = 0.95$. Calculate the value of the policy found in part (b), and determine if it remains optimal in this setting. 
+        % \item Calculate the optimal value when the token is in the leftmost square assuming a discount factor of $\gamma = 0.95$.\footnote{Hint: Guess an optimal policy, evaluate that optimal policy, and then verify that it satisfies the Bellman equation.}
         \item Suppose you are not sure that the die is fair (i.e. whether it will yield odd and even with equal probability). Give finite upper and lower bounds for the accumulated discounted score that you can expect to receive with discount $\gamma = 0.95$.
     \end{enumerate}
 \end{question}
