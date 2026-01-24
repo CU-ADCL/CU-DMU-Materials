@@ -28,7 +28,20 @@
     \end{enumerate}
 \end{question}
 
-\begin{question}\label{q:mdp} (25 pts)
+\begin{question}\label{q:finite_mdp} (25 pts)
+    Consider a game with 4 squares (enumerated 1-4 from left to right) in a horizontal line drawn on paper, a token, and a die. Each turn, the player can either roll the die or step to the next square. If the player rolls and the die shows an odd number, the token is moved one square to the right, and if an even number is rolled, the token is moved two squares to the right. The game ends when the token is on the 4th square. If the player steps when the token is on square 2, one point is subtracted; if the player steps when the token is on square 3, three points are added.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.9\linewidth]{hw/2025-2-Markov-Decision-Processes/problem2_image.png}
+        \label{fig:placeholder}
+    \end{figure}
+    \begin{enumerate}[label=\alph*)]
+        \item Formulate this problem as an MDP (write down $S$, $A$, $T$, and $R$).
+        \item What is the optimal policy for this game, assuming a discount factor $\gamma = 0.95$?
+    \end{enumerate}
+\end{question}
+
+\begin{question}\label{q:infinite_mdp} (25 pts)
     Consider a game with 3 squares in a horizontal line drawn on paper, a token, and a die. Each turn, the player can either reset or roll the die. If the player rolls and the die shows an odd number, the token is moved one square to the right, and if an even number is rolled, the token is moved two squares to the right (in both cases stopping at the rightmost square\footnote{If the die is rolled from the middle square or right square, it will always end up in the right square.}). If the player resets, the token is always moved to the leftmost square. If the reset occurs when the token is in the middle square, two points are added; if the player resets when the token is on the right square, a point is subtracted.
     
     \begin{figure}[H]
@@ -49,7 +62,7 @@
         
             % Roll actions from L
             \path (L.180) edge[loop, in=120, out=60, looseness=5, min distance=15mm,] 
-            node[align=center, above=3mm] {reset \\ $r=0$} (L.179);
+            node[align=center, above=3mm] {reset} (L.179);
             \path (L) edge[bend left=15] node[above=0mm] {roll: 0.5} (M);
             \path (L) edge[bend left=30] node[above=0mm] {roll: 0.5} (R);
         
@@ -74,9 +87,7 @@
     
     \begin{enumerate}[label=\alph*)]
         \item Formulate this problem as an MDP (write down $S$, $A$, $T$, and $R$).
-        \item Assume the game lasts for exactly 3 turns. Assuming no discounting ($\gamma = 1.0$), find the optimal actions for each state for the first turn that maximizes the expected cumulative reward.
-        \item Now assume an infinite horizon with a discount factor of $\gamma = 0.95$. Calculate the value of the policy found in part (b), and determine if it remains optimal in this setting. 
-        % \item Calculate the optimal value when the token is in the leftmost square assuming a discount factor of $\gamma = 0.95$.\footnote{Hint: Guess an optimal policy, evaluate that optimal policy, and then verify that it satisfies the Bellman equation.}
+        \item Evaluate the policy $\pi = [roll, reset, reset]$.
         \item Suppose you are not sure that the die is fair (i.e. whether it will yield odd and even with equal probability). Give finite upper and lower bounds for the accumulated discounted score that you can expect to receive with discount $\gamma = 0.95$.
     \end{enumerate}
 \end{question}
