@@ -68,7 +68,7 @@ d = SparseCat(['a', 'b'], [0.8, 0.2])
 [rand(d) for _ in 1:10]
 
 # ╔═╡ f6a9d476-c404-4da1-be6b-0cde4a2e1a7c
-pdf(d, 'a'), pdf(d, 'b')
+pdf(d, 'a'), pdf(d, 'b'), pdf(d, 'c')
 
 # ╔═╡ 278bdf0c-059f-4344-b832-520b34636548
 md"""
@@ -153,9 +153,10 @@ end
 
 # ╔═╡ d51a88a1-b729-4ea1-82cc-19603099eb78
 p = FunctionPolicy(policy_function)
+# p = FunctionPolicy(s -> :right)
 
 # ╔═╡ fc85a642-9b91-4ef6-aa90-4ac2ac1030e5
-render(m, policy=FunctionPolicy(policy_function))
+render(m, policy=p)
 
 # ╔═╡ 3a17f5f4-5f36-465c-bcde-206845a979da
 simulate(RolloutSimulator(max_steps=100), m, FunctionPolicy(policy_function))
@@ -193,13 +194,14 @@ md"""
 
 # ╔═╡ 4c7374be-45d9-4603-a4cf-e0608b550fc1
 begin
-	T_pi = POMDPTools.Policies.policy_transition_matrix(m, FunctionPolicy(policy_function))
-	R_pi = POMDPTools.Policies. policy_reward_vector(m, FunctionPolicy(policy_function))
+	pi = FunctionPolicy(s->:up)
+	T_pi = POMDPTools.Policies.policy_transition_matrix(m, pi)
+	R_pi = POMDPTools.Policies. policy_reward_vector(m, pi)
 	U_pi = (I - discount(m)*T_pi)\R_pi
 end
 
 # ╔═╡ 33cc7909-b1fe-482a-ba56-ef9ac448cf79
-render(m, policy=FunctionPolicy(policy_function), color=U_pi)
+render(m, policy=pi, color=U_pi)
 
 # ╔═╡ c88ec7da-19a7-4b43-9208-e1c04cd2c8b7
 begin
