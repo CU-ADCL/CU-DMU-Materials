@@ -1,7 +1,6 @@
 using DMUStudent.HW2
 using POMDPs: states, actions
-using POMDPTools: ordered_states, render
-using Cairo, Fontconfig
+using POMDPModelTools: ordered_states, render
 
 ##############
 # Instructions
@@ -41,9 +40,13 @@ function value_iteration(m)
     return V
 end
 
-V = rand(length(states(grid_world))) # replace this with a call to your value_iteration function
-# You can use the following commented code to display the value. If you are in an environment with multimedia capability (e.g. Jupyter, Pluto, VSCode, Juno), you can display the environment with the following commented code. From the REPL, you can use the ElectronDisplay package.
+V = rand(length(states(grid_world)))*10.0 # replace this with value_iteration(m)
+# If you are in an environment with multimedia capability (e.g. VSCode, Jupyter, Pluto), use this:
 display(render(grid_world, color=V))
+# If you are in the REPL or want to save a png, use this:
+using Compose: draw, PNG
+import Cairo, Fontconfig
+draw(PNG("value.png"), render(grid_world, color=V))
 
 ############
 # Question 4
@@ -53,7 +56,7 @@ display(render(grid_world, color=V))
 m = UnresponsiveACASMDP(7)
 
 # transition_matrices and reward_vectors work the same as for grid_world, however this problem is much larger, so you will have to exploit the structure of the problem. In particular, you may find the docstring of transition_matrices helpful:
-display(@doc(transition_matrices))
+# display(@doc(transition_matrices))
 
 V = value_iteration(m)
 
