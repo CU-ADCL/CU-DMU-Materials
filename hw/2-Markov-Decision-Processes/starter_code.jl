@@ -1,6 +1,6 @@
 using DMUStudent.HW2
 using POMDPs: states, actions
-using POMDPModelTools: ordered_states, render
+using POMDPTools: ordered_states, render
 
 ##############
 # Instructions
