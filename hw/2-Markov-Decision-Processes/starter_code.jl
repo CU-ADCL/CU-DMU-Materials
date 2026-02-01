@@ -1,6 +1,7 @@
 using DMUStudent.HW2
 using POMDPs: states, actions
 using POMDPTools: ordered_states, render
+import Cairo, Fontconfig # Needed in some cases for rendering the value function on grid world
 
 ##############
 # Instructions
@@ -42,10 +43,9 @@ end
 
 V = rand(length(states(grid_world)))*10.0 # replace this with value_iteration(m)
 # If you are in an environment with multimedia capability (e.g. VSCode, Jupyter, Pluto), use this:
-display(render(grid_world, color=V))
+display(render(grid_world, color=V)) # In the REPL, this will output an annoying amount of text
 # If you are in the REPL or want to save a png, use this:
 using Compose: draw, PNG
-import Cairo, Fontconfig
 draw(PNG("value.png"), render(grid_world, color=V))
 
 ############

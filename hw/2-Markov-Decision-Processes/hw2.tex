@@ -98,7 +98,7 @@ A submission should consist of two or three files:
 \end{question}
 
 \begin{question}\label{q:infinite_mdp} (15 pts)
-    Consider a game with 3 squares in a horizontal line drawn on paper, a token, and a die. Each turn, the player can either reset or roll the die. If the player rolls and the die shows an odd number, the token is moved one square to the right, and if an even number is rolled, the token is moved two squares to the right (in both cases stopping at the rightmost square\footnote{If the die is rolled from the middle square or right square, it will always end up in the right square.}). If the player resets, the token is always moved to the leftmost square. If the reset occurs when the token is in the middle square, two points are added; if the player resets when the token is on the right square, a point is subtracted.
+    Consider a game with 3 squares in a horizontal line drawn on paper, a token, and a die. Each turn, the player can either reset or roll the die. {\color{purple}The token always starts in the leftmost square.} If the player rolls and the die shows an odd number, the token is moved one square to the right, and if an even number is rolled, the token is moved two squares to the right (in both cases stopping at the rightmost square\footnote{If the die is rolled from the middle square or right square, it will always end up in the right square.}). If the player resets, the token is always moved to the leftmost square. If the reset occurs when the token is in the middle square, two points are added; if the player resets when the token is on the right square, a point is subtracted.
     
 %     \begin{figure}[H]
 %         \centering
@@ -142,8 +142,8 @@ A submission should consist of two or three files:
 %     \end{figure}
     
     \begin{enumerate}[label=\alph*)]
-        \item Formulate this problem as an MDP (write down $S$, $A$, $T$, and $R$). Assume a discount of $\gamma = 0.95$.
-        \item Evaluate the policy
+        \item Formulate this problem as an MDP (write down $S$, $A$, $T$, and $R$). Assume a discount of $\gamma = 0.95$ {\color{purple}and that the die is fair}.
+        \item Evaluate the following policy {\color{purple}assuming a fair die}:
         \begin{equation*}
             \pi(s) = \begin{cases}
                 roll & \text{if } s = L \\
@@ -160,7 +160,7 @@ A submission should consist of two or three files:
 \begin{question} \label{q:gw}
     (Value iteration for Grid World, 35 pts)
 
-    Solve the MDP \texttt{HW2.grid\_world} with your own implementation of value iteration with a discount of $\gamma=0.95$ and plot the resulting value function. All of the necessary information to solve this problem can be extracted with the \texttt{HW2.transition\_matrices} and \texttt{HW2.reward\_vectors} functions, and plotting can be accomplished with \texttt{POMDPModelTools.render(HW2.grid\_world, color=v)} where \texttt{v} is the value function. See the starter code and function docstrings for more information.
+    Solve the MDP \texttt{HW2.grid\_world} with your own implementation of value iteration with a discount of $\gamma=0.95$ and plot the resulting value function. All of the necessary information to solve this problem can be extracted with the \texttt{HW2.transition\_matrices} and \texttt{HW2.reward\_vectors} functions, and plotting can be accomplished with \texttt{\color{purple}POMDPTools.render(HW2.grid\_world, color=V)} where \texttt{v} is the value function. See the starter code and function docstrings for more information.
 \end{question}
 
 \section*{Challenge Problem}
