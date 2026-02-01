@@ -34,7 +34,7 @@ function value_iteration(m)
     # It is good to put performance-critical code in a function: https://docs.julialang.org/en/v1/manual/performance-tips/
 
     V = zeros(length(states(m))) # this would be a good container to use for your value function
-
+    ## MAKE IT A MATRIX OPERATION
     # put your value iteration code here
 
     return V
@@ -48,6 +48,7 @@ end
 ############
 
 # You can create an mdp object representing the problem with the following:
+# size of the discreteziation... 2 = 10000, 4 = 80k. 7 for full score 500k 
 m = UnresponsiveACASMDP(2)
 
 # transition_matrices and reward_vectors work the same as for grid_world, however this problem is much larger, so you will have to exploit the structure of the problem. In particular, you may find the docstring of transition_matrices helpful:
@@ -71,6 +72,7 @@ using POMDPs: states, stateindex
 
 s = first(states(m))
 @show si = stateindex(m, s)
+# this requires looking at the states somehow??
 
 # To convert from a state index to a physical state in the ACAS MDP, use convert_s:
 using POMDPs: convert_s
@@ -79,3 +81,9 @@ using POMDPs: convert_s
 
 # To visualize a state in the ACAS MDP, use
 render(m, (s=s,))
+
+## using POMDPs: @gen
+# sp = @gen(:sp)(m, sp, 1500)
+
+# using POMDPs: discount
+#discount(m)
