@@ -1,11 +1,10 @@
 function randmult(n)
     A = rand(n, n)
 
-    b = Float64[]
+    b = []
     for i in 1:n
         push!(b, randn())
     end
-    # b = randn(n)
 
     c = A*b
     return c
@@ -25,6 +24,6 @@ using BenchmarkTools
 
 # @profview randmult(1000)
 
-@profview randmult(10000)
+# @profview randmult(10000)
 
-@code_warntype randmult(100)
+# @code_warntype randmult(100)
