@@ -20,7 +20,7 @@ Please make sure to update DMUStudent to gain access to the HW3 module.
 =#
 
 ############
-# Question 2
+# Question 3
 ############
 
 m = HW3.DenseGridWorld()
@@ -40,7 +40,7 @@ end
 
 
 ############
-# Question 3
+# Question 4
 ############
 
 m = DenseGridWorld()
@@ -68,7 +68,7 @@ t[(SA[1,1], :right, SA[2,1])] = 1
 inchrome(visualize_tree(q, n, t, SA[1,1])) # use inbrowser(visualize_tree(q, n, t, SA[1,1]), "firefox") etc. if you want to use a different browser
 
 ############
-# Question 4
+# Question 5
 ############
 
 # A starting point for the MCTS select_action function (a policy) which can be used for Questions 4 and 5
@@ -95,7 +95,7 @@ end
 @show results = [rollout(m, select_action, rand(initialstate(m)), max_steps=100) for _ in 1:100]
 
 ############
-# Question 5
+# Question 6
 ############
 
 HW3.evaluate(select_action, "your.gradescope.email@colorado.edu")
