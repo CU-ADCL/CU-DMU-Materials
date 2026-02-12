@@ -1,27 +1,20 @@
 using POMDPs
-using POMDPModels: SimpleGridWorld
-using POMDPTools: render, ordered_states, VectorPolicy
-using Compose: draw, PNG
-import Cairo, Fontconfig
+using ContinuumWorld: CWorld, CWorldVis, Vec2
 using Flux
 using Plots
 using ProgressLogging
 using Random
 
-m = SimpleGridWorld(discount=0.95, tprob=0.7)
+m = CWorld()
 
-S = ordered_states(m)
-A = collect(actions(m))
+A = actions(m)
 γ = discount(m)
-n_states = length(S)
 
-# Encode state (x,y) as normalized 2-element Float32 vector
+# Encode state as normalized 2-element Float32 vector
 function state_features(m, s)
-    sz = m.size
-    return Float32[s[1] / sz[1], s[2] / sz[2]]
+    return Float32[(s[1] - m.xlim[1]) / (m.xlim[2] - m.xlim[1]),
+                   (s[2] - m.ylim[1]) / (m.ylim[2] - m.ylim[1])]
 end
-
-X = hcat([state_features(m, s) for s in S]...)  # 2 × n_states
 
 # MSE loss
 loss(model, x, y) = sum((model(x) .- y) .^ 2) / length(y)
@@ -62,14 +55,14 @@ function train!(model, opt_state, x_data, y_data;
     return models, losses
 end
 
-function bellman_targets(m, A, γ, V; n_samples=1000)
-    sampled_states = [rand(states(m)) for _ in 1:n_samples]
+function bellman_targets(m, A, γ, V; n_samples, n_mc_sims)
+    sampled_states = [rand(initialstate(m)) for _ in 1:n_samples]
     x = hcat([state_features(m, s) for s in sampled_states]...)
     y = zeros(Float32, 1, n_samples)
     for (i, s) in enumerate(sampled_states)
         q_best = -Inf
         for a in A
-            q = q_mc(m, s, a, γ, V)
+            q = q_mc(m, s, a, γ, V; n_mc_sims)
             q_best = max(q_best, q)
         end
         y[1, i] = Float32(q_best)
@@ -77,25 +70,26 @@ function bellman_targets(m, A, γ, V; n_samples=1000)
     return x, y
 end
 
-function q_explicit(m, s, a, γ, V)
-    td = transition(m, s, a)
-    return sum(pdf(td, sp) * (reward(m, s, a, sp) + γ * only(V(state_features(m, sp)))) for sp in support(td))
-end
-
-function q_mc(m, s, a, γ, V; n=50)
+function q_mc(m, s, a, γ, V; n_mc_sims)
+    if isterminal(m, s)
+        return 0.0
+    end
     qsum = 0.0
-    for i in 1:n
+    for i in 1:n_mc_sims
         sp, r = @gen(:sp, :r)(m, s, a)
         qsum += r + γ * only(V(state_features(m, sp)))
     end
-    return qsum / n
+    return qsum / n_mc_sims
 end
 
 
 # Neural Fitted Value Iteration
-function neural_fitted_vi(m, S, A, γ;
-    n_vi_iters=5, learning_rate=1e-3, n_epochs=1_000,
-    minibatch_size=32, save_every=50
+function neural_fitted_vi(m, A, γ;
+    n_vi_iters, learning_rate, n_epochs,
+    minibatch_size,
+    n_samples,
+    n_mc_sims,
+    save_every=50
 )
     V = Chain(
         Dense(2 => 64, tanh),
@@ -109,7 +103,7 @@ function neural_fitted_vi(m, S, A, γ;
     for vi_iter in 1:n_vi_iters
         @info "VI iteration $vi_iter / $n_vi_iters"
 
-        X_sample, Y = bellman_targets(m, A, γ, V)
+        X_sample, Y = bellman_targets(m, A, γ, V; n_samples, n_mc_sims)
 
         models, losses = train!(V, opt_state, X_sample, Y;
             n_epochs=n_epochs,
@@ -123,20 +117,17 @@ function neural_fitted_vi(m, S, A, γ;
     return history
 end
 
-history = neural_fitted_vi(m, S, A, γ;
-    n_vi_iters=10,
+history = neural_fitted_vi(m, A, γ;
+    n_vi_iters=30,
     learning_rate=1e-4,
-    n_epochs=1_000,
+    n_epochs=1000,
     minibatch_size=32,
+    n_samples=1000,
+    n_mc_sims=50
 )
 
-# Extract greedy policy from final value function
+# Extract final value function
 final_V = history[end].V
-
-greedy_actions = map(S) do s
-    argmax(a -> q_explicit(m, s, a, γ, final_V), A)
-end
-greedy_policy = VectorPolicy(m, greedy_actions)
 
 # Plot loss curves across VI iterations
 p_loss = plot(; xlabel="Epoch", ylabel="MSE Loss", yaxis=:log, title="Training Loss per VI Iteration")
@@ -147,16 +138,13 @@ end
 savefig(p_loss, "neural_fitted_vi_loss.png")
 println("Saved loss plot to neural_fitted_vi_loss.png")
 
-V_vec = vec(Float64.(final_V(X)))
-p_grid = render(m, color=V_vec, policy=greedy_policy)
-draw(PNG("neural_fitted_vi_grid.png"), p_grid)
+p_grid = plot(CWorldVis(m; f = s -> only(final_V(state_features(m, s))), title="Value Function"));
+savefig(p_grid, "neural_fitted_vi_grid.png")
 println("Saved grid world plot to neural_fitted_vi_grid.png")
 
 # Save value function plot for each VI iteration
 for (i, entry) in enumerate(history)
-    v_i = vec(Float64.(entry.V(X)))
-    actions_i = map(s -> argmax(a -> q_explicit(m, s, a, γ, entry.V), A), S)
-    policy_i = VectorPolicy(m, actions_i)
-    draw(PNG("neural_fitted_vi_grid_$(lpad(i, 3, '0')).png"), render(m, color=v_i, policy=policy_i))
+    p_i = plot(CWorldVis(m; f = s -> only(entry.V(state_features(m, s))), title="VI iter $i"))
+    savefig(p_i, "neural_fitted_vi_grid_$(lpad(i, 3, '0')).png")
 end
 println("Saved grid plots")
