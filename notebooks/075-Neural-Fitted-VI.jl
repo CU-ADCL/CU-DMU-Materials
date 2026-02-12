@@ -62,18 +62,19 @@ function train!(model, opt_state, x_data, y_data;
     return models, losses
 end
 
-function bellman_targets(m, S, A, γ, V)
-    y = zeros(Float32, 1, length(S))
-    for (i, s) in enumerate(S)
+function bellman_targets(m, A, γ, V; n_samples=1000)
+    sampled_states = [rand(states(m)) for _ in 1:n_samples]
+    x = hcat([state_features(m, s) for s in sampled_states]...)
+    y = zeros(Float32, 1, n_samples)
+    for (i, s) in enumerate(sampled_states)
         q_best = -Inf
         for a in A
-            # q = q_explicit(m, s, a, γ, V)
             q = q_mc(m, s, a, γ, V)
             q_best = max(q_best, q)
         end
         y[1, i] = Float32(q_best)
     end
-    return y
+    return x, y
 end
 
 function q_explicit(m, s, a, γ, V)
@@ -81,7 +82,7 @@ function q_explicit(m, s, a, γ, V)
     return sum(pdf(td, sp) * (reward(m, s, a, sp) + γ * only(V(state_features(m, sp)))) for sp in support(td))
 end
 
-function q_mc(m, s, a, γ, V; n=100)
+function q_mc(m, s, a, γ, V; n=50)
     qsum = 0.0
     for i in 1:n
         sp, r = @gen(:sp, :r)(m, s, a)
@@ -92,7 +93,7 @@ end
 
 
 # Neural Fitted Value Iteration
-function neural_fitted_vi(m, S, A, X, γ;
+function neural_fitted_vi(m, S, A, γ;
     n_vi_iters=5, learning_rate=1e-3, n_epochs=1_000,
     minibatch_size=32, save_every=50
 )
@@ -108,9 +109,9 @@ function neural_fitted_vi(m, S, A, X, γ;
     for vi_iter in 1:n_vi_iters
         @info "VI iteration $vi_iter / $n_vi_iters"
 
-        Y = bellman_targets(m, S, A, γ, V)
+        X_sample, Y = bellman_targets(m, A, γ, V)
 
-        models, losses = train!(V, opt_state, X, Y;
+        models, losses = train!(V, opt_state, X_sample, Y;
             n_epochs=n_epochs,
             save_every=save_every,
             minibatch_size=minibatch_size,
@@ -122,9 +123,9 @@ function neural_fitted_vi(m, S, A, X, γ;
     return history
 end
 
-history = neural_fitted_vi(m, S, A, X, γ;
-    n_vi_iters=5,
-    learning_rate=1e-3,
+history = neural_fitted_vi(m, S, A, γ;
+    n_vi_iters=10,
+    learning_rate=1e-4,
     n_epochs=1_000,
     minibatch_size=32,
 )
