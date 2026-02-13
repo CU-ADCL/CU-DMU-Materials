@@ -90,7 +90,7 @@ simulate!(env, s->rand(actions(env)))
 
 # ╔═╡ 94752f7d-74e5-490e-acef-e1202cb5f293
 md"""
-# Maximum Likelihood Model-Based RL
+# Tabular Maximum Likelihood Model-Based RL
 
 (With updates after every episode)
 """
@@ -991,7 +991,7 @@ version = "17.7.0+0"
 # ╠═f60ef29f-2edd-4ab6-aaff-1a301d63512c
 # ╠═6f9d2fce-d893-40d4-9efb-e80f9a2105a4
 # ╠═07247168-0306-40e3-be42-746831361a59
-# ╟─94752f7d-74e5-490e-acef-e1202cb5f293
+# ╠═94752f7d-74e5-490e-acef-e1202cb5f293
 # ╠═6cfe3cdf-c277-4067-919f-07fe6cbbd775
 # ╠═2a9dd1ed-f8fa-4133-ba66-a5060d703e79
 # ╠═d4b9ec5d-61c2-458a-ac7b-febe4dd30ec8
