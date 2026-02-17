@@ -93,7 +93,9 @@ function neural_fitted_vi(m, A, γ;
 )
     V = Chain(
         Dense(2 => 64, tanh),
-        Dense(64 => 64, tanh),
+        Dense(64 => 128, tanh),
+        Dense(128 => 128, tanh),
+        Dense(128 => 64, tanh),
         Dense(64 => 1)
     )
     opt_state = Flux.setup(Adam(learning_rate), V)
@@ -119,12 +121,22 @@ end
 
 history = neural_fitted_vi(m, A, γ;
     n_vi_iters=30,
-    learning_rate=1e-4,
-    n_epochs=1000,
+    learning_rate=5e-4,
+    n_epochs=100,
     minibatch_size=32,
     n_samples=1000,
     n_mc_sims=50
 )
+
+# works well:
+#=
+    n_vi_iters=30,
+    learning_rate=5e-4,
+    n_epochs=100,
+    minibatch_size=32,
+    n_samples=1000,
+    n_mc_sims=50
+=#
 
 # Extract final value function
 final_V = history[end].V
