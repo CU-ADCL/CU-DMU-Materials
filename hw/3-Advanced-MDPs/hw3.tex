@@ -47,7 +47,8 @@ A submission should consist of two or three files:
 \begin{question} (10 pts) Do similar $Q$ values imply similar rewards?
     Consider the following claim:
     \begin{quote}
-    If a policy $\pi$ satisfies $|Q^*(s, \pi^*(s)) - Q^*(s, \pi(s))| \leq \beta$ for all $s \in S$ for some $\beta > 0$, then it immediately follows that $|R(s, \pi^*(s)) - R(s, \pi(s))| \leq \beta$ for any $s \in S$.
+    % If a policy $\pi$ satisfies $|Q^*(s, \pi^*(s)) - Q^*(s, \pi(s))| \leq \beta$ for all $s \in S$ for some $\beta > 0$, then it immediately follows that $|R(s, \pi^*(s)) - R(s, \pi(s))| \leq \beta$ for any $s \in S$.
+    {\color{purple}Let $\beta$ be a positive constant. If a policy $\pi$ satisfies $|Q^*(s, \pi^*(s)) - Q^*(s, \pi(s))| \leq \beta$ for all $s \in S$, then it immediately follows that $|R(s, \pi^*(s)) - R(s, \pi(s))| \leq \beta$ for any $s \in S$.}
     % If $|Q^*(s, \pi^*(s)) - Q^*(s, a)| \leq \beta$, then $|\mathcal{R}(s, \pi^*(s)) - \mathcal{R}(s, a)| \leq \beta$.
     \end{quote}
     It turns out that this claim is incorrect.\footnote{Even seasoned researchers can be tripped up by this - this claim was erroneously made in the proof for Lemma 5 of the Sparse Sampling paper by Kearns, Mansour, and Ng \url{https://www.cis.upenn.edu/~mkearns/papers/sparsesampling-journal.pdf}.} In this exercise, you will formulate a counterexample demonstrating that it is false. Consider the MDP below:
