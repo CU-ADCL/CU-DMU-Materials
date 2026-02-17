@@ -5,7 +5,7 @@
 3. Create a (PO)MDP model of a skiing robot and find a decent descent solution.
 4. Re-produce some of the results from a reinforcement learning paper and run at least one extra experiment that is not in the paper.
 5. Build a DESPOT solver without determinization and compare it to the determinized version to quantify the value of determinization
-6. Contribute a solver to POMDPs.jl (a submission of this type should be able to reliably solve simple problems, conform to the interface, and have tests that pass)
+6. Contribute a solver to POMDPs.jl (a submission of this type should be able to reliably solve simple problems, conform to the interface, and have tests that pass). One good idea might be a neural fitted value iteration solver.
 7. Laser Tag Belief MDP (contact Himanshu Gupta)
 8. Create a Julia or Python package that enumerates all equilibria of a bimatrix game using the lrsNash algorithm [Enumeration of Nash equilibria for two-player games (2009; Avis, Rosenberg, Savani, von Stengel)]
 9. Use [BSK-RL](https://github.com/AVSLab/bsk_rl) to do some satellite reinforcement learning
