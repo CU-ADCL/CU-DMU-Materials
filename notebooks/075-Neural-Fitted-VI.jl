@@ -16,8 +16,12 @@ function state_features(m, s)
                    (s[2] - m.ylim[1]) / (m.ylim[2] - m.ylim[1])]
 end
 
-# MSE loss
-loss(model, x, y) = sum((model(x) .- y) .^ 2) / length(y)
+# MSE loss with L2 regularization
+function loss(model, x, y; λ=1f-3)
+    mse = sum((model(x) .- y) .^ 2) / length(y)
+    l2 = sum(sum(abs2, p) for p in Flux.trainables(model))
+    return mse + λ * l2
+end
 
 function train!(model, opt_state, x_data, y_data;
     n_epochs=1_000, save_every=50, minibatch_size=16
@@ -114,6 +118,9 @@ function neural_fitted_vi(m, A, γ;
         )
 
         push!(history, (V=deepcopy(V), losses=losses))
+
+        p_i = plot(CWorldVis(m; f = s -> only(V(state_features(m, s))), title="VI iter $vi_iter"))
+        savefig(p_i, "neural_fitted_vi_grid_$(lpad(vi_iter, 3, '0')).png")
     end
 
     return history
@@ -122,13 +129,13 @@ end
 history = neural_fitted_vi(m, A, γ;
     n_vi_iters=30,
     learning_rate=5e-4,
-    n_epochs=100,
+    n_epochs=1000,
     minibatch_size=32,
     n_samples=1000,
     n_mc_sims=50
 )
 
-# works well:
+# works reasonably well:
 #=
     n_vi_iters=30,
     learning_rate=5e-4,
@@ -153,10 +160,3 @@ println("Saved loss plot to neural_fitted_vi_loss.png")
 p_grid = plot(CWorldVis(m; f = s -> only(final_V(state_features(m, s))), title="Value Function"));
 savefig(p_grid, "neural_fitted_vi_grid.png")
 println("Saved grid world plot to neural_fitted_vi_grid.png")
-
-# Save value function plot for each VI iteration
-for (i, entry) in enumerate(history)
-    p_i = plot(CWorldVis(m; f = s -> only(entry.V(state_features(m, s))), title="VI iter $i"))
-    savefig(p_i, "neural_fitted_vi_grid_$(lpad(i, 3, '0')).png")
-end
-println("Saved grid plots")
