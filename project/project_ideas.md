@@ -11,8 +11,9 @@
 9. Use [BSK-RL](https://github.com/AVSLab/bsk_rl) to do some satellite reinforcement learning
 10. Imitation learning or multiplayer RL on Atari with/against a real human player
 11. Develop POMDPs.jl domains.
+12. Develop a solver or domain for [Decisions.jl](https://github.com/JuliaDecisionMaking/Decisions.jl), which permits many extensions on (PO)MDPs. You are also encouraged to contribute patches for its [outstanding issues](https://github.com/JuliaDecisionMaking/Decisions.jl/issues). (Contact Mel Krusniak: mel.krusniak@colorado.edu.)
 
-You can also find examples in the [previous/projects directory](https://github.com/zsunberg/CU-DMU-Materials/tree/master/previous/projects) in this repo or here https://aa228.stanford.edu/old-projects/ or here https://github.com/zsunberg/CU-DMUPP-Materials/tree/main/previous/projects .
+You can also find examples in the [previous/projects directory](https://github.com/zsunberg/CU-DMU-Materials/tree/master/previous/projects) in this repo or here https://aa228.stanford.edu/old-projects/ or here https://github.com/zsunberg/CU-DMUPP-Materials/tree/main/previous/projects.
 
 ***************************************************************************************
 
