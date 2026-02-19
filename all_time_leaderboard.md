@@ -6,11 +6,11 @@
 2. 80 | Sean Campbell (2025)
 3. 65 | Qi Heng Needs More RAM (2021)
 
-## HW3 (Monte Carlo Tree Search, since 2021)
+## HW3 (Monte Carlo Tree Search, since 2023)
 
-1. 100.0 | Jackson Wagner (2022)
-2. 99.997 | Eli Weissler (2024)
-3. 98.081 | No Regerts (2025)
+1. 99.997 | Eli Weissler (2024)
+2. 98.081 | No Regerts (2025)
+3. 97.520 | Sean Campbell (2025)
 
 ## HW5 (Reinforcement Learning, since 2022)
 
