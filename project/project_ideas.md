@@ -19,7 +19,21 @@ You can also find examples in the [previous/projects directory](https://github.c
 
 **NEW Research Project Ideas**
 
-1. Monte Carlo Tree Search with Value Gradients for Continuous Space Problems
+1. Scalable Rollouts for ESP in Crowded Navigation (CPU/GPU Parallel Motion Planning)
+
+Extended Space Planning (ESP) is an effective approach for autonomous navigation to a fixed goal in crowded environments, but it often relies on HJB/PDE-based rollout or reference computations that can be slow and may not scale well as environments get larger or more complex.
+
+In this project, students will replace the HJB/PDE rollout component in an existing ESP-based planner with a fast CPU/GPU-parallelized motion-planning rollout (e.g., massively parallel sampling-based rollouts). The goal is to evaluate whether parallel rollouts can provide sufficiently good guidance to the online planner while significantly reducing computation time.
+
+Students will compare:
+- Baseline ESP with HJB/PDE rollouts (provided)
+- ESP with parallel motion-planning rollouts (to be implemented)
+
+Evaluation will focus on trade-offs between runtime, success rate, path quality, and safety metrics (e.g., minimum distance to humans / collision rate) across varying crowd densities.
+
+For more details, contact Himanshu Gupta (himanshu.gupta@colorado.edu) to schedule a meeting.
+
+2. Monte Carlo Tree Search with Value Gradients for Continuous Space Problems
 
 Traditional Monte Carlo Tree Search (MCTS) struggles with large or continuous action spaces, limiting its applicability to complex decision-making problems. A promising approach to address this challenge in Markov Decision Processes (MDPs) is to approximate value gradients and use them to guide the search process, improving action selection efficiency.
 
@@ -27,7 +41,7 @@ This project involves implementing an existing value-gradient-enhanced MCTS algo
 
 For more details, contact Himanshu Gupta (himanshu.gupta@colorado.edu) to schedule a meeting.
 
-2. Safety-Guided Monte Carlo Tree Search for Continuous Control
+3. Safety-Guided Monte Carlo Tree Search for Continuous Control
 
 Monte Carlo Tree Search (MCTS) is a powerful planning method for Markov Decision Processes (MDPs), but handling continuous action spaces typically requires techniques such as Double Progressive Widening (DPW), which may spend significant computation exploring unsafe or low-quality actions before identifying better ones.
 
