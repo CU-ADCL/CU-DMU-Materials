@@ -26,3 +26,15 @@ Traditional Monte Carlo Tree Search (MCTS) struggles with large or continuous ac
 This project involves implementing an existing value-gradient-enhanced MCTS algorithm from recent research and, if time permits, extending it to Partially Observable MDPs (POMDPs). The goal is to explore how gradient-based adjustments can improve tree search efficiency in high-dimensional decision spaces.
 
 For more details, contact Himanshu Gupta (himanshu.gupta@colorado.edu) to schedule a meeting.
+
+2. Safety-Guided Monte Carlo Tree Search for Continuous Control
+
+Monte Carlo Tree Search (MCTS) is a powerful planning method for Markov Decision Processes (MDPs), but handling continuous action spaces typically requires techniques such as Double Progressive Widening (DPW), which may spend significant computation exploring unsafe or low-quality actions before identifying better ones.
+
+In many stochastic control problems, however, we can compute stochastic safety barriers offline. These barriers estimate the probability that a given state–action pair remains safe under uncertain dynamics. This project explores how such offline safety information can guide online MCTS.
+
+Specifically, we will investigate whether safety barriers can be used to prune unsafe actions during tree expansion or bias action selection within the UCB exploration rule.
+
+The goal is to evaluate how safety-guided MCTS compares to standard MCTS-DPW in terms of convergence speed, safety performance, and overall reward in a simple stochastic navigation or control environment.
+
+For more details, contact Himanshu Gupta (himanshu.gupta@colorado.edu) to schedule a meeting.
