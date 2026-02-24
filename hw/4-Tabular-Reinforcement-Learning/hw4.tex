@@ -16,10 +16,16 @@
 
 \maketitle
 
+A submission should consist of one or two files:
+\begin{itemize}[nosep]
+    \item A single PDF file containing answers to questions (typed, handwritten, or exported notebook).
+    \item A code listing \emph{if the code is not included in the PDF}.
+\end{itemize}
+
 \section{Conceptual Questions}
 
 \begin{question}
-    (30 pts) Consider a 3-armed Bernoulli Bandit with payoff probabilities $\theta = [0.2, 0.3, 0.7]$.
+    (25 pts) Consider a 3-armed Bernoulli Bandit with payoff probabilities $\theta = [0.2, 0.3, 0.7]$.
     \begin{enumerate}[label=\alph*),noitemsep]
         \item After a very large number of pulls, what is the expected payoff per pull of an $\epsilon$-greedy policy with $\epsilon=0.15$ (and no decay)?
         \item After a very large number of pulls, what is the probability of selecting arm 3 when using a softmax policy with $\lambda=5$ (and a ``precision factor'' of 1.0)?
@@ -29,13 +35,17 @@
 \end{question}
 
 \begin{question}
-    (20 pts) Consider the following simple MDP: $S = \{1,2\}$, $A = \{L,R\}$. The initial state is 1, and 2 is a terminal state. Both actions result in deterministic transitions to state 2. $R(1,L) = 10$, $R(1,R) = 20$. Consider a policy parameterized with $\theta = [\theta_L, \theta_R]$, where $$\pi_\theta (a \mid s) = \frac{e^{\theta_a}}{e^{\theta_L} + e^{\theta_R}} \text{.}$$ Calculate the policy gradients at $\theta = [0.5, 0.5]$ without baseline subtraction for two trajectories: $(1,L,10,2)$ and $(1,R,20,2)$.
+    (15 pts) Consider the following simple MDP: $S = \{1,2\}$, $A = \{L,R\}$. The initial state is 1, and 2 is a terminal state. Both actions result in deterministic transitions to state 2. $R(1,L) = 10$, $R(1,R) = 20$. Consider a policy parameterized with $\theta = [\theta_L, \theta_R]$, where $$\pi_\theta (a \mid s) = \frac{e^{\theta_a}}{e^{\theta_L} + e^{\theta_R}} \text{.}$$ Calculate the policy gradients at $\theta = [0.5, 0.5]$ without baseline subtraction for two trajectories: $(1,L,10,2)$ and $(1,R,20,2)$.
 \end{question}
 
 \section{Exercises}
 
 \begin{question}
-    (50 pts) Implement \textbf{two} tabular or deep learning algorithms to learn a policy for the \texttt{DMUStudent.HW4.gw} grid world environment.     You will submit the following deliverables:
+(20 pts) Using the deep learning library of your choice (e.g. Flux.jl, Knet.jl, Tensorflow, PyTorch), fit a neural network to approximate the function $f(x) = (1-x) \sin(20 \log(x+0.2))$ for the range $x \in [0,1]$. Plot a set of 100 data points fed through the trained model and plot the learning curve (loss vs number of training epochs).
+\end{question}
+
+\begin{question}
+    (40 pts) Implement \textbf{two} tabular or deep learning algorithms to learn a policy for the \texttt{DMUStudent.HW4.gw} grid world environment.     You will submit the following deliverables:
 
     \begin{enumerate}[label=\alph*)]
         \item The \textbf{source code} for both of the algorithms.
