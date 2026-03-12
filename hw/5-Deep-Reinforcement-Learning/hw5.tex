@@ -18,6 +18,40 @@
 
 \section{Exercises}
 
+\begin{question}(25 points)
+    Jill is an entrepreneur of a small business trying to decide whether to commit to sourcing inputs for her business from a domestic supplier or an international supplier. The legislature of her country has delegated some tariff authority to the executive branch, but the precise legal limits are unclear, and the president has imposed tariffs with dubious legality.
+
+    This results in a POMDP for Jill. The state space is $S = \{T, F\}$, where $T$ corresponds to the tariffs being legal and upheld and $F$ indicates that the tariffs are illegal and free trade will be restored. The action space is $A = \{D, I\}$, where $D$ indicates that Jill commits to a domestic supplier and $I$ indicates that she commits to an international supplier.
+    The reward function is given in the table below:
+    \begin{center}
+        \begin{tabular}{cc|c}
+            \toprule
+            $s$ & $a$ & $R(s, a)$ \\
+            \midrule
+            $T$ & $D$ & 5 \\
+            $T$ & $I$ & 2 \\
+            $F$ & $D$ & 6 \\
+            $F$ & $I$ & 9 \\
+            \bottomrule
+        \end{tabular}
+    \end{center}
+\end{question}
+
+\begin{enumerate}[label=\alph*)]
+    \item Draw or plot the one-step alpha vectors for the one-step plans corresponding to the two actions in the manner done in class. Label each alpha vector with its corresponding action and indicate the rewards for each state on the sides of the plot as done in class.
+    \item If Jill's believes that tariffs will be found legal with 60\% likelihood, what is the optimal action if the problem only has one step? Justify your answer numerically.
+    \item What is the expected reward taking the optimal action given her belief?
+\end{enumerate}
+
+Now assume that there is a third action $W$, which corresponds to waiting for the courts to determine the legality. The wait action has an immediate reward of -1 for any state. After a wait action is taken, a perfectly accurate observation from $O = \{T, F\}$, which reveals the true state, is received.
+
+\begin{enumerate}[label=\alph*),resume]
+    \item Draw a diagram depicting a two-step conditional plan where the initial action is $W$ and the subsequent action is $D$ if the observation is $T$ and $I$ if the observation is $F$.
+    \item Calculate the alpha vector for this conditional plan and draw or plot it on the same axes as the one-step alpha vectors from part (a). \footnote{Drawing the one-step and two step alpha vectors on the same axes is equivalent to saying that problem is infinite-horizon, but terminates after Jill takes a $T$ or $D$ commitment action.} Assume a discount factor of 1.
+    \item If Jill's belief is uniform over the two states, which of the three alpha vectors corresponds to the optimal plan? Justify your answer numerically.
+    \item What is the expected cumulative reward of executing the optimal plan given her belief? Show your calculations.
+\end{enumerate}
+
 \begin{question}
     (25 pts) Consider the following POMDP that represents cancer monitoring and treatment plan\footnote{Note that the probabilities are not meant to be realistic. See \url{https://pubsonline.informs.org/doi/10.1287/opre.1110.1019} for an actual publication on this topic}:
 \begin{eqnarray*}
@@ -77,7 +111,7 @@ Create a model of this problem using \texttt{QuickPOMDPs} and use Monte Carlo si
 \begin{question}
     (50 pts) In this exercise, you will learn a policy for the special mountain car environment, \texttt{DMUStudent.HW5.mc}. This environment is a standard mountain car with $\mathcal{A}=[-1, 1]$, except that the observation is a 100x100 matrix. The first two entries in the matrix contain the car's position and velocity. The rest of the matrix may contain useful information to receive additional rewards, but it is not needed to achieve full credit.
     \begin{enumerate}[label=\alph*)]
-        \item Implement a reinforcement learning algorithm to learn a policy for the environment and plot a learning curve. Write a paragraph describing the algorithm you implemented.\footnote{I recommend discretizing the action space and implementing the DQN algorithm with only the position and velocity - see the starter code for instructions on how to create an environment wrapper to do this; this is the only algorithm that I can provide full debugging support for. DQN should be able to learn a policy that can achieve a return of in the 40s with a discount factor of $\gamma=0.99$ in less than 10 minutes of training time.}\label{q:impl}
+        \item Implement a reinforcement learning algorithm to learn a policy for the environment and plot a learning curve. For this part, you must implement the algorithm from scratch and cannot use reinforcement learning packages such as RLLib or OpenAI Baselines, however you can use libraries for components such as neural networks. Write a paragraph describing the algorithm you implemented.\footnote{I recommend discretizing the action space and implementing the DQN algorithm with only the position and velocity - see the starter code for instructions on how to create an environment wrapper to do this; this is the only algorithm that I can provide full debugging support for. DQN should be able to learn a policy that can achieve a return of in the 40s with a discount factor of $\gamma=0.99$ in less than 10 minutes of training time.}\label{q:impl}
         \item Evaluate a policy with \texttt{DMUStudent.HW5.evaluate}, and submit the resulting json file. You may use your code from part (\ref{q:impl} or \emph{any} other libraries for this part. A discount factor of $\gamma=0.99$ is used for evaluation. A score of 40 or greater will receive full credit. Your submission should be a function that takes in a state and returns an action.
     \end{enumerate}
 \end{question}
