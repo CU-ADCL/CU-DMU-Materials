@@ -1,0 +1,76 @@
+\documentclass{article}
+\usepackage{fullpage,amsmath,amsthm,graphicx,enumitem,amsfonts}
+\usepackage{multicol}
+\usepackage{booktabs}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{sgame}
+
+\usepackage{tikz}
+\usetikzlibrary{positioning, shapes, arrows, fit}
+
+\theoremstyle{definition}
+\newtheorem{thm}{Theorem}
+\newtheorem{question}[thm]{Question}
+\newenvironment{solution}{\noindent\textit{Solution:}}{}
+
+\title{ASEN 5264 Decision Making under Uncertainty\\
+       Exam 3: POMDPs and Games}
+
+
+\begin{document}
+\maketitle
+
+
+\noindent \textbf{Instructions:} Clearly indicate your final answers and \textbf{briefly justify all answers with text, mathematical expressions, and/or calculations}. If you do not understand how to do a problem, skip it and move on so that you have time to attempt all problems. You may consult any static source, but you may NOT communicate with any person except the instructor or TA, and you may not use LLMs such as ChatGPT.
+\\
+\\
+\noindent\textbf{Important:} Please include the following statement along with your signature (typed or handwritten) on the exam: \textbf{``I affirm that I completed this exam without the use of any artificial intelligence tool such as ChatGPT or Github Copilot.''}
+
+\clearpage
+
+\noindent\textbf{Note:} Question 1 has been removed from this exam because it was added to Homework 5.
+
+\begin{question}(45 points)
+    Two countries are deciding whether to pursue protectionist ($P$) or free trade ($F$) policies.
+    One model focuses on the need to protect key industries for national security. In this model a country receives a payoff of 1 if they protect these industries and a payoff of -1 if only the other country protects them, resulting in the following payoff matrix:
+    \begin{center}
+    \begin{game}{2}{2}
+        & $P$ & $F$ \\
+        $P$ & $1, 1$ & $-1, 1$ \\
+        $F$ & $1, -1$ & $0, 0$
+    \end{game}
+    \end{center}
+    \begin{enumerate}[label=\alph*)]
+        \item Are there any dominant strategy equilibria in this game? If so, what are they? Briefly justify your answer.
+        \item Are there any pure Nash equilibria in this game? If so, what are they? Briefly justify your answer.
+    \end{enumerate}
+    A second model focuses on comparative advantage and the larger effective size of the economy that results from free trade. In this model a country receives a payoff of 1 if they pursue free trade and a payoff of 1 if the other country pursues free trade. These payoffs add together if both countries pursue free trade. There are no other payoffs in this model.
+    \begin{enumerate}[label=\alph*), resume]
+        \item What is the payoff matrix for this model?
+        \item Are there any dominant strategy equilibria in this game? If so, what are they? Briefly justify your answer.
+        \item Are there any pure Nash equilibria in this game? If so, what are they? Briefly justify your answer.
+    \end{enumerate}
+    A third model that takes into account a variety of factors is the following:
+    \begin{center}
+    \begin{game}{2}{2}
+        & $P$ & $F$ \\
+        $P$ & $8, 8$ & $ 9,  6$ \\
+        $F$ & $6, 9$ & $10, 10$
+    \end{game}
+    \end{center}
+    \begin{enumerate}[label=\alph*), resume]
+        \item Are there any dominant strategy equilibria in this game? If so, what are they? Briefly justify your answer.
+        \item Are there any Nash equilibria in this game? If so, what are they? Make sure to include all Nash equilibria and describe the policies used by both players precisely. Breifly justify your answer.
+    \end{enumerate}
+\end{question}
+\clearpage
+\begin{question} (10 points)
+    Suppose that Alice and Bob are playing the 5-card version of ``Goofspiel'' or ``Game of Pure Strategy'' discrete Markov game played in class. Alice has computed a Nash equilibrium for the game and she shares her Nash equilibrium policy, $\pi^1_A$, with Bob.
+    \begin{enumerate}[label=\alph*)]
+        \item If Bob knows the $(I, S, A, T, R, \gamma)$ model of the game and Alice's policy $\pi^1_A$, describe in two or three sentences and equations how Bob can compute a best response policy with a computer.
+        \item If Bob then plays the best response policy computed in the manner described above against $\pi^1_A$, is the resulting joint policy guaranteed to be a Nash equilibrium? Briefly justify your answer.
+    \end{enumerate}
+\end{question}
+
+\end{document}
