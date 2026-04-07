@@ -1,10 +1,10 @@
 using POMDPs
 using DMUStudent.HW6
-using POMDPTools: transition_matrices, reward_vectors, SparseCat, Deterministic, RolloutSimulator, DiscreteBelief, FunctionPolicy, ordered_states, ordered_actions, DiscreteUpdater
+using POMDPTools: transition_matrices, reward_vectors, SparseCat, Deterministic, RolloutSimulator, DiscreteBelief, FunctionPolicy, ordered_states, ordered_actions, DiscreteUpdater, has_consistent_distributions
 using QuickPOMDPs: QuickPOMDP
 using POMDPModels: TigerPOMDP, TIGER_LEFT, TIGER_RIGHT, TIGER_LISTEN, TIGER_OPEN_LEFT, TIGER_OPEN_RIGHT
+# using SARSOP: SARSOPSolver
 using NativeSARSOP: SARSOPSolver
-using POMDPTesting: has_consistent_distributions
 
 ##################
 # Problem 1: Tiger
@@ -76,8 +76,8 @@ function qmdp_solve(m, discount=discount(m))
     alphas = Vector{Float64}[]
     for a in actions(m)
 
-        # Fill in alpha vector calculation
-        # Note that the ordering of the entries in the alpha vectors must be consistent with stateindex(m, s) (states(m) does not necessarily obey this order, but ordered_states(m) does.)
+        # Fill in pseudo alpha vector calculation
+        # Note that the ordering of the entries in the pseudo alpha vectors must be consistent with stateindex(m, s) (states(m) does not necessarily obey this order, but ordered_states(m) does.)
         
     end
     return HW6AlphaVectorPolicy(alphas, acts)
@@ -132,7 +132,7 @@ heuristic = FunctionPolicy(function (b)
 @show mean(simulate(RolloutSimulator(), cancer, sarsop_p, up) for _ in 1:1000)   # Should be approximately 79
 
 #####################
-# Problem 3: LaserTag
+# Problem 4: LaserTag
 #####################
 
 m = LaserTagPOMDP()

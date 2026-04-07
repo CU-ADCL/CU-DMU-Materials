@@ -2,6 +2,8 @@
 \usepackage{fullpage,amsmath,amsthm,graphicx,enumitem,amssymb}
 \usepackage{hyperref}
 \usepackage{booktabs}
+\usepackage{sgame}
+
 \theoremstyle{definition}
 \newtheorem{thm}{Theorem}
 \newtheorem{question}[thm]{Question}
@@ -21,7 +23,7 @@
 \section{Exercises}
 
 \begin{question} \label{q:tiger}
-    (35 pts)
+    (20 pts)
 
     Write the following three elements of a POMDP solver that uses the QMDP approximation:
     \begin{enumerate}[noitemsep]
@@ -37,7 +39,7 @@
 \end{question}
 
 \begin{question}
-    (25 pts)
+    (20 pts)
 
     Evaluate the following three policies on the cancer problem that you created in Homework 5:
     \begin{enumerate}[noitemsep]
@@ -48,12 +50,50 @@
     First, report the results of these simulations in a table, then write a short paragraph answering the following question: Both the tiger and cancer problems are similar in that they have information-gathering actions. However, the performance gap between the QMDP and optimal solutions in one of the problems is much larger. Which problem has the larger gap, and why?
 \end{question}
 
+\clearpage
+
+\begin{question}(25 points)
+    Two countries are deciding whether to pursue protectionist ($P$) or free trade ($F$) policies.
+    One model focuses on the need to protect key industries for national security. In this model a country receives a payoff of 1 if they protect these industries and a payoff of -1 if only the other country protects them, resulting in the following payoff matrix:
+    \begin{center}
+    \begin{game}{2}{2}
+        & $P$ & $F$ \\
+        $P$ & $1, 1$ & $-1, 1$ \\
+        $F$ & $1, -1$ & $0, 0$
+    \end{game}
+    \end{center}
+    \begin{enumerate}[label=\alph*)]
+        \item Are there any dominant strategy equilibria in this game? If so, what are they? Briefly justify your answer.
+        \item Are there any pure Nash equilibria in this game? If so, what are they? Briefly justify your answer.
+    \end{enumerate}
+    A second model focuses on comparative advantage and the larger effective size of the economy that results from free trade. In this model a country receives a payoff of 1 if they pursue free trade and a payoff of 1 if the other country pursues free trade. These payoffs add together if both countries pursue free trade. There are no other payoffs in this model.
+    \begin{enumerate}[label=\alph*), resume]
+        \item What is the payoff matrix for this model?
+        \item Are there any dominant strategy equilibria in this game? If so, what are they? Briefly justify your answer.
+        \item Are there any pure Nash equilibria in this game? If so, what are they? Briefly justify your answer.
+    \end{enumerate}
+    A third model that takes into account a variety of factors is the following:
+    \begin{center}
+    \begin{game}{2}{2}
+        & $P$ & $F$ \\
+        $P$ & $8, 8$ & $ 9,  6$ \\
+        $F$ & $6, 9$ & $10, 10$
+    \end{game}
+    \end{center}
+    \begin{enumerate}[label=\alph*), resume]
+        \item Are there any dominant strategy equilibria in this game? If so, what are they? Briefly justify your answer.
+        \item Are there any Nash equilibria in this game? If so, what are they? Make sure to include all Nash equilibria and describe the policies used by both players precisely. Breifly justify your answer.
+    \end{enumerate}
+\end{question}
+
+\clearpage
+
 \section{Challenge Problem}
 
 \begin{question}
-    (Lasertag POMDP, 40 pts)
+    (Lasertag POMDP, 35 pts)
     
-    In this problem, you will create a high-performance policy for a laser tag POMDP model \href{https://github.com/zsunberg/DMUStudent.jl/blob/master/src/HW6.jl#L20-L268}{\texttt{HW6.LaserTagPOMDP()}}.  In this POMDP, a robot seeks to tag a moving target in a grid world with obstacles. The state space consists of all positions the robot and the target can take, and the problem ends with a reward of 100 as soon as they occupy the same cell. There are five actions, \texttt{:up}, \texttt{:down}, \texttt{:left}, \texttt{:right}, and \texttt{:measure}. The \texttt{:measure} action has a cost of -2 and gives the robot returns from lasers pointed in the four directions indicating the \emph{exact} distance to the first wall, obstacle, or target that the laser encounters. When any other action is taken, the reward is -1 and the laser observations are much less reliable: 90\% of the time they fail (returning 0), and 10\% of the time they return an accurate distance. The source code, along with the \texttt{POMDPs.jl} interface including \texttt{POMDPModelTools.render} can be used to further explore the problem.
+    In this problem, you will create a high-performance policy for a laser tag POMDP model \href{https://github.com/zsunberg/DMUStudent.jl/blob/master/src/HW6.jl#L20-L268}{\texttt{HW6.LaserTagPOMDP()}}.  In this POMDP, a robot seeks to tag a moving target in a grid world with obstacles. The state space consists of all positions the robot and the target can take, and the problem ends with a reward of 100 as soon as they occupy the same cell. There are five actions, \texttt{:up}, \texttt{:down}, \texttt{:left}, \texttt{:right}, and \texttt{:measure}. The \texttt{:measure} action has a cost of -2 and gives the robot returns from lasers pointed in the four directions indicating the \emph{exact} distance to the first wall, obstacle, or target that the laser encounters. When any other action is taken, the reward is -1 and the laser observations are much less reliable: 90\% of the time they fail (returning 0), and 10\% of the time they return an accurate distance. The source code, along with the \texttt{POMDPs.jl} interface including \texttt{POMDPTools.render} can be used to further explore the problem.
 
     \begin{enumerate}[label=\alph*)]
         \item Submit a \texttt{Policy} or a tuple containing a \texttt{Policy} and an \texttt{Updater} to the \texttt{HW6.evaluate} function. A score of 15 will get full credit. You can use or modify your QMDP code from Question~\ref{q:tiger}, or you are encouraged to use any tools available to you - any POMDPs.jl solvers, deep reinforcement learning, a modification of your MCTS code from earlier homework, or heuristic policies are all acceptable. The \texttt{Policy} object may be a solution that was calculated offline, or an online planner.
