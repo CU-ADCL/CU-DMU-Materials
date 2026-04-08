@@ -3,6 +3,8 @@
 \usepackage{hyperref}
 \usepackage{booktabs}
 \usepackage{sgame}
+\usepackage{xcolor}
+\usepackage[most]{tcolorbox}
 
 \theoremstyle{definition}
 \newtheorem{thm}{Theorem}
@@ -54,14 +56,16 @@
 
 \begin{question}(25 points)
     Two countries are deciding whether to pursue protectionist ($P$) or free trade ($F$) policies.
-    One model focuses on the need to protect key industries for national security. In this model a country receives a payoff of 1 if they protect these industries and a payoff of -1 if only the other country protects them, resulting in the following payoff matrix:
+    One model focuses on the need to protect key industries for national security. In this model a country receives a payoff of 1 if they protect these industries and a payoff of -1 if only the other country protects them, resulting in the following payoff matrix: {\color{purple} (Note: this game was changed slightly from the original homework release.)}
+    \begin{tcolorbox}[colframe=purple, colback=white, boxrule=1.5pt]
     \begin{center}
     \begin{game}{2}{2}
         & $P$ & $F$ \\
-        $P$ & $1, 1$ & $-1, 1$ \\
-        $F$ & $1, -1$ & $0, 0$
+        $P$ & $1, 1$ & $1, -1$ \\
+        $F$ & $-1, 1$ & $0, 0$
     \end{game}
     \end{center}
+    \end{tcolorbox}
     \begin{enumerate}[label=\alph*)]
         \item Are there any dominant strategy equilibria in this game? If so, what are they? Briefly justify your answer.
         \item Are there any pure Nash equilibria in this game? If so, what are they? Briefly justify your answer.
