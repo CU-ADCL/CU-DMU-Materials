@@ -14,9 +14,9 @@
 
 ## HW5 (Reinforcement Learning, since 2022)
 
-1. 170.4 | Frank S (2024)
-2. 152.3 | GEM (2022)
-3. 151.3 | Rocketmania.Kim (2022)
+1. 179.9 | Jeremiah Hoffman (2026)
+2. 170.4 | Frank S (2024)
+3. 152.3 | GEM (2022)
 
 ## HW6 (POMDPs, since 2022)
 
