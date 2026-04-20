@@ -156,8 +156,8 @@ pomcp_p = pomcp_solve(m)
 
 @show HW6.evaluate((pomcp_p, up), n_episodes=100)
 
-# When you get ready to submit, use this version with the full 1000 episodes
-# HW6.evaluate((qmdp_p, up), "REPLACE_WITH_YOUR_EMAIL@colorado.edu")
+# When you get ready to submit, use this version with your email and the full 1000 episodes to produce the results.json file to submit to Gradescope
+# HW6.evaluate((qmdp_p, up), "REPLACE_WITH_YOUR_EMAIL@colorado.edu", n_episodes=1000)
 
 #----------------
 # Visualization
