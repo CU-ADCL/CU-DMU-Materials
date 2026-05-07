@@ -20,6 +20,6 @@
 
 ## HW6 (POMDPs, since 2022)
 
-1. 42.5 | Kelvo (2025)
-2. 38.7 | Eli Weissler (2024)
-3. 37.9 | Pain (2025)
+1. 44.2 | reno (2026)
+2. 44.1 | Bijan (2026)
+3. 42.5 | Kelvo (2025)
