@@ -1,0 +1,243 @@
+\documentclass{article}
+\usepackage{fullpage,amsmath,amsthm,graphicx,enumitem,amsfonts}
+\usepackage{multicol}
+\usepackage{booktabs}
+\usepackage{tikz}
+\usepackage{xcolor}
+\usepackage{cancel}
+\newcommand{\tb}[1]{\textcolor{cyan}{[TB: #1]}}
+\DeclareMathOperator*{\argmax}{arg\!\max}
+\DeclareMathOperator*{\argmin}{arg\!\min}
+
+\newcommand{\zs}[1]{{\color{blue}[ZS: #1]}}
+
+\usepackage[normalem]{ulem} % only for \sout in \zsedit below
+\newcommand{\zsedit}[2]{{\color{blue} \sout{#1}#2}}
+
+\theoremstyle{definition}
+\newtheorem{thm}{Theorem}
+\newtheorem{question}[thm]{Question}
+\newenvironment{solution}{\noindent\textit{Solution:}}{}
+
+\title{ASEN 5264 Decision Making under Uncertainty\\
+       Exam 1 (2026): Probabilistic Models and MDPs}
+\author{}
+
+
+\begin{document}
+\maketitle
+
+\section*{SOLUTION}
+
+
+\newpage
+
+\section*{Question 1}
+
+\begin{solution}
+    
+
+\textbf{(a)} Yes. $C \leftarrow B \to E$ is a fork and $B$ is in the evidence set. Therefore this path (the only path) is d-separated by $\{B\}$. Since all paths are d-separated, we can conclude that the conditional independence holds.
+
+\textbf{(b)} No. $A \to C \leftarrow B \to E$ contains two triples:
+\begin{itemize}
+    \item $A \rightarrow C \leftarrow B$ is a collider, and evidence $C$ makes this triple active
+    \item $C \leftarrow B \rightarrow E$ is a fork, but $B$ is not in the evidence, so this triple is also active
+\end{itemize}
+This is an active path from $A$ to $E$. Thus the structure does not imply $A \perp E \mid C$.
+
+\textbf{(c)}
+
+Note that $E$ is conditionally independent from all other nodes given $B$, so it is not relevant.
+
+\begin{align*}
+    P(A = 1 \mid D=1) &= \frac{P(A=1, D=1)}{P(D=1)} \qquad \text{(Definition of conditional probability)} \\
+                      &= \frac{\sum_{b, c} P(A=1, B=b, C=c, D=1)}{\sum_{a,b,c} P(A=a, B=b, C=c, D=1)} \qquad \text{(Marginalization)} \\
+                      &= \frac{\sum_{b,c} P(D=1 \mid C=c) \, P(C=c \mid A=1, B=b) \, P(B=b) \, P(A=1)}{\sum_{a, b, c} P(D=1 \mid C=c) \, P(C=c \mid A=a, B=b) \, P(B=b) \, P(A=a)} \qquad \text{(Bayes net chain rule)}
+\end{align*}
+
+
+\end{solution}
+
+\newpage
+
+\section*{Question 2}
+
+\begin{solution}
+
+\textbf{(a)}
+\[
+\mathcal{S} = \{F, L\}, \quad \mathcal{A} = \{E, D\}
+\]
+where $F$ = fall and $L$ = landed (stoked), $E$ = easy trick and $D$ = difficult trick.
+\[
+R(s,a,s') = \begin{cases}
+    70 \quad& \text{if } a=E \And \; s' = L\\
+    90 \quad& \text{if } a=D \And \; s' = L\\
+    0 \quad& \text{otherwise}
+\end{cases}
+\qquad \gamma = 0.9
+\]
+
+The transition matrices (rows correspond to current state and columns to next state):
+\[
+T^E = \begin{bmatrix}
+    0.2 & 0.8 \\
+    0.2 & 0.8
+\end{bmatrix}, \quad T^D = \begin{bmatrix}
+    0.3 & 0.7 \\
+    0.2 & 0.8
+\end{bmatrix}
+\]
+
+\textbf{(b)}
+The expected reward at state $F$ is $R(F, E) = 0.8*70 = 56$ and $R(F, D) = 0.7*90 = 63$, so the greedy action is $D$, attempting the difficult trick. The snowboarder might want to take action $E$ from this state because it has higher probability of getting her to the landed (stoked) state from which she can potentially get more reward in the future.
+
+\textbf{(c)}
+\[
+\tilde{\pi}(s) = \begin{cases}
+    E \quad & \text{if } s=F \\
+    D \quad & \text{if } s=L
+\end{cases}
+\]
+
+\textbf{(d)}
+Let
+\[
+T^{\tilde{\pi}} = \begin{bmatrix}
+    0.2 & 0.8 \\
+    0.2 & 0.8
+\end{bmatrix}, \quad
+R^{\tilde{\pi}} = \begin{bmatrix}
+    70 \cdot 0.8 \\
+    90 \cdot 0.8 \\
+\end{bmatrix}, \quad
+R^D = \begin{bmatrix}
+    90 \cdot 0.7 \\
+    90 \cdot 0.8 \\
+\end{bmatrix}
+\]
+
+First calculate the vectors
+\[
+U^{\tilde{\pi}} = (I - \gamma T^{\tilde{\pi}})^{-1} R^{\tilde{\pi}}
+\]
+and
+\[
+U^D = (I - \gamma T^D)^{-1} R^D
+\]
+
+Then compare the value functions element-wise to determine which policy is better at each state. Since the rider starts in the unstoked ($F$) state, then it is reasonable to conclude that the policy with the higher first element in its utility vector is better. (Some other definitions of better were also accepted)
+
+\textbf{(e)}
+\textbf{No.} There always exists a deterministic optimal policy for an MDP. Therefore, if this new stochastic $\tilde{\pi}'$ is indeed optimal, there exists at least one other deterministic policy that yields the same optimal value.
+
+
+
+\end{solution}
+
+\newpage
+\section*{Question 3}
+
+
+\begin{solution}
+TD update: $Q(s,a)\leftarrow Q(s,a)+\alpha\left(Q_\text{target}(s,a)-Q(s,a)\right)$.
+
+\textbf{(a)}
+
+\begin{enumerate}[label=\roman*)]
+\item \textbf{Q-learning:} $Q_\text{target}(s_1, a)=r_1+\gamma\max_{a'}Q(s_2,a')=0+0.9\cdot \max\{4,6\}=5.4$.
+\[
+Q_{\text{new}}(1,a)=1.0+0.5(5.4-1.0)=1.0+2.2=3.2.
+\]
+
+\item \textbf{SARSA:} next action in $s_2$ is $a$, so $Q_\text{target}(s_1, a)=r_1+\gamma Q(s_2,a)=0+0.9\cdot 4=3.6$.
+\[
+Q_{\text{new}}(1,a)=1.0+0.5(3.6-1.0)=1.0+1.3=2.3.
+\]
+\end{enumerate}
+
+For both methods, $Q_\text{target}(s_2,a) =r_2+\gamma Q(3,\cdot)=5+0.9\cdot 0=5$, so
+\[
+Q_{\text{new}}(2,a)=4.0+0.5(5-4.0)=4.0+0.5=4.5\, ,
+\]
+for both methods as well.
+
+\textbf{(b)}
+
+The reward is approximated with
+\[
+    \hat{R}(s, a) = \frac{\rho(s,a)}{N(s,a)}
+\]
+where $\rho$ is the total reward received over all visits to $(s, a)$ in all trajectories, and $N(s, a)$ is the number of visits in all trajectories. 0 is used if the state is terminal.
+
+Transitions probabilities are approximated with
+\[
+    \hat{T}(s \mid s, a) = \frac{N(s, a, s')}{N(s, a)}
+\]
+where $N(s, a, s')$ is the number of transitions from $s$ to $s'$ after action $a$ in all trajectories.
+
+\[
+    \hat R(1,a)=\frac{0+(-4)}{2}=-2,\qquad
+    \hat R(2,a)=5/1=5,\qquad
+    \hat R(3,a)=0
+\]
+\[
+    \hat R(1,b)=1/1=1,\qquad
+    \hat R(2,b)=-8/1=-8,\qquad
+    \hat R(3,b)=0.
+\]
+
+\[
+    \hat{T}^a = \begin{bmatrix}
+        0 & 0.5 & 0.5 \\
+        0 & 0 & 1 \\
+        0 & 0 & 1
+    \end{bmatrix}
+\]
+
+\[
+    \hat{T}^b = \begin{bmatrix}
+        0 & 1 & 0 \\
+        0 & 0 & 1 \\
+        0 & 0 & 1
+    \end{bmatrix}
+\]
+
+\end{solution}
+
+
+
+\newpage
+\section*{Question 4}
+\begin{solution}
+
+\textbf{(a)}
+\[
+U_{\max} = \frac{r_{\max}}{1-\gamma} = \frac{10}{1 - 0.9} = 100 < 200
+\]
+
+The maximum achievable value is upper bounded by $100$, therefore a value of $200$ is \emph{not} achievable.
+
+
+\textbf{(b)}
+
+Since the max norm (denoted simply with $\lVert \cdot \rVert$ in this derivation) is a metric, the triangle inequality yields
+\begin{align}
+    \lVert U^* - U_k \rVert &\leq \lVert U^* - B[U_k] \rVert + \lVert B[U_k] - U_k \rVert \\
+                            &= \lVert B[U^*] - B[U_k] \rVert + \lVert B[U_k] - U_k \rVert \qquad \text{(since $U^*$ is a fixed point, $B[U^*] = U^*$)} \\
+                            &\leq \gamma \lVert U^* - U_k \rVert + \lVert B[U_k] - U_k \rVert \qquad \text{(since $B$ is a $\gamma$ contraction).}
+\end{align}
+
+Bringing matching terms to the left side,
+\[(1-\gamma) \lVert U^* - U_k \rVert  \leq \lVert B[U_k] - U_k \rVert\]
+and
+\[\lVert U^* - U_k \rVert  \leq \frac{\lVert B[U_k] - U_k \rVert}{1-\gamma} .\]
+
+
+Thus $\|U_k - U^*\|_\infty \leq 2$. $3$ falls outside of this upper bound, therefore \textbf{it is impossible for $\|U_k - U^*\|_\infty = 3$}.
+
+
+\end{solution}
+
+\end{document}
